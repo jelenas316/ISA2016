@@ -7,8 +7,8 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.app.dish.Dish;
 import com.app.drink.Drink;
+import com.app.menu.Menu;
 
 import lombok.Data;
 
@@ -21,7 +21,7 @@ public class Restaurant {
 	private String name;
 	@NotBlank
 	private String description;
-	private ArrayList<Dish> menu;
+	private Menu menu;
 	private ArrayList<Drink> drinkCard;
 	
 	
