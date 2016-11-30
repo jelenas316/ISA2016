@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.app.drink.Drink;
@@ -12,9 +13,12 @@ import com.app.drink.FoodStuff;
 import lombok.Data;
 
 @Data
-@Entity
-@Table(name = "Offer")
+//@Entity
+//@Table(name = "Offer")
 public class Offer {
+	
+//	@Id
+	private int id;
 	
 	private Date expires;
 	private ArrayList<Drink> drinks;
