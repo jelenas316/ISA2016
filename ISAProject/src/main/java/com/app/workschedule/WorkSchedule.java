@@ -1,26 +1,31 @@
 package com.app.workschedule;
 
-import java.util.Date;
+import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-import com.app.reon.Reon;
-import com.app.worker.Worker;
+import com.app.shift.Shift;
 
 import lombok.Data;
 
 @Data
 //@Entity
-//@Table(name = "workSchedule")
+//@Table(name = "work_schedule")
 public class WorkSchedule {
 
 //	@Id
-	private int id;
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@Column(name = "WORK_SCHEDULE_ID")
+	private Long id;
+
+	private List<Shift> shifts;
 	
-	private Date begin;
-	private Date end;
-	private Worker worker;
-	private Reon reon;
+	
+	
+	
+//	@NotNull
+//	private Date begin;
+//	
+//	
+//	private Date end;
+//	private Worker worker;
+//	private Reon reon;
 }

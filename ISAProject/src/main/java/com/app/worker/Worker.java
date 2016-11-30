@@ -1,8 +1,6 @@
 package com.app.worker;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.math.BigDecimal;
 
 import lombok.Data;
 
@@ -12,11 +10,13 @@ import lombok.Data;
 public class Worker {
 	
 //	@Id
-	private int id;
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@Column(name = "WORKER_ID")
+	private Long id;
 	
 	private String name;
 	private String surname;
 	private String dateOfBirth;
-	private int dressSize;
-	private double shoesSize; 
+	private Integer dressSize;
+	private BigDecimal shoesSize; 
 }

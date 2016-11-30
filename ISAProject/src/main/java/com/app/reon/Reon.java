@@ -2,19 +2,19 @@ package com.app.reon;
 
 import java.util.ArrayList;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.app.table.Table;
 
 import lombok.Data;
 
 @Data
 //@Entity
-//@Table(name = "reon")
+//@javax.persistence.Table(name = "reon")
 public class Reon {
 	
 //	@Id
-	private int id;
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@Column(name = "REON_ID")
+	private Long id;
 	
 	private ArrayList<Table> tables;
 

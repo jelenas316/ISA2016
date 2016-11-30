@@ -1,10 +1,6 @@
 package com.app.restaurant;
 
-import java.util.ArrayList;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.List;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -18,15 +14,22 @@ import lombok.Data;
 //@Entity
 public class Restaurant {
 
-//	@Id
-	private int id;
+//	@Id	
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@Column(name = "RESTAURANT_ID")
+	private Long id;
 	
-//	@NotBlank
+	@NotBlank
 	private String name;
-//	@NotBlank
+	
+	@NotBlank
 	private String description;
+	
 	private Menu menu;
-	private ArrayList<Drink> drinkCard;
+
+//	private DrinkCard drinkCard;
+	
+	private List<Drink> drinkCard;
 	
 	
 }

@@ -2,24 +2,27 @@ package com.app.configuration;
 
 import java.util.ArrayList;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.app.restaurant.Restaurant;
+import com.app.table.Table;
 
 import lombok.Data;
 
 @Data
 //@Entity
-//@Table(name = "configuration")
+//@javax.persistence.Table(name = "configuration")
 public class Configuration {
 
 //	@Id
-	private long id;
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@Column(name = "CONFIGURATION_ID")
+	private Long id;
 
+	@NotNull
 	private Restaurant restaurant;
 	
+	@NotNull
 	private Segment segment;
 	
 	private ArrayList<Table> tables;

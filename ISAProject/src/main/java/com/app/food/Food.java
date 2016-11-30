@@ -1,4 +1,4 @@
-package com.app.drink;
+package com.app.food;
 
 import java.math.BigDecimal;
 
@@ -9,20 +9,21 @@ import org.hibernate.validator.constraints.NotBlank;
 import lombok.Data;
 
 @Data
+//@Table(name = "menu")
 //@Entity
-//@Table(name = "drink")
-public class Drink {
+public class Food {
 	
-//	@Id
+//	@Id	
 //	@GeneratedValue(strategy = GenerationType.AUTO)
-//	@Column(name = "DRINK_ID")
-	private int id;
+//	@Column(name = "FOOD_ID")
+	private Long id;
 	
 	@NotBlank
 	private String name;
-	
+
 	private String description;
 	
 	@NotNull
 	private BigDecimal price;
+
 }

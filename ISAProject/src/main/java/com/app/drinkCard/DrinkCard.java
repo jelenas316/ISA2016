@@ -1,23 +1,24 @@
-package com.app.menu;
+package com.app.drinkCard;
 
 import java.util.ArrayList;
 
 import javax.validation.constraints.NotNull;
 
-import com.app.food.Food;
+import com.app.drink.Drink;
 
 import lombok.Data;
 
 @Data
-//@Table(name = "menu")
+//@Table(name = "drink_card")
 //@Entity
-public class Menu {
+public class DrinkCard {
 	
 //	@Id	
 //	@GeneratedValue(strategy = GenerationType.AUTO)
-//	@Column(name = "MENU_ID")
+//	@Column(name = "DRINK_CARD_ID")
 	private int id;
 	
 	@NotNull
-	private ArrayList<Food> food;
+	private ArrayList<Drink> drinkCard;
+
 }

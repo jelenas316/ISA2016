@@ -1,21 +1,23 @@
 package com.app.table;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 import com.app.configuration.Configuration;
-import com.app.restaurant.Restaurant;
 
 import lombok.Data;
 
 @Data
 //@Entity
+//@javax.persistence.Table(name = "table")
 public class Table {
 	
 //	@Id
-	private int id;
+//	@GeneratedValue(strategy = GenerationType.AUTO)
+//	@Column(name = "TABLE_ID")
+	private Long id;
 	
-	private int number;
+	@NotNull
+	private Integer number;
 	
 	private Configuration configuration;
 	
