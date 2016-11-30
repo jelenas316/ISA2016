@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import lombok.Data;
 
 @Data
@@ -15,16 +17,16 @@ import lombok.Data;
 public class User {
 
 	@Id
-	@NotNull
+	@NotBlank
 	private String email;
 
-	@NotNull
+	@NotBlank
 	private String password;
 
-	@NotNull
+	@NotBlank
 	private String name;
 
-	@NotNull
+	@NotBlank
 	private String surname;
 
 	@NotNull

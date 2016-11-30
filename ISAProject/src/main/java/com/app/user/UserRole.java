@@ -1,5 +1,5 @@
 package com.app.user;
 
 public enum UserRole {
-	Guest, Restourant_manager, Waiter, Cook, Bartender, System_manager, Bidder
+	GUEST, RESTAURANT_MANAGER, WAITER, COOK, BARTENDER, SYSTEM_MANAGER, BIDDER
 }
