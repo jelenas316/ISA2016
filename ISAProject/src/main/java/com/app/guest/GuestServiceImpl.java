@@ -22,13 +22,8 @@ public class GuestServiceImpl implements GuestService{
 	}
 
 	@Override
-	public Guest findOne(Long id) {
-		return guestRepo.findOne(id);
-	}
-
-	@Override
-	public Guest findByEmail(String email) {
-		return guestRepo.findByEmail(email);
+	public Guest findOne(String email) {
+		return guestRepo.findOne(email);
 	}
 
 	@Override
@@ -37,8 +32,8 @@ public class GuestServiceImpl implements GuestService{
 	}
 
 	@Override
-	public void delete(Guest guest) {
-		guestRepo.delete(guest);
+	public void delete(String email) {
+		guestRepo.delete(email);
 	}
 
 }

@@ -3,9 +3,8 @@ package com.app.guest;
 public interface GuestService {
 
 	Iterable<Guest> findAll();
-	Guest findOne(Long id);
-	Guest findByEmail(String email);
+	Guest findOne(String email);
 	Guest save(Guest guest);
-	void delete(Guest guest);
+	void delete(String email);
 	
 }

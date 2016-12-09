@@ -29,7 +29,7 @@ public class LoginController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public ResponseEntity<Object> login(@RequestBody LoginDTO userDTO){
-		Object obj= Optional.ofNullable( guestService.findByEmail( userDTO.getEmail() ) )
+		Object obj= Optional.ofNullable( guestService.findOne( userDTO.getEmail() ) )
 				.orElseThrow(() -> new ResourceNotFoundException());
 		String password=getPassword(obj);
 		if(!password.equals(userDTO.getPassword()))
