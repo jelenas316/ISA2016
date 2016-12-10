@@ -13,6 +13,7 @@ app.controller('loginController', ['$scope', '$window', '$location', 'loginServi
 		loginService.logIn($scope.loginData).then(
 			function(response){
 				console.log(response.data);
+				$scope.loginData={};
                 $location.path('/other');
 			},
 			function(response){
