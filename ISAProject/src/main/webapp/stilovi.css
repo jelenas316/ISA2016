@@ -1,0 +1,35 @@
+.bg{
+	background: url(images/restaurant.jpg) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	color:white;
+	padding-left: 40px;
+	padding-top: 10px;
+}
+
+.centered
+{
+    width:300px;
+    margin-right:auto;
+    margin-left:auto;
+}
+
+.buttonsRight{
+    width:200px;
+    margin-left:auto;
+}
+
+h1, .button{
+	text-align: center;
+}
+
+h1{
+	padding-top: 20px;
+}
+
+input { 
+    background-color: white;
+    color: black;
+}
