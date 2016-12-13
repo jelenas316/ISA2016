@@ -24,11 +24,19 @@
 	<script src="home/loginService.js"></script>
 	<script src="home/signupController.js"></script>
 	<script src="home/signupService.js"></script>
+	<script src="guest/guestController.js"></script>
+	<script src="guest/guestService.js"></script>
 
 	<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
+		
+	<script src="http://www.w3schools.com/lib/w3data.js"></script>
+		
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
 <title>Restaurant</title>
 </head>
 <body class="bg">
-	<div ng-view></div>
+ 	<div>    
+            <div ui-view></div>
+    </div>
 </body>
 </html>

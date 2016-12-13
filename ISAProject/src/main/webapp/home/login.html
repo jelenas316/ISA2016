@@ -1,25 +1,26 @@
-
-<div class="buttonsRight">
-	<a href="#/signup" class="btn btn-primary">Sign Up</a>
-</div>
-
-<div class="centered">
-
-	<form name="loginData">
-		<h1>Log In</h1>
-		<br><br>
-
-		<label>Email: </label>
-		<input name="loginData.email" type="text" class="form-control" ng-model="loginData.email" required/>
-
-		<label>Password: </label>
-		<input name="loginData.password" type="password" class="form-control" ng-model="loginData.password" required/>
-
-		<br><br>
-
-		<div class="button">
-			<button type="submit" class="btn btn-primary" ng-click="loginData.$valid && logIn()">Log In</button>
-		</div>
-	</form>
-
+ <div>
+	 <nav class="navbar navbar-inverse" role="navigation"> 
+	       <a ui-sref="signup">Sign Up</a>
+	 </nav>
+	
+	<div class="centered">
+	
+		<form name="loginData">
+			<h1>Log In</h1>
+			<br><br>
+	
+			<label>Email: </label>
+			<input name="loginData.email" type="text" class="form-control" ng-model="loginData.email" required/>
+	
+			<label>Password: </label>
+			<input name="loginData.password" type="password" class="form-control" ng-model="loginData.password" required/>
+	
+			<br><br>
+	
+			<div class="button">
+				<button type="submit" class="btn btn-primary" ng-click="loginData.$valid && logIn()">Log In</button>
+			</div>
+		</form>
+	
+	</div>
 </div>

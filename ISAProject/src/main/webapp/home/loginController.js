@@ -1,5 +1,5 @@
-app.controller('loginController', ['$scope', '$window', '$location', 'loginService', 
-	function ($scope, $window, $location, loginService) {
+app.controller('loginController', ['$scope', '$window', '$location', '$state', 'loginService',
+	function ($scope, $window, $location, $state, loginService) {
 
 	function init(){
 		$scope.loginData={};
@@ -12,9 +12,11 @@ app.controller('loginController', ['$scope', '$window', '$location', 'loginServi
 
 		loginService.logIn($scope.loginData).then(
 			function(response){
-				console.log(response.data);
 				$scope.loginData={};
-                $location.path('/other');
+				if(response.data.role=="GUEST")
+					$state.transitionTo('guest.restaurants');
+				else
+					$state.transitionTo('other');
 			},
 			function(response){
 				alert("Unsuccessful login.");

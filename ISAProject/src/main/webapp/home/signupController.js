@@ -1,5 +1,5 @@
-app.controller('signupController', ['$scope', '$window', '$location', 'signupService', 
-	function ($scope, $window, $location, signupService) {
+app.controller('signupController', ['$scope', '$window', '$location','$state', 'signupService', 
+	function ($scope, $window, $location,$state, signupService) {
 
 	function init(){
 
@@ -19,7 +19,7 @@ app.controller('signupController', ['$scope', '$window', '$location', 'signupSer
 					$scope.user={};
 					$scope.repeatedPassword="";
 					alert("Successfuly registered.");
-	                $location.path('/other');
+					$state.transitionTo('other');
 				},
 				function(response){
 					alert("Error while registering.");
