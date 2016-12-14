@@ -13,9 +13,9 @@ app.controller('loginController', ['$scope', '$window', '$location', '$state', '
 		loginService.logIn($scope.loginData).then(
 			function(response){
 				$scope.loginData={};
-				if(response.data.role=="GUEST")
-					$state.transitionTo('guest.restaurants');
-				else
+				if(response.data.role=="GUEST"){
+					$state.go('guest',{ email : response.data.email });
+				}else
 					$state.transitionTo('other');
 			},
 			function(response){

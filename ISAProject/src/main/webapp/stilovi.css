@@ -17,8 +17,15 @@
     margin-left:auto;
 }
 
+.centered2
+{
+    width:600px;
+    margin-right:auto;
+    margin-left:auto;
+}
+
 .buttonsRight{
-    width:200px;
+    width:150px;
     margin-left:auto;
 }
 
@@ -34,3 +41,17 @@ input {
     background-color: white;
     color: black;
 }
+
+table, th, td {
+   	border: 1px solid black;
+   	text-align:center;
+   	padding: 15px;
+   	height: 30px;
+   	table-layout:fixed;
+	background-color: #333333;
+}
+
+table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after { 
+    content: " \25B4\25BE" 
+}
+

@@ -1,3 +1,68 @@
 <div>
-account
+
+	<form name="copyOfUser">
+		<div class="centered">
+			<br><br>
+	
+			<label>Name: </label>
+			<input name="copyOfUser.name" type="text" ng-model="$parent.copyOfUser.name" class="form-control" required/>
+	
+			<label>Surname: </label>
+			<input  name="copyOfUser.surname" type="text" ng-model="$parent.copyOfUser.surname" class="form-control" required/>
+	
+			<label>Email: </label>
+			<input name="copyOfUser.email" type="text" ng-model="$parent.copyOfUser.email" class="form-control" required disabled/>
+	
+			<label>Password: </label>
+			<input name="copyOfUser.password" type="password" ng-model="$parent.copyOfUser.password" class="form-control" required/>
+	
+			<label>Repeat password: </label>
+			<input name="copyOfUser.repeatedPassword" type="password" ng-model="$parent.repeatedPassword" class="form-control" required/>
+	
+			<br><br>
+	
+			<div class="button">
+				<button type="submit" class="btn btn-primary" ng-click="copyOfUser.$valid && changeProfile()">Update</button>
+			</div>
+		
+		</div>
+	
+		<div class = "col-sm-3">
+			<br><br>
+			
+			<input type="text" list="friends" class="form-control" placeholder="search" ng-model="$parent.friend.email"/>
+			<datalist id="friends">
+			    <option ng-if="guest.email!=user.email" ng-repeat="guest in guests"
+			            value="{{guest.email}}">{{guest.name}} {{guest.surname}}</option>
+			</datalist>
+		</div>
+		
+		<div class = "col-sm-2">
+			<br><br>
+			<div class="button">
+				<button type="button" class="btn btn-primary" ng-click="addFriend()">Add Friend</button>
+			</div>	
+		</div>
+		
+		<div class = "col-sm-8">
+			<br><br>
+			<table class="table table-bordered">
+			  <tr>
+			    <th>Name</th>
+			    <th>Surname</th> 
+			    <th>Email</th>
+		    	<th>Delete friend</th>
+			  </tr>
+			  <tr ng-repeat="friend in $parent.user.friends">
+			    <td>{{friend.name}}</td>
+			    <td>{{friend.surname}}</td>
+			    <td>{{friend.email}}</td>
+			    <td><button type="button" class="btn btn-primary" ng-click="deleteFriend(friend)">X</button></td>
+			  </tr>
+			</table>
+		
+		</div>
+	
+	</form>
+
 </div>

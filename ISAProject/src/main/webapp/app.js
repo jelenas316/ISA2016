@@ -15,7 +15,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 	        controller : 'signupController'
 	    })
 	    .state('guest', {
-	    	url : '/guest',
+	    	url : '/guest?email',
 	      	templateUrl : 'guest/guest.html',
 	        controller : 'guestController'
 	    })
