@@ -1,0 +1,41 @@
+<div>
+
+	<div class = "col-sm-8">
+		<br><br>
+		<table class="table table-bordered sortable">
+		  <tr>
+		    <th>Name</th>
+		    <th>Surname</th> 
+		    <th>Email</th>
+		    <th>Delete friend</th>
+		  </tr>
+		  <tr ng-repeat="friend in $parent.user.friends">
+		    <td>{{friend.name}}</td>
+		    <td>{{friend.surname}}</td>
+		    <td>{{friend.email}}</td>
+		    <td><button type="button" class="btn btn-primary" ng-click="deleteFriend(friend)">X</button></td>
+		  </tr>
+		</table>
+	
+	</div>
+
+	
+	<div class = "col-sm-3">
+		<br><br>
+		
+		<input type="text" list="friends" class="form-control" placeholder="search" ng-model="$parent.friend.email"/>
+		<datalist id="friends">
+		    <option ng-if="guest.email!=user.email" ng-repeat="guest in guests"
+		            value="{{guest.email}}">{{guest.name}} {{guest.surname}}</option>
+		</datalist>
+	</div>
+	
+	<div class = "col-sm-2">
+		<br><br>
+		<div class="button">
+			<button type="button" class="btn btn-primary" ng-click="addFriend()">Add Friend</button>
+		</div>	
+	</div>
+	
+
+</div>
