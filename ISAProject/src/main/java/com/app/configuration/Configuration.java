@@ -18,9 +18,6 @@ public class Configuration {
 //	@GeneratedValue(strategy = GenerationType.AUTO)
 //	@Column(name = "CONFIGURATION_ID")
 	private Long id;
-
-	@NotNull
-	private Restaurant restaurant;
 	
 	@NotNull
 	private Segment segment;

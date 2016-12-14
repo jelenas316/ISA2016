@@ -1,10 +1,9 @@
 package com.app.restaurant;
 
-import java.util.List;
-
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.app.drink.Drink;
+import com.app.configuration.Configuration;
+import com.app.drinkCard.DrinkCard;
 import com.app.menu.Menu;
 
 import lombok.Data;
@@ -22,14 +21,12 @@ public class Restaurant {
 	@NotBlank
 	private String name;
 	
-	@NotBlank
 	private String description;
 	
 	private Menu menu;
 
-//	private DrinkCard drinkCard;
+	private DrinkCard drinkCard;
+	//private List<Drink> drinkCard;
 	
-	private List<Drink> drinkCard;
-	
-	
+	private Configuration configuration;	
 }

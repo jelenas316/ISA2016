@@ -13,6 +13,10 @@ app.config(['$routeProvider', function ($routeProvider) {
 			.when('/other', {
 						templateUrl: 'home.html',
 			})
+			.when('/systemManager', {
+                        controller: 'systemManagerController',
+						templateUrl: 'systemManager/systemManager.html',
+			})
 		    .otherwise({
 		        redirectTo: '/login'
 		    });

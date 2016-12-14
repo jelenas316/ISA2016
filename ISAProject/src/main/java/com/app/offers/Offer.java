@@ -3,6 +3,7 @@ package com.app.offers;
 import java.math.BigDecimal;
 import java.util.Map;
 
+import com.app.bidder.Bidder;
 import com.app.drink.Drink;
 
 import lombok.Data;
@@ -26,5 +27,7 @@ public class Offer {
 	private Map<Drink, Integer> drink;
 	
 	private Map<FoodStuff, BigDecimal> food;
+	
+	private boolean accepted;
 	
 }
