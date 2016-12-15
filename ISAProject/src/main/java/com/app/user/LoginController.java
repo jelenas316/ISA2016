@@ -5,7 +5,6 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,15 +26,15 @@ public class LoginController {
 	}
 	
 	@PostMapping
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public ResponseEntity<Object> login(@RequestBody LoginDTO userDTO){
+	@ResponseStatus(HttpStatus.OK)
+	public Object login(@RequestBody LoginDTO userDTO){
 		Object obj= Optional.ofNullable( guestService.findOne( userDTO.getEmail() ) )
 				.orElseThrow(() -> new ResourceNotFoundException());
 		String password=getPassword(obj);
 		if(!password.equals(userDTO.getPassword()))
 			throw new ResourceNotFoundException();
 		else
-			return new ResponseEntity<>(obj,HttpStatus.OK);
+			return obj;
 	}
 	
 	/**

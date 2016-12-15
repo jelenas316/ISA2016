@@ -14,4 +14,20 @@ app.service('guestService', ['$http', function($http){
 		return $http.put(url, guest);
 	}
 	
+	this.addFriend = function(guestEmail, friendEmail){
+		return $http.post(url + "?guest=" + guestEmail + "&friend=" +friendEmail);
+	}
+	
+	this.deleteFriend = function(guestEmail, friendEmail){
+		return $http.delete(url + "?guest=" + guestEmail + "&friend=" +friendEmail);
+	}
+	
+	this.acceptRequest = function(guestEmail, friendEmail){
+		return $http.post(url + "/request?guest=" + guestEmail + "&friend=" +friendEmail);
+	}
+	
+	this.deleteRequest = function(guestEmail, friendEmail){
+		return $http.delete(url + "/request?guest=" + guestEmail + "&friend=" +friendEmail);
+	}
+	
 }]);

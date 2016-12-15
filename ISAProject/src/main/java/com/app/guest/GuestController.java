@@ -60,4 +60,36 @@ public class GuestController {
 		return guestService.save(guest);
 	}
 	
+	@PostMapping(params={"guest", "friend"})
+	@ResponseStatus(HttpStatus.OK)
+	public void addFriend(@PathParam("guest") String guest, @PathParam("friend") String friend){
+		guestService.addFriend(guest, friend);
+	}
+	
+	@DeleteMapping(params={"guest", "friend"})
+	@ResponseStatus(HttpStatus.OK)
+	public void deleteFriend(@PathParam("guest") String guest, @PathParam("friend") String friend){
+		guestService.deleteFriend(guest, friend);
+		guestService.deleteFriend(friend, guest);
+	}
+	
+	@PostMapping(path="/request", params={"guest", "friend"})
+	@ResponseStatus(HttpStatus.OK)
+	public void acceptRequest(@PathParam("guest") String guest, @PathParam("friend") String friend){
+		Guest guestObj = Optional.ofNullable(guestService.findOne(guest))
+				.orElseThrow(() -> new ResourceNotFoundException() );
+		Guest friendObj = Optional.ofNullable(guestService.findOne(friend))
+				.orElseThrow(() -> new ResourceNotFoundException() );
+		
+		guestObj.getFriendRequests().remove(friendObj);
+		guestObj.getFriends().add(friendObj);
+		guestService.save(guestObj);
+	}
+	
+	@DeleteMapping(path="/request", params={"guest", "friend"})
+	@ResponseStatus(HttpStatus.OK)
+	public void deleteRequest(@PathParam("guest") String guest, @PathParam("friend") String friend){
+		guestService.deleteRequest(guest, friend);
+	}
+	
 }

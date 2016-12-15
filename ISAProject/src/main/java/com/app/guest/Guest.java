@@ -2,6 +2,7 @@ package com.app.guest;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -40,5 +41,9 @@ public class Guest{
 
 	@OneToMany
 	private List<Guest> friends;
+
+	@OneToMany
+	@Column(name="FRIEND_REQUESTS")
+	private List<Guest> friendRequests;
 	
 }
