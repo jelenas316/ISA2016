@@ -1,9 +1,9 @@
-package com.app.drink;
-
-import java.math.BigDecimal;
+package com.app.table;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,24 +20,22 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "DRINK")
-public class Drink {
+@Table(name = "RESTAURANT_TABLE")
+public class RestaurantTable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "DRINK_ID")
-	private int id;
-	
-	@NotBlank
-	private String name;
-	
-	@NotBlank
-	private String description;
+	@Column(name = "RESTAURANT_TABLE_ID")
+	private Long id;
 	
 	@NotNull
-	private BigDecimal price;
+	private Integer number;
+	
+	@NotBlank
+	@Enumerated(EnumType.STRING)
+	private Segment position;
 	
 	@ManyToOne
-    @JoinColumn(name = "DRINK_RESTAURANT",  nullable = false)
+	@JoinColumn(name = "RESTAURANT_TABLE", nullable = false)
 	private Restaurant restaurant;
 }

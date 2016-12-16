@@ -2,7 +2,7 @@ package com.app.reon;
 
 import java.util.ArrayList;
 
-import com.app.table.Table;
+import com.app.table.RestaurantTable;
 
 import lombok.Data;
 
@@ -16,6 +16,6 @@ public class Reon {
 //	@Column(name = "REON_ID")
 	private Long id;
 	
-	private ArrayList<Table> tables;
+	private ArrayList<RestaurantTable> tables;
 
 }

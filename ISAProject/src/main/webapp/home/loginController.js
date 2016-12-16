@@ -7,7 +7,6 @@ app.controller('loginController', ['$scope', '$window', '$location', '$state', '
 
 	init();
 
-
 	$scope.logIn = function(){
 
 		loginService.logIn($scope.loginData).then(
@@ -15,7 +14,12 @@ app.controller('loginController', ['$scope', '$window', '$location', '$state', '
 				$scope.loginData={};
 				if(response.data.role=="GUEST"){
 					$state.go('guest',{ email : response.data.email });
-				}else
+				}else if(response.data.role=="SYSTEM_MANAGER"){
+                    loginService.setUser(response.data);
+                    $state.go('systemManager',{ email : response.data.email });
+                   
+                }
+                else
 					$state.transitionTo('other');
 			},
 			function(response){

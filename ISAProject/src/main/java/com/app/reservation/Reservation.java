@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 import com.app.order.Order;
 import com.app.restaurant.Restaurant;
-import com.app.table.Table;
+import com.app.table.RestaurantTable;
 import com.app.user.User;
 
 import lombok.Data;
@@ -28,7 +28,7 @@ public class Reservation {
 	private Integer duration;
 	
 	@NotNull
-	private List<Table> table;
+	private List<RestaurantTable> table;
 	
 	@NotNull
 	private Restaurant restaurant;
