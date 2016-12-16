@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ui.router','ui.bootstrap']);
+var app = angular.module('app', ['ui.router']);
 
 app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('/login');
@@ -31,9 +31,29 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 			url : '/account',
 		  	templateUrl : 'guest/account.html'
 		 })
+ 		.state('systemManager', {
+            url: '/systemManager',
+            controller: 'systemManagerController',
+            templateUrl: 'systemManager/systemManager.html'             
+        })
+        .state('systemManager.restaurants', {
+			url : '/Restaurants',
+		  	templateUrl : 'systemManager/restaurants.html'
+		 })
+        .state('systemManager.restaurantManagers', {
+			url : '/RestaurantManagers',
+		  	templateUrl : 'systemManager/restaurantManagers.html'
+		 })
+        .state('systemManager.systemManagers', {
+			url : '/SystemManagers',
+		  	templateUrl : 'systemManager/systemManagers.html'
+		 })
+        .state('systemManager.systemManagerProfile', {
+			url : '/systemManagerProfile',
+		  	templateUrl : 'systemManager/systemManagerProfile.html'
+		 })
 	    .state('other', {
 	    	url : '/other',
 	      	templateUrl : 'home.html'
 	    }); 
-		
 }]);

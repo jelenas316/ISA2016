@@ -1,0 +1,21 @@
+<div class="navbar navbar-inverse">
+    <div class="container-fluid">        
+        <ul class="nav navbar-nav">
+            <li><a ui-sref=".systemManagers">System managers</a></li>
+            <li><a ui-sref=".restaurants">Restaurants</a></li>
+            <li><a ui-sref=".restaurantManagers">Reastaurant managers</a> </li>
+        </ul>
+        
+        <ul class="nav navbar-nav pull-right">
+            <li><a ui-sref=".systemManagerProfile" ><span class="glyphicon glyphicon-user"></span> {{user.email}}</a></li>
+            <li><a ui-sref="login"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+        </ul> 
+        
+    </div>
+</div>
+
+
+
+<div>
+    <div ui-view></div>
+</div>

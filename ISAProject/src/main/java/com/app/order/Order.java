@@ -2,7 +2,7 @@ package com.app.order;
 
 import java.util.List;
 
-import com.app.table.Table;
+import com.app.table.RestaurantTable;
 
 import lombok.Data;
 
@@ -16,7 +16,7 @@ public class Order {
 //	@Column(name = "ORDER_ID")
 	private Long id;
 	
-	private Table table;
+	private RestaurantTable table;
 	
 	private List<OrderedDrink> drinks;
 	

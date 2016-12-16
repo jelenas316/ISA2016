@@ -55,3 +55,19 @@ table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sor
     content: " \25B4\25BE" 
 }
 
+label {
+    background-color: #000000;
+}
+
+.right {
+    position: -15px; 
+}
+ul.nav a:hover,
+ul.nav a:focus
+{
+    text-decoration: underline; !important;
+}
+.active {  text-decoration: underline; !important;}
+
+.navbutton:active { background-color: red;
+}
