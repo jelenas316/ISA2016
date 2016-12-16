@@ -35,11 +35,28 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 						}
 					);
 					
+					$scope.restaurants=[];
+					$scope.restaurant={};
+					$scope.restaurant.name="Restaurant1";
+					$scope.restaurant.reiting=5;
+					$scope.restaurant.friendsReiting=4;
+					$scope.restaurant.reitingStars=getStars($scope.restaurant.reiting);
+					$scope.restaurant.friendsReitingStars=getStars($scope.restaurant.friendsReiting);
+					$scope.restaurants.push($scope.restaurant);
+					
 				},
 				function(response){
 					$state.go('login');
 				}
 		);
+	}
+	
+	function getStars(grade){
+		var stars="";
+		for(var i=0; i<grade ; i++){
+			stars=stars+"*";
+		}
+		return stars;
 	}
 	
 	function addFriends(){
@@ -151,6 +168,10 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 				initializeData($scope.user.email);
 			}
 		);
+	}
+	
+	$scope.reserve = function(restaurant){
+		console.log("reserve");
 	}
 	
 }]);

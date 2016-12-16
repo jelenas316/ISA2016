@@ -1,4 +1,22 @@
 <div>
 
-	restaurants
+	<div class = "col-sm-8">
+		<h3>Restaurants:</h3>
+		<br>
+		<table class="table table-bordered sortable">
+		  <tr>
+		    <th>Name</th>
+		    <th>Reiting</th> 
+		    <th>Friends reiting</th>
+		    <th>Reservation</th>
+		  </tr>
+		  <tr ng-repeat="restaurant in $parent.restaurants">
+		    <td>{{restaurant.name}}</td>
+		    <td>{{restaurant.reitingStars}}</td>
+		    <td>{{restaurant.friendsReitingStars}}</td>
+		    <td><button type="button" class="btn btn-primary" ng-click="reserve(restaurant)">Reserve</button></td>
+		  </tr>
+		</table>
+	</div>
+
 </div>
