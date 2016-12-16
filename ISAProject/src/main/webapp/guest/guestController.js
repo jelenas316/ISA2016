@@ -20,13 +20,17 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 		guestService.findOne(email).then(
 				function(response){
 					$scope.user=response.data;
+					console.log($scope.user);
 					$scope.copyOfUser=$scope.user;
 					$scope.repeatedPassword=$scope.user.password;
 					$scope.friend={};
 					$scope.friend.email="";
+					$scope.friends=$scope.user.friends;
+					$scope.requestsForFriends=[];
 					guestService.findAll().then(
 						function(response){
 							$scope.guests=response.data;
+							addFriends();
 							deleteGuestsThatExists();
 						}
 					);
@@ -38,17 +42,44 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 		);
 	}
 	
+	function addFriends(){
+		for(guestIndex in $scope.guests){
+			for(friendIndex in $scope.guests[guestIndex].friends){
+				if($scope.user.email==$scope.guests[guestIndex].friends[friendIndex].email){
+					$scope.friends.push($scope.guests[guestIndex]);
+					break;
+				}
+			}
+		}
+	};
+	
 	function deleteGuestsThatExists(){
 		var tempGuestList=[];
 		for(guestIndex in $scope.guests){
 			var add=true;
+			var guestEmail=$scope.guests[guestIndex].email;
 			if($scope.guests[guestIndex].email!=$scope.user.email){
 				for(friendIndex in $scope.user.friends){
-					if($scope.guests[guestIndex].email==$scope.user.friends[friendIndex].email){
+					if(guestEmail==$scope.user.friends[friendIndex].email){
 						add=false;
 						break;
 					}
 				}
+				for(friendIndex in $scope.user.friendRequests){
+					if(guestEmail==$scope.user.friendRequests[friendIndex].email){
+						add=false;
+						break;
+					}
+				}
+				
+				for(friendRequestIndex in $scope.guests[guestIndex].friendRequests){
+					if($scope.user.email==$scope.guests[guestIndex].friendRequests[friendRequestIndex].email){
+						$scope.requestsForFriends.push($scope.guests[guestIndex]);
+						add=false;
+						break;
+					}
+				}
+				
 			}else{
 				add=false;
 			}
@@ -71,36 +102,55 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 		
 	};
 	
+	function update(){
+		guestService.findOne($scope.user.email).then(
+				function(response){
+					$scope.copyOfUser.friends=response.data.friends;
+					guestService.update($scope.copyOfUser).then(
+						function(response){
+							alert("Successfuly changed.");
+							initializeData($scope.user.email);
+						},
+						function(response){
+							alert("Error while registering.");
+						}
+					);
+				}
+		);
+	}
+	
 	$scope.addFriend = function(){
-		for(guestIndex in $scope.guests){
-			if($scope.guests[guestIndex].email==$scope.friend.email){
-				$scope.friend=$scope.guests[guestIndex];
-				$scope.copyOfUser.friends.push($scope.friend);
-				update();
-			}
+		if($scope.friend.email!=""){
+			guestService.addFriend($scope.user.email, $scope.friend.email).then(
+				function(response){
+					initializeData($scope.user.email);
+				}
+			);
 		}
 	};
 	
-	function update(){
-		guestService.update($scope.copyOfUser).then(
+	$scope.deleteFriend = function(friend){
+		guestService.deleteFriend($scope.user.email, friend.email).then(
 			function(response){
-				alert("Successfuly changed.");
 				initializeData($scope.user.email);
-			},
+			}
+		);
+	}
+
+	$scope.acceptRequest = function(request){
+		guestService.acceptRequest($scope.user.email, request.email).then(
 			function(response){
-				alert("Error while registering.");
+				initializeData($scope.user.email);
+			}
+		);
+	};
+	
+	$scope.deleteRequest = function(request){
+		guestService.deleteRequest($scope.user.email, request.email).then(
+			function(response){
+				initializeData($scope.user.email);
 			}
 		);
 	}
 	
-	$scope.deleteFriend = function(friend){
-		for(friendIndex in $scope.copyOfUser.friends){
-			if($scope.copyOfUser.friends[friendIndex].email==friend.email){
-				$scope.copyOfUser.friends.splice(friendIndex,1);
-				break;
-			}
-		}
-		update();
-	}
-
 }]);

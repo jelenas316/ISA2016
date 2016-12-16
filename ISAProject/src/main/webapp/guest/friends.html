@@ -1,7 +1,8 @@
 <div>
 
 	<div class = "col-sm-8">
-		<br><br>
+		<h3>Friends:</h3>
+		<br>
 		<table class="table table-bordered sortable">
 		  <tr>
 		    <th>Name</th>
@@ -9,19 +10,18 @@
 		    <th>Email</th>
 		    <th>Delete friend</th>
 		  </tr>
-		  <tr ng-repeat="friend in $parent.user.friends">
+		  <tr ng-repeat="friend in $parent.friends">
 		    <td>{{friend.name}}</td>
 		    <td>{{friend.surname}}</td>
 		    <td>{{friend.email}}</td>
 		    <td><button type="button" class="btn btn-primary" ng-click="deleteFriend(friend)">X</button></td>
 		  </tr>
 		</table>
-	
 	</div>
 
 	
 	<div class = "col-sm-3">
-		<br><br>
+		<br><br><br>
 		
 		<input type="text" list="friends" class="form-control" placeholder="search" ng-model="$parent.friend.email"/>
 		<datalist id="friends">
