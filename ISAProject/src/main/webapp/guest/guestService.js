@@ -1,6 +1,7 @@
 app.service('guestService', ['$http', function($http){
 
 	var url='/guests';
+	var gradeUrl='/grades';
 	
 	this.findOne = function(email){
 		return $http.get(url + "?email=" + email);
@@ -29,5 +30,11 @@ app.service('guestService', ['$http', function($http){
 	this.deleteRequest = function(guestEmail, friendEmail){
 		return $http.delete(url + "/request?guest=" + guestEmail + "&friend=" +friendEmail);
 	}
+	
+	
+	this.getRestaurantsWithGrades = function(email){
+		return $http.get(gradeUrl + "?email=" + email);
+	}
+	
 	
 }]);

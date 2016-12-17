@@ -1,7 +1,7 @@
 <div>
 
 	<form name="copyOfUser">
-		<div ng-if="user.friendRequests.length>0">
+		<div ng-show="user.friendRequests.length>0">
 			<div class = "col-sm-8">
 				<h3>Friend requests:</h3><br>
 				<table class="table table-bordered">
@@ -27,19 +27,19 @@
 			<br>
 			<h3>Update data:</h3><br>
 	
-			<label>Name: </label>
+			<p>Name: </p>
 			<input name="copyOfUser.name" type="text" ng-model="$parent.copyOfUser.name" class="form-control" required/>
 	
-			<label>Surname: </label>
+			<p>Surname: </p>
 			<input  name="copyOfUser.surname" type="text" ng-model="$parent.copyOfUser.surname" class="form-control" required/>
 	
-			<label>Email: </label>
+			<p>Email: </p>
 			<input name="copyOfUser.email" type="text" ng-model="$parent.copyOfUser.email" class="form-control" required disabled/>
 	
-			<label>Password: </label>
+			<p>Password: </p>
 			<input name="copyOfUser.password" type="password" ng-model="$parent.copyOfUser.password" class="form-control" required/>
 	
-			<label>Repeat password: </label>
+			<p>Repeat password: </p>
 			<input name="copyOfUser.repeatedPassword" type="password" ng-model="$parent.repeatedPassword" class="form-control" required/>
 	
 			<br><br>
@@ -69,7 +69,7 @@
 			<br><br><br><br>
 		</div>
 		
-		<div class = "col-sm-8" ng-if="requestsForFriends.length>0">
+		<div class = "col-sm-8" ng-show="requestsForFriends.length>0">
 			<h3>Sent requests:</h3><br>
 			<table class="table table-bordered">
 			  <tr>

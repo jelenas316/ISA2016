@@ -22,6 +22,7 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 					$scope.user=response.data;
 					console.log($scope.user);
 					$scope.copyOfUser=$scope.user;
+					$scope.search="";
 					$scope.repeatedPassword=$scope.user.password;
 					$scope.friend={};
 					$scope.friend.email="";
@@ -35,20 +36,25 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 						}
 					);
 					
-					$scope.restaurants=[];
-					$scope.restaurant={};
-					$scope.restaurant.name="Restaurant1";
-					$scope.restaurant.reiting=5;
-					$scope.restaurant.friendsReiting=4;
-					$scope.restaurant.reitingStars=getStars($scope.restaurant.reiting);
-					$scope.restaurant.friendsReitingStars=getStars($scope.restaurant.friendsReiting);
-					$scope.restaurants.push($scope.restaurant);
-					
+					guestService.getRestaurantsWithGrades($scope.user.email).then(
+							function(response){
+								$scope.restaurants=response.data;
+								addStars();
+								$scope.copyOfRestaurants=$scope.restaurants;
+							}
+					);
 				},
 				function(response){
 					$state.go('login');
 				}
 		);
+	}
+	
+	function addStars(){
+		for(restaurant in $scope.restaurants){
+			$scope.restaurants[restaurant].reitingStars=getStars($scope.restaurants[restaurant].reiting);
+			$scope.restaurants[restaurant].friendsReitingStars=getStars($scope.restaurants[restaurant].friendsReiting);
+		}
 	}
 	
 	function getStars(grade){
@@ -172,6 +178,15 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 	
 	$scope.reserve = function(restaurant){
 		console.log("reserve");
+	}
+	
+	$scope.searchRestaurants = function(){
+		$scope.copyOfRestaurants=[];
+		for(index in $scope.restaurants){
+			if($scope.restaurants[index].name.indexOf($scope.search) !== -1 ||
+					$scope.restaurants[index].description.indexOf($scope.search) !== -1)
+				$scope.copyOfRestaurants.push($scope.restaurants[index]);
+		}
 	}
 	
 }]);

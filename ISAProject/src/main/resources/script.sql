@@ -1,14 +1,18 @@
 
+drop table if exists GRADE;
+drop table if exists RESERVATION_TABLE;
+drop table if exists RESERVATION_GUESTS;
+drop table if exists RESERVATION;
 drop table if exists GUEST_FRIEND_REQUESTS;
 drop table if exists GUEST_REQUESTS_FOR_FRIENDS;
 drop table if exists GUEST_FRIENDS;
 drop table if exists GUEST;
 drop table if exists USER;
 drop table if exists SYSTEM_MANAGER;
-drop table if exists RESTAURANT;
 drop table if exists DRINK;
 drop table if exists FOOD;
 drop table if exists RESTAURANT_TABLE;
+drop table if exists RESTAURANT;
 
 
 
@@ -21,7 +25,7 @@ create table GUEST
    ROLE 						enum('GUEST','RESTAURANT_MANAGER', 'WAITER',' COOK', 'BARTENDER', 'SYSTEM_MANAGER', 'BIDDER')          			not null,
    FRIENDS						varchar(50)						,
    FRIEND_REQUESTS				varchar(50)						,
-    primary key (EMAIL)
+   primary key (EMAIL)
 );
 
 insert into isa2016.guest values ('email','pass','name','surname','GUEST',null,null);
@@ -107,7 +111,7 @@ create table DRINK
 create table RESTAURANT_TABLE
 (
    RESTAURANT_TABLE_ID         	  	    bigint             				PRIMARY KEY AUTO_INCREMENT,
-   NAME                					INT	                         	not null,
+   NUMBER              					INT	                         	not null,
    POSITION                  			enum('SMOKE','NOSMOKE')      	not null,
    RESTAURANT_TABLE						bigint							not null,
    FOREIGN KEY (RESTAURANT_TABLE) REFERENCES RESTAURANT(RESTAURANT_ID) ON DELETE CASCADE ON UPDATE CASCADE
@@ -115,6 +119,63 @@ create table RESTAURANT_TABLE
 
 insert into system_manager(EMAIL, PASSWORD, NAME, SURNAME, ROLE)
 VALUES('admin@admin.com','admin','pera','peric','SYSTEM_MANAGER');
+
+create table GRADE
+(
+	GRADE_ID					bigint							not null AUTO_INCREMENT,
+   	GRADE_VALUE           		INT	                   			not null,
+   	RESTAURANT					bigint							,
+   	GUEST						varchar(50)            			not null,
+    primary key (GRADE_ID),
+   	FOREIGN KEY (GUEST) REFERENCES GUEST(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (RESTAURANT) REFERENCES RESTAURANT(RESTAURANT_ID) ON DELETE CASCADE ON UPDATE CASCADE
+
+);
+
+insert into restaurant values (1,'name1','description');
+insert into restaurant values (2,'name2','description');
+insert into restaurant values (3,'name3','description');
+
+insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (1,3,1,'email');
+insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (2,4,1,'email3');
+insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (3,5,1,'email4');
+
+insert into restaurant_table values (1,5,'SMOKE',1);      
+
+create table RESERVATION
+(
+	RESERVATION_ID					bigint							not null AUTO_INCREMENT,
+   	ARRIVAL           				DATE	                   		not null,
+   	DURATION						int								,
+   	RESTAURANT_TABLE				bigint            				not null,
+   	RESTAURANT						bigint							not null,
+   	GUESTS							varchar(50)						not null,	
+    primary key (RESERVATION_ID),
+   	FOREIGN KEY (RESTAURANT_TABLE) REFERENCES RESTAURANT_TABLE(RESTAURANT_TABLE_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (RESTAURANT) REFERENCES RESTAURANT(RESTAURANT_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (GUESTS) REFERENCES GUEST(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE
+
+);
+
+create table RESERVATION_GUESTS
+(
+	RESERVATION_GUESTS_ID			bigint							not null AUTO_INCREMENT,
+   	RESERVATION_RESERVATION_ID		bigint							not null,
+   	GUESTS_EMAIL					varchar(50)						not null,	
+    primary key (RESERVATION_GUESTS_ID),
+   	FOREIGN KEY (RESERVATION_RESERVATION_ID) REFERENCES RESERVATION(RESERVATION_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (GUESTS_EMAIL) REFERENCES GUEST(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+create table RESERVATION_TABLE
+(
+	RESERVATION_RESTAURANT_TABLE_ID			bigint							not null AUTO_INCREMENT,
+   	RESERVATION_RESERVATION_ID				bigint							not null,
+   	TABLE_RESTAURANT_TABLE_ID				bigint							not null,	
+    primary key (RESERVATION_RESTAURANT_TABLE_ID),
+   	FOREIGN KEY (RESERVATION_RESERVATION_ID) REFERENCES RESERVATION(RESERVATION_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (TABLE_RESTAURANT_TABLE_ID) REFERENCES RESTAURANT_TABLE(RESTAURANT_TABLE_ID) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
 
 

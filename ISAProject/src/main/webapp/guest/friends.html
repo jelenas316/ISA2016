@@ -1,6 +1,6 @@
 <div>
 
-	<div class = "col-sm-8">
+	<div class = "col-sm-8" ng-show="$parent.friends.length>0">
 		<h3>Friends:</h3>
 		<br>
 		<table class="table table-bordered sortable">
@@ -18,10 +18,10 @@
 		  </tr>
 		</table>
 	</div>
-
+	
 	
 	<div class = "col-sm-3">
-		<br><br><br>
+		<br><br>
 		
 		<input type="text" list="friends" class="form-control" placeholder="search" ng-model="$parent.friend.email"/>
 		<datalist id="friends">
