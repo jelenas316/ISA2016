@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -35,10 +33,10 @@ public class Restaurant {
 	@NotBlank
 	private String description;
 
-//	@OneToMany
-//	private List<Food> menu;
-//	
-//	@OneToMany
-//	private List<Drink> drinkCard;
+	@OneToMany
+	private List<Food> menu;
+	
+	@OneToMany
+	private List<Drink> drinkCard;
 	
 }

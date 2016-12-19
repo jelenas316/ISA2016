@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.app.guest.Guest;
+import com.app.order.Order;
 import com.app.restaurant.Restaurant;
 import com.app.table.RestaurantTable;
 
@@ -57,6 +58,6 @@ public class Reservation {
 	private List<Guest> guests;
 	
 	//lista porudzbina
-//	@OneToMany
-//	private List<Order> orders;
+	@OneToMany
+	private List<Order> orders;
 }
