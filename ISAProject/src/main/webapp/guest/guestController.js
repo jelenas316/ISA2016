@@ -5,7 +5,7 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 		var email=$stateParams.email;
 		if(email!=null && $state.current.name=="guest"){
 			
-			$state.go('.restaurants',{ email : email });
+			$state.go('.visitedRestaurants',{ email : email });
 			
 			initializeData(email);
 	
@@ -43,11 +43,24 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 								$scope.copyOfRestaurants=$scope.restaurants;
 							}
 					);
+					
+					guestService.getVisitedRestaurants($scope.user.email).then(
+							function(response){
+								$scope.visitedRestaurants=response.data;
+								addStarsForVisitedRestaurants();
+							}
+					);
 				},
 				function(response){
 					$state.go('login');
 				}
 		);
+	}
+	
+	function addStarsForVisitedRestaurants(){
+		for(index in $scope.visitedRestaurants){
+			$scope.visitedRestaurants[index].restaurant.reitingStars = getStars($scope.visitedRestaurants[index].restaurant.reiting);
+		}
 	}
 	
 	function addStars(){

@@ -31,6 +31,10 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 			url : '/account',
 		  	templateUrl : 'guest/account.html'
 		 })
+		 .state('guest.visitedRestaurants', {
+	    	url : '/visitedRestaurants',
+	    	templateUrl : 'guest/visitedRestaurants.html'
+	    })
  		.state('systemManager', {
             url: '/systemManager',
             controller: 'systemManagerController',

@@ -5,5 +5,5 @@ public interface ReservationService {
 	Reservation findOne(Long id);
 	Reservation save(Reservation reservation);
 	void delete(Long id);
-	
+	Iterable<Reservation> findPreviousByGuest(String email);
 }

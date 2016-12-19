@@ -2,6 +2,7 @@ app.service('guestService', ['$http', function($http){
 
 	var url='/guests';
 	var gradeUrl='/grades';
+	var reservationUrl='/reservations';
 	
 	this.findOne = function(email){
 		return $http.get(url + "?email=" + email);
@@ -36,5 +37,9 @@ app.service('guestService', ['$http', function($http){
 		return $http.get(gradeUrl + "?email=" + email);
 	}
 	
+	
+	this.getVisitedRestaurants = function(email){
+		return $http.get(reservationUrl + "?email=" + email);
+	}
 	
 }]);
