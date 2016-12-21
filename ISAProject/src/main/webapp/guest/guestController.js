@@ -50,6 +50,10 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 								addStarsForVisitedRestaurants();
 							}
 					);
+					
+					$scope.restaurantForReservation={};
+					$scope.reservation={};
+					$scope.stepCounter=0;
 				},
 				function(response){
 					$state.go('login');
@@ -188,11 +192,7 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 			}
 		);
 	}
-	
-	$scope.reserve = function(restaurant){
-		console.log("reserve");
-	}
-	
+		
 	$scope.searchRestaurants = function(){
 		$scope.copyOfRestaurants=[];
 		for(index in $scope.restaurants){
@@ -202,4 +202,47 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 		}
 	}
 	
+	$scope.reserve = function(restaurant){
+		$scope.reservation.restaurant=restaurant;
+		$scope.invitedFriends=[];
+		for(index in $scope.user.friends){
+			var friend={
+					"friend" : $scope.user.friends[index],
+					"checked": false
+			};
+			$scope.invitedFriends.push(friend);
+		}
+		$scope.stepCounter=1;
+	}
+	
+	$scope.cancel = function(){
+		initializeData($scope.user.email);
+	}
+	
+	$scope.next = function(){
+		$scope.stepCounter=$scope.stepCounter+1;
+	}
+
+	$scope.finish = function(){
+		$scope.reservation.guests=[];
+		$scope.reservation.guests.push($scope.user);
+		for(index in $scope.invitedFriends){
+			if($scope.invitedFriends[index].checked==true)
+				$scope.reservation.guests.push($scope.invitedFriends[index].friend);
+		}
+		guestService.findOneRestaurant($scope.reservation.restaurant.id).then(
+				function(response){
+					$scope.reservation.restaurant=response.data;
+					guestService.saveReservation($scope.reservation).then(
+							function(response){
+								alert('Reserved.');
+								initializeData($scope.user.email);
+							}
+					);
+				}
+		);
+	}
+	
 }]);
+
+

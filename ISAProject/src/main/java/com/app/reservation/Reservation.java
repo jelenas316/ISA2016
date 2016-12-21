@@ -21,7 +21,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.app.guest.Guest;
 import com.app.order.Order;
 import com.app.restaurant.Restaurant;
-import com.app.table.RestaurantTable;
 
 import lombok.Data;
 
@@ -43,9 +42,9 @@ public class Reservation {
 	private Integer duration;
 	
 //	@NotNull
-	@OneToMany
-	@Column(name="RESTAURANT_TABLE")
-	private List<RestaurantTable> table;
+//	@OneToMany
+//	@Column(name="RESTAURANT_TABLE")
+//	private List<RestaurantTable> table;
 	
 	@NotNull
 	@ManyToOne

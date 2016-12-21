@@ -11,6 +11,7 @@ drop table if exists ORDERED_DRINK;
 drop table if exists ORDERED_FOOD;
 drop table if exists GUEST_FRIEND_REQUESTS;
 drop table if exists GUEST_REQUESTS_FOR_FRIENDS;
+drop table if exists GUEST_RESERVATION_REQUESTS;
 drop table if exists GUEST_FRIENDS;
 drop table if exists GUEST;
 drop table if exists USER;
@@ -33,11 +34,6 @@ create table GUEST
    FRIEND_REQUESTS				varchar(50)						,
    primary key (EMAIL)
 );
-
-insert into isa2016.guest values ('email','pass','name','surname','GUEST',null,null);
-insert into isa2016.guest values ('email3','pass','name','surname','GUEST',null,null);
-insert into isa2016.guest values ('email4','pass','name','surname','GUEST',null,null);
-
 
 create table GUEST_FRIENDS
 (
@@ -245,6 +241,8 @@ create table RESERVATION_ORDERS
 );
 
 
-
+insert into isa2016.guest values ('email','pass','name','surname','GUEST',null,null);
+insert into isa2016.guest values ('email3','pass','name','surname','GUEST',null,null);
+insert into isa2016.guest values ('email4','pass','name','surname','GUEST',null,null);
 
 

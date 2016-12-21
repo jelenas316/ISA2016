@@ -34,10 +34,10 @@ public class RestaurantController {
 		return restaurantService.findAll();
 	}
 	
-	@GetMapping(params="email")
+	@GetMapping(params="id")
 	@ResponseStatus(HttpStatus.OK)
-	public Restaurant findOne(@PathParam("email") String email){
-		return restaurantService.findOne(email);
+	public Restaurant findOne(@PathParam("id") Long id){
+		return restaurantService.findOne(id);
 	}
 
 	@PostMapping
@@ -48,7 +48,7 @@ public class RestaurantController {
 	
 	@DeleteMapping(params="id")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathParam("id") String id){
+	public void delete(@PathParam("id") Long id){
 		Optional.ofNullable(restaurantService.findOne(id)).orElseThrow(() -> new ResourceNotFoundException());
 		restaurantService.delete(id);
 	}

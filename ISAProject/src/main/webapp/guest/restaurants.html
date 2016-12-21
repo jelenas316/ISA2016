@@ -1,36 +1,103 @@
 <div>
 
-	<div class = "col-sm-8">
-		<h3>Restaurants:</h3>
-		<br>
-		<table class="table table-bordered sortable">
-		  <tr>
-		    <th>Name</th>
-		    <th>Description</th>
-		    <th>Reiting</th> 
-		    <th>Friends reiting</th>
-		    <th>Reservation</th>
-		  </tr>
-		  <tr ng-repeat="restaurant in $parent.copyOfRestaurants">
-		    <td>{{restaurant.name}}</td>
-		    <td>{{restaurant.description}}</td>
-		    <td>{{restaurant.reitingStars}}</td>
-		    <td>{{restaurant.friendsReitingStars}}</td>
-		    <td><button type="button" class="btn btn-primary" ng-click="reserve(restaurant)">Reserve</button></td>
-		  </tr>
-		</table>
+	<div ng-show="$parent.stepCounter==0">
+		<div class = "col-sm-8">
+			<h3>Restaurants:</h3>
+			<br>
+			<table class="table table-bordered sortable">
+			  <tr>
+			    <th>Name</th>
+			    <th>Description</th>
+			    <th>Reiting</th> 
+			    <th>Friends reiting</th>
+			    <th>Reservation</th>
+			  </tr>
+			  <tr ng-repeat="restaurant in $parent.copyOfRestaurants">
+			    <td>{{restaurant.name}}</td>
+			    <td>{{restaurant.description}}</td>
+			    <td>{{restaurant.reitingStars}}</td>
+			    <td>{{restaurant.friendsReitingStars}}</td>
+			    <td><button type="button" class="btn btn-primary" ng-click="reserve(restaurant)">Reserve</button></td>
+			  </tr>
+			</table>
+		</div>
+		
+		<div class = "col-sm-3">
+			<br><br><br>
+			<input type="search" class="form-control" placeholder="search" ng-model="$parent.search"/>
+		</div>
+		
+		<div class = "col-sm-2">
+			<br>
+			<div class="button">
+				<button type="button" class="btn btn-primary" ng-click="searchRestaurants()">Search</button>
+			</div>	
+		</div>
 	</div>
 	
-	<div class = "col-sm-3">
-		<br><br><br>
-		<input type="search" class="form-control" placeholder="search" ng-model="$parent.search"/>
-	</div>
-	
-	<div class = "col-sm-2">
-		<br>
-		<div class="button">
-			<button type="button" class="btn btn-primary" ng-click="searchRestaurants()">Search</button>
-		</div>	
+	<div ng-show="$parent.stepCounter>0">
+		
+		<form name="reservation">
+			<div class = "col-sm-6">
+				<br>
+				<h3>Reservation:</h3><br>
+		
+				<p>Restaurant: </p>
+				<input name="reservation.restaurant.name" type="text" 
+					ng-model="$parent.reservation.restaurant.name" class="form-control" required disabled/>
+		
+				<p>Date and time: </p>
+				<input name="reservation.arrival" type="text" ng-model="$parent.reservation.arrival" 
+						class="form-control" required/>
+		
+				<p>Duration: </p>
+				<input name="reservation.duration" type="number" ng-model="$parent.reservation.duration"
+						 class="form-control" min="0" max="5"/>
+				
+				<div ng-show="$parent.stepCounter==2">
+					tables
+				</div>
+				
+				<div ng-show="$parent.stepCounter==3">
+					<br><h3>Invite friend: </h3>
+					<input type="text" list="friends" class="form-control" 
+						placeholder="search" ng-model="$parent.friend.email"/>
+					<datalist id="friends">
+					    <option ng-repeat="friend in $parent.user.friends"
+					            value="{{friend.email}}">{{friend.name}} {{friend.surname}}</option>
+					</datalist>
+					<br>
+					<table class="table table-bordered sortable">
+					  <tr>
+					    <th>Name</th>
+					    <th>Invite</th>
+					  </tr>
+					  <tr ng-repeat="friend in $parent.invitedFriends">
+					    <td>{{friend.friend.name}}&nbsp;{{friend.friend.surname}}</td>
+					    <td><input type="checkbox" ng-model="friend.checked" value="{{friend.checked}}"></td>
+					  </tr>
+					</table>
+						
+				</div>
+				
+				<br>		
+				<div class="button">
+					<button type="submit" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+					<button type="submit" class="btn btn-primary" 
+						ng-show="$parent.stepCounter<3" 
+						ng-click="reservation.$valid && next()">Next</button>
+					<button type="submit" class="btn btn-primary" 
+						ng-show="$parent.stepCounter==3" 
+						ng-click="reservation.$valid && finish()">Finish</button>
+				</div>
+				<br><br>
+				
+			</div>
+			
+			<br><br><br>
+		</form>
+		
 	</div>
 
 </div>
+
