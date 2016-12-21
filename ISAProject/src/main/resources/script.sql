@@ -252,4 +252,18 @@ create table PROFILE
 );
 
 
+insert into isa2016.guest values ('email','pass','name','surname','GUEST',null,null);
+insert into isa2016.guest values ('email3','pass','name','surname','GUEST',null,null);
+insert into isa2016.guest values ('email4','pass','name','surname','GUEST',null,null);
+
+insert into restaurant values (1,'name1','description');
+insert into restaurant values (2,'name2','description');
+insert into restaurant values (3,'name3','description');
+
+insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (1,3,1,'email');
+insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (2,4,1,'email3');
+insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (3,5,1,'email4');
+
+
+
 
