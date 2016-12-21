@@ -20,6 +20,7 @@ drop table if exists DRINK;
 drop table if exists FOOD;
 drop table if exists RESTAURANT_TABLE;
 drop table if exists RESTAURANT;
+drop table if exists PROFILE;
 
 
 
@@ -240,9 +241,15 @@ create table RESERVATION_ORDERS
    	FOREIGN KEY (ORDERS_ORDER_ID) REFERENCES ORDER_LIST(ORDER_ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+create table PROFILE
+(
+	PROFILE_ID							bigint							not null AUTO_INCREMENT,
+   	EMAIL								varchar(50)						not null,
+   	PASSWORD							varchar(50)						not null,
+   	NAME								varchar(50)						not null,
+   	SURNAME								varchar(50)						not null,	
+    primary key (PROFILE_ID)
+);
 
-insert into isa2016.guest values ('email','pass','name','surname','GUEST',null,null);
-insert into isa2016.guest values ('email3','pass','name','surname','GUEST',null,null);
-insert into isa2016.guest values ('email4','pass','name','surname','GUEST',null,null);
 
 

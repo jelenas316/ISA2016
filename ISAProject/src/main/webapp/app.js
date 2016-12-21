@@ -14,6 +14,11 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 	      	templateUrl : 'home/signup.html',
 	        controller : 'signupController'
 	    })
+	    .state('activation', {
+	    	url : '/activation?id',
+	      	templateUrl : 'home/activation.html',
+	        controller : 'activationController'
+	    })
 	    .state('guest', {
 	    	url : '/guest?email',
 	      	templateUrl : 'guest/guest.html',
@@ -59,5 +64,9 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 	    .state('other', {
 	    	url : '/other',
 	      	templateUrl : 'home.html'
+	    })
+	    .state('notification', {
+	    	url : '/notification',
+	      	templateUrl : 'home/notification.html'
 	    }); 
 }]);

@@ -1,7 +1,7 @@
 <div>
 
 	<div ng-show="$parent.stepCounter==0">
-		<div class = "col-sm-8">
+		<div class = "col-sm-8" ng-show="$parent.copyOfRestaurants.length>0">
 			<h3>Restaurants:</h3>
 			<br>
 			<table class="table table-bordered sortable">
@@ -23,12 +23,12 @@
 		</div>
 		
 		<div class = "col-sm-3">
-			<br><br><br>
+			<br><br>
 			<input type="search" class="form-control" placeholder="search" ng-model="$parent.search"/>
 		</div>
 		
 		<div class = "col-sm-2">
-			<br>
+			<br><br>
 			<div class="button">
 				<button type="button" class="btn btn-primary" ng-click="searchRestaurants()">Search</button>
 			</div>	
