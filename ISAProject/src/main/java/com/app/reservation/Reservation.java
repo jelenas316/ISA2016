@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 import com.app.order.Order;
 import com.app.restaurant.Restaurant;
-import com.app.table.RestaurantTable;
+import com.app.restauranttable.RestaurantTable;
 import com.app.user.User;
 
 import lombok.Data;

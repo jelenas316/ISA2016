@@ -26,7 +26,7 @@ public class Drink {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "DRINK_ID")
-	private int id;
+	private Long id;
 	
 	@NotBlank
 	private String name;
@@ -38,6 +38,6 @@ public class Drink {
 	private BigDecimal price;
 	
 	@ManyToOne
-    @JoinColumn(name = "DRINK_RESTAURANT",  nullable = false)
+	@JoinColumn(name = "RESTAURANT_ID")
 	private Restaurant restaurant;
 }

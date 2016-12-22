@@ -38,7 +38,7 @@ public class Food {
 	private BigDecimal price;
 	
 	@ManyToOne
-    @JoinColumn(name = "FOOD_RESTAURANT",  nullable = false)
+	@JoinColumn(name = "RESTAURANT_ID")
 	private Restaurant restaurant;
 
 }

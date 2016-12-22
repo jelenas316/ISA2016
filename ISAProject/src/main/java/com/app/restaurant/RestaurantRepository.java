@@ -5,5 +5,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RestaurantRepository extends CrudRepository<Restaurant, String>{
+
+	Restaurant findById(Long id);
+
+	void deleteById(Long id);
 	
 }

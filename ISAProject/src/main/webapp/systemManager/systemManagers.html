@@ -1,0 +1,42 @@
+<div ng-if = "$parent.register == 'undefined'" class = "col-sm-8">
+    <h1><span>System managers</span></h1>
+    <table class="table table-bordered">
+        <tr>
+        <th>Name</th>
+        <th>Surname</th> 
+        <th>Email</th>
+
+        </tr>
+        <tr ng-repeat="user in $parent.systemManagers" >
+        <td>{{user.name}}</td>
+        <td>{{user.surname}}</td>
+        <td>{{user.email}}</td>
+        </tr>
+    </table>
+    <button type="button" class="btn btn-primary" ng-click="registration()">Register new</button>
+</div>
+<div class = "centered" ng-if = "$parent.register == 'register'">
+        <form name="user">
+            <h1><span>Registration: </span></h1>
+            <label>Name: </label>
+            <input name="user.name" type="text" ng-model="systemManager.name" class="form-control" required/>
+
+            <label>Surname: </label>
+            <input  name="user.surname" type="text" ng-model="systemManager.surname" class="form-control" required/>
+
+            <label>Email: </label>
+            <input name="user.email" type="text" ng-model="systemManager.email" class="form-control" required/>
+
+            <label>Password: </label>
+            <input name="user.password" type="password" ng-model="systemManager.password" class="form-control" required/>
+
+            <label>Repeat password: </label>
+            <input name="user.repeatedPassword" type="password" ng-model="systemManager.repeatedPassword" class="form-control" required/>
+            
+            <br><br>
+
+            <div class="button">
+                <button type="submit" class="btn btn-primary" ng-click="user.$valid && signUp('systemManager')">Register</button>
+            </div>
+        </form>
+</div>

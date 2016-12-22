@@ -14,10 +14,12 @@ app.controller('loginController', ['$scope', '$window', '$location', '$state', '
 				$scope.loginData={};
 				if(response.data.role=="GUEST"){
 					$state.go('guest',{ email : response.data.email });
-				}else if(response.data.role=="SYSTEM_MANAGER"){
+				}else if(response.data.role=="SYSTEM_MANAGER"){                    
                     loginService.setUser(response.data);
-                    $state.go('systemManager',{ email : response.data.email });
-                   
+                    $state.go('systemManager',{ email : response.data.email });                   
+                }else if(response.data.role=="RESTAURANT_MANAGER"){                    
+                    loginService.setUser(response.data);
+                    $state.go('restaurantManager',{ email : response.data.email });                   
                 }
                 else
 					$state.transitionTo('other');
