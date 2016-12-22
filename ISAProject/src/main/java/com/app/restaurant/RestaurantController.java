@@ -37,7 +37,9 @@ public class RestaurantController {
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
 	public Iterable<Restaurant> findAll(){
-		return restaurantService.findAll();
+		
+	 Iterable<Restaurant> res = restaurantService.findAll();
+		return res;
 	}
 	
 	@GetMapping(params="id")
@@ -49,12 +51,12 @@ public class RestaurantController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Restaurant save(@Valid @RequestBody Restaurant restaurant){
-		Set<Drink> drinkCard = new HashSet<Drink>();
+		/*Set<Drink> drinkCard = new HashSet<Drink>();
 		Set<Food> menu = new HashSet<Food>();
 		Set<RestaurantTable> tables= new HashSet<RestaurantTable>();
 		restaurant.setDrinkCard(drinkCard);
 		restaurant.setMenu(menu);
-		restaurant.setTables(tables);
+		restaurant.setTables(tables);*/
 		return restaurantService.save(restaurant);
 	}
 	

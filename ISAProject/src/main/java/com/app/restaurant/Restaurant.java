@@ -1,6 +1,6 @@
 package com.app.restaurant;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,21 +8,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.app.drink.Drink;
 import com.app.food.Food;
-import com.app.restaurantmanager.RestaurantManager;
 import com.app.restauranttable.RestaurantTable;
 
 import lombok.Data;
 
-@Data
 @Table(name = "restaurant")
 @Entity
+@Data
 public class Restaurant {
 
 	@Id	
@@ -35,14 +33,15 @@ public class Restaurant {
 	
 	@NotBlank
 	private String description;
+	
+	@OneToMany
+	private List<Drink> drinks ;
+	
+	@OneToMany
+	private List<Food> menu ;
+	
+	@OneToMany
+	private List<RestaurantTable> tables;
 
-	@OneToMany(mappedBy="restaurant")
-	private Set<Food> menu;
-	
-	@OneToMany(mappedBy="restaurant")
-	private Set<Drink> drinkCard;
-	
-	@OneToMany(mappedBy="restaurant")
-	private Set<RestaurantTable> tables;
 	
 }
