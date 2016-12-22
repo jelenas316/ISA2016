@@ -10,6 +10,8 @@ import javax.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.MailService;
 import com.app.grade.GradeService;
 import com.app.grade.RestaurantDTO;
 import com.app.guest.Guest;
@@ -32,13 +35,16 @@ public class ReservationController {
 	private final ReservationService reservationService;
 	private final GradeService gradeService;
 	private final GuestService guestService;
+	private final MailService mailService;
 	
 	@Autowired
 	public ReservationController(final ReservationService reservationService,
-			final GradeService gradeService, final GuestService guestService) {
+			final GradeService gradeService, final GuestService guestService,
+			final MailService mailService) {
 		this.reservationService = reservationService;
 		this.gradeService = gradeService;
 		this.guestService = guestService;
+		this.mailService = mailService;
 	}
 	
 	@GetMapping
@@ -56,7 +62,20 @@ public class ReservationController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Reservation save(@Valid @RequestBody Reservation reservation){
-		return reservationService.save(reservation);
+		Reservation saved = reservationService.save(reservation);
+		
+//		for(Guest guest : saved.getInvitedFriends()){
+//			String message = "You have been invited to an event. See in the link: " 
+//					+ "http://localhost:8080/#/invitation/"+saved.getId()+
+//					"?email="+ guest.getEmail();
+//			try{
+//				mailService.sendMail(guest.getEmail(), message, "Invitation");
+//			}catch(MailException e){
+//				e.printStackTrace();
+//			}
+//		}
+		
+		return saved;
 	}
 	
 	@DeleteMapping(params="id")
@@ -66,12 +85,42 @@ public class ReservationController {
 		reservationService.delete(id);
 	}
 	
+	@PostMapping(params={"id","email"})
+	public ResponseEntity<Object> acceptInvitation(@PathParam("id") Long id, @PathParam("email") String email){
+		Reservation reservation=Optional.ofNullable(reservationService.findOne(id)).
+				orElseThrow(() -> new ResourceNotFoundException());
+		for(Guest guest:reservation.getInvitedFriends()){
+			if(guest.getEmail().equals(email)){
+				reservation.getInvitedFriends().remove(guest);
+				reservation.getGuests().add(guest);
+				reservationService.save(reservation);
+				return new ResponseEntity<>(HttpStatus.OK);
+			}
+		}
+		throw new ResourceNotFoundException();
+	}
+	
+	@DeleteMapping(params={"id","email"})
+	public ResponseEntity<Object> rejectInvitation(@PathParam("id") Long id, @PathParam("email") String email){
+		Reservation reservation=Optional.ofNullable(reservationService.findOne(id)).
+				orElseThrow(() -> new ResourceNotFoundException());
+		for(Guest guest:reservation.getInvitedFriends()){
+			if(guest.getEmail().equals(email)){
+				reservation.getInvitedFriends().remove(guest);
+				reservationService.save(reservation);
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+		}
+		throw new ResourceNotFoundException();
+	}
+	
 	@PutMapping
 	@ResponseStatus(HttpStatus.OK)
 	public Reservation put(@Valid @RequestBody Reservation reservation){
 		Optional.ofNullable(reservationService.findOne(reservation.getId())).orElseThrow(() -> new ResourceNotFoundException());
 		return reservationService.save(reservation);
 	}
+	
 	
 	@GetMapping(params="email")
 	@ResponseStatus(HttpStatus.OK)
@@ -82,6 +131,12 @@ public class ReservationController {
 		List<RestaurantDTO> restaurantDTOs=getRestaurantDTOs(guest, allReservations);
 		
 		return reservationToDTO(allReservations,restaurantDTOs,guest);
+	}
+	
+	@GetMapping(path="/next", params="email")
+	@ResponseStatus(HttpStatus.OK)
+	public List<Reservation> findFutureReservations(@PathParam("email") String email){
+		return reservationService.findFutureReservationsForGuest(email);
 	}
 	
 	public List<VisitedRestaurantDTO> reservationToDTO(Iterable<Reservation> reservations, 

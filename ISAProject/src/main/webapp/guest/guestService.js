@@ -53,6 +53,10 @@ app.service('guestService', ['$http', function($http){
 		return $http.post(reservationUrl, reservation);
 	}
 	
+	this.findFutureReservations = function(email){
+		return $http.get(reservationUrl + "/next?email=" + email);
+	}
+	
 	
 	
 	

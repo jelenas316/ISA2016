@@ -56,6 +56,10 @@ public class Reservation {
 	@OneToMany
 	private List<Guest> guests;
 	
+	@OneToMany
+	@Column(name="INVITED_FRIENDS")
+	private List<Guest> invitedFriends;
+	
 	//lista porudzbina
 	@OneToMany
 	private List<Order> orders;

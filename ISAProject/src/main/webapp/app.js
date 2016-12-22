@@ -19,6 +19,11 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 	      	templateUrl : 'home/activation.html',
 	        controller : 'activationController'
 	    })
+	    .state('invitation', {
+	    	url : '/invitation/:id?email',
+	      	templateUrl : 'guest/invitation.html',
+	        controller : 'invitationController'
+	    })
 	    .state('guest', {
 	    	url : '/guest?email',
 	      	templateUrl : 'guest/guest.html',
@@ -31,6 +36,10 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 	    .state('guest.friends', {
 	    	url : '/friends',
 	        templateUrl : 'guest/friends.html'
+	    })
+	    .state('guest.reservations', {
+	    	url : '/reservations',
+	    	templateUrl : 'guest/reservations.html'
 	    })
 		.state('guest.account', {
 			url : '/account',

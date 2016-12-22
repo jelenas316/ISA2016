@@ -1,18 +1,23 @@
  <div>
- 	<h1>Activate account</h1>
- 	
- 	<div class="centered">
- 		<br><br>
-		<p>Email: {{profile.email}}</p>
-		<p>Name: {{profile.name}}</p>
-		<p>Surname: {{profile.surname}}</p>
-		<p>Repeat password: </p>
-		<input name="password" type="text" ng-model="password" class="form-control" required/>
-	
- 	</div>
- 	
- 	<div class="button">
- 		<br>
-		<button type="button" class="btn btn-primary" ng-click="activate()">Activate</button>
+	 <div ng-show="profile.id!=undefined">
+	 	<h1>Activate account</h1>
+	 	
+	 	<div class="centered">
+	 		<br><br>
+			<p>Email: {{profile.email}}</p>
+			<p>Name: {{profile.name}}</p>
+			<p>Surname: {{profile.surname}}</p>
+			<p>Repeat password: </p>
+			<input name="password" type="text" ng-model="password" class="form-control" required/>
+		
+	 	</div>
+	 	
+	 	<div class="button">
+	 		<br>
+			<button type="button" class="btn btn-primary" ng-click="activate()">Activate</button>
+		</div>
+	</div>
+	<div ng-show="profile.id==undefined" class="centered">
+	 	<h1>No account to be activated.</h1>
 	</div>
 </div>
