@@ -25,7 +25,7 @@ public class GuestController {
 	
 	@Autowired
 	public GuestController(final GuestService guestService) {
-		this.guestService=guestService;
+		this.guestService = guestService;
 	}
 	
 	@GetMapping

@@ -1,0 +1,23 @@
+<div>
+
+	<div class = "col-sm-8" ng-show="$parent.visitedRestaurants.length>0">
+		<h3>Visited restaurants:</h3>
+		<br>
+		<table class="table table-bordered sortable">
+		  <tr>
+		    <th>Name</th>
+		    <th>Date</th>
+		    <th>Reiting</th>
+		    <th>Friends</th>
+		  </tr>
+		  <tr ng-repeat="restaurant in $parent.visitedRestaurants">
+		    <td>{{restaurant.restaurant.name}}</td>
+		    <td>{{restaurant.arrival}}</td>
+		    <td>{{restaurant.restaurant.reitingStars}}</td>
+		    <td><label style='background-color: initial' 
+		    			ng-repeat="friend in restaurant.friends">{{friend.name}}&nbsp;</label></td>
+		  </tr>
+		</table>
+	</div>
+
+</div>

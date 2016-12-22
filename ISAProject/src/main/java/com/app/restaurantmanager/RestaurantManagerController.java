@@ -51,7 +51,7 @@ public class RestaurantManagerController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public RestaurantManager save(@Valid @RequestBody RestaurantManagerDTO restaurantManager){
-		Restaurant restaurant = restaurantService.findById(restaurantManager.getRestaurant().longValue());
+		Restaurant restaurant = restaurantService.findOne(restaurantManager.getRestaurant().longValue());
 		RestaurantManager manager = new RestaurantManager();
 		manager.setEmail(restaurantManager.getEmail());
 		manager.setName(restaurantManager.getName());

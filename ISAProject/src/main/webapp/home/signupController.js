@@ -13,13 +13,11 @@ app.controller('signupController', ['$scope', '$window', '$location','$state', '
 	$scope.signUp = function(){
 
 		if($scope.user.password == $scope.repeatedPassword){
-			$scope.user.role="GUEST";
 			signupService.signUp($scope.user).then(
 				function(response){
 					$scope.user={};
 					$scope.repeatedPassword="";
-					alert("Successfuly registered.");
-					$state.transitionTo('other');
+					$state.transitionTo('notification');
 				},
 				function(response){
 					alert("Error while registering.");

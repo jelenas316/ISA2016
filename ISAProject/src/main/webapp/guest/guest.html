@@ -1,14 +1,22 @@
-
-<nav role="navigation">
-	<a ui-sref=".restaurants" class="btn btn-default navbar-btn">Restaurants</a>
-	<a ui-sref=".friends" class="btn btn-default navbar-btn">Friends</a>
-	<a ui-sref=".account" class="btn btn-default navbar-btn">Account</a>
-
-	<div class="buttonsRight ">
-		<a ui-sref="login" class="btn btn-default navbar-btn">Sign Out</a>
-	</div>
-    <div>
-            <div ui-view></div>
+<div class="navbar navbar-inverse">
+    <div class="container-fluid">        
+        <ul class="nav navbar-nav">
+            <li><a ui-sref=".restaurants">Restaurants</a></li>
+            <li ng-show="user.friendRequests.length==0"><a ui-sref=".friends">Friends</a></li>
+            <li ng-show="user.friendRequests.length>0"><a ui-sref=".friends">Friends !</a></li>
+            <li><a ui-sref=".reservations">Reservations</a></li>
+        </ul>
+        
+        <ul class="nav navbar-nav pull-right">
+            <li><a ui-sref=".account" ><span class="glyphicon glyphicon-user"></span> {{user.email}}</a></li>
+            <li><a ui-sref="login"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+        </ul> 
+        
     </div>
+</div>
 
-</nav>
+
+<div>
+    <div ui-view></div>
+</div>
+

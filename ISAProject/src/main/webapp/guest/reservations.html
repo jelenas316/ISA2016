@@ -1,0 +1,28 @@
+<div>
+
+		<div class = "col-sm-8" ng-show="$parent.futureReservations.length>0">
+			<h3>Reservations:</h3>
+			<br>
+			<table class="table table-bordered sortable">
+			  <tr>
+			    <th>Restaurant name</th>
+			    <th>Restaurant description</th>
+			    <th>Arrival</th>
+			    <th>Duration</th>
+			    <th>Friends</th>
+			    <th>Order</th>
+			  </tr>
+			  <tr ng-repeat="reservation in $parent.futureReservations">
+			    <td>{{reservation.restaurant.name}}</td>
+			    <td>{{reservation.restaurant.description}}</td>
+			    <td>{{reservation.arrival}}</td>
+			    <td>{{reservation.duration}}</td>
+			    <td></td>
+			    <td><button type="button" class="btn btn-primary" ng-click="order(reservation)">Order</button></td>
+			  </tr>
+			</table>
+		</div>
+
+	
+</div>
+

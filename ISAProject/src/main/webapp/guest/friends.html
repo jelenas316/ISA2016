@@ -1,6 +1,29 @@
 <div>
 
-	<div class = "col-sm-8">
+	<div ng-show="user.friendRequests.length>0">
+		<div class = "col-sm-8">
+			<h3>Friend requests:</h3><br>
+			<table class="table table-bordered">
+			  <tr>
+			    <th>Name</th>
+			    <th>Surname</th> 
+			    <th>Email</th>
+			    <th>Accept</th>
+			    <th>Reject</th>
+			  </tr>
+			  <tr ng-repeat="request in user.friendRequests" >
+			    <td>{{request.name}}</td>
+			    <td>{{request.surname}}</td>
+			    <td>{{request.email}}</td>
+			    <td><button type="button" class="btn btn-primary" ng-click="acceptRequest(request)">Accept</button></td>
+			    <td><button type="button" class="btn btn-primary" ng-click="deleteRequest(request)">X</button></td>
+			  </tr>
+			</table>
+		</div>
+	</div>
+
+
+	<div class = "col-sm-8" ng-show="$parent.friends.length>0">
 		<h3>Friends:</h3>
 		<br>
 		<table class="table table-bordered sortable">
@@ -18,10 +41,10 @@
 		  </tr>
 		</table>
 	</div>
-
+	
 	
 	<div class = "col-sm-3">
-		<br><br><br>
+		<br><br>
 		
 		<input type="text" list="friends" class="form-control" placeholder="search" ng-model="$parent.friend.email"/>
 		<datalist id="friends">

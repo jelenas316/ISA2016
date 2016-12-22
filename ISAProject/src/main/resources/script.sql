@@ -1,6 +1,18 @@
 
+drop table if exists GRADE;
+drop table if exists RESERVATION_TABLE;
+drop table if exists RESERVATION_GUESTS;
+drop table if exists RESERVATION_ORDERS;
+drop table if exists RESERVATION_INVITED_FRIENDS;
+drop table if exists RESERVATION;
+drop table if exists ORDER_LIST_DRINKS;
+drop table if exists ORDER_LIST_FOOD;
+drop table if exists ORDER_LIST;
+drop table if exists ORDERED_DRINK;
+drop table if exists ORDERED_FOOD;
 drop table if exists GUEST_FRIEND_REQUESTS;
 drop table if exists GUEST_REQUESTS_FOR_FRIENDS;
+drop table if exists GUEST_RESERVATION_REQUESTS;
 drop table if exists GUEST_FRIENDS;
 drop table if exists GUEST;
 drop table if exists USER;
@@ -8,8 +20,14 @@ drop table if exists SYSTEM_MANAGER;
 drop table if exists DRINK;
 drop table if exists FOOD;
 drop table if exists RESTAURANT_TABLE;
+<<<<<<< HEAD
 drop table if exists RESTAURANT_MANAGER;
 drop table if exists RESTAURANT;
+=======
+drop table if exists RESTAURANT;
+drop table if exists PROFILE;
+
+>>>>>>> d1f36394edfe2ec5d812f4970320d2c8cb16bf91
 
 
 create table GUEST
@@ -21,13 +39,8 @@ create table GUEST
    ROLE 						enum('GUEST','RESTAURANT_MANAGER', 'WAITER',' COOK', 'BARTENDER', 'SYSTEM_MANAGER', 'BIDDER')          			not null,
    FRIENDS						varchar(50)						,
    FRIEND_REQUESTS				varchar(50)						,
-    primary key (EMAIL)
+   primary key (EMAIL)
 );
-
-insert into isa2016.guest values ('email','pass','name','surname','GUEST',null,null);
-insert into isa2016.guest values ('email3','pass','name','surname','GUEST',null,null);
-insert into isa2016.guest values ('email4','pass','name','surname','GUEST',null,null);
-
 
 create table GUEST_FRIENDS
 (
@@ -116,6 +129,7 @@ create table DRINK
    RESTAURANT_ID						bigint							not null,
    FOREIGN KEY (RESTAURANT_ID) REFERENCES RESTAURANT(RESTAURANT_ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
 /*----------RESTAURANT TABLE---------------------*/
 create table RESTAURANT_TABLE
 (
@@ -131,5 +145,165 @@ VALUES('admin@admin.com','admin','pera','peric','SYSTEM_MANAGER');
 
 insert into restaurant(NAME, DESCRIPTION)
 VALUES('Restoran1','italijanska kuhinja');
+
+create table GRADE
+(
+	GRADE_ID					bigint							not null AUTO_INCREMENT,
+   	GRADE_VALUE           		INT	                   			not null,
+   	RESTAURANT					bigint							,
+   	GUEST						varchar(50)            			not null,
+    primary key (GRADE_ID),
+   	FOREIGN KEY (GUEST) REFERENCES GUEST(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (RESTAURANT) REFERENCES RESTAURANT(RESTAURANT_ID) ON DELETE CASCADE ON UPDATE CASCADE
+
+);
+
+create table ORDERED_DRINK
+(
+	ORDERED_DRINK_ID					bigint													not null AUTO_INCREMENT,
+   	QUANTITY							INT	            										not null,
+   	DRINK								bigint													not null,
+   	FOOD_STATUS							enum('ACCEPTED', 'WAITING', 'PREPARED', 'REJECTED')		not null,
+    primary key (ORDERED_DRINK_ID),
+   	FOREIGN KEY (DRINK) REFERENCES DRINK(DRINK_ID) ON DELETE CASCADE ON UPDATE CASCADE
+
+);
+
+create table ORDERED_FOOD
+(
+	ORDERED_FOOD_ID						bigint													not null AUTO_INCREMENT,
+   	QUANTITY							INT	            										not null,
+   	FOOD								bigint													not null,
+   	FOOD_STATUS							enum('ACCEPTED', 'WAITING', 'PREPARED', 'REJECTED')		not null,
+    primary key (ORDERED_FOOD_ID),
+   	FOREIGN KEY (FOOD) REFERENCES FOOD(FOOD_ID) ON DELETE CASCADE ON UPDATE CASCADE
+
+);
+
+
+create table ORDER_LIST
+(
+	ORDER_ID						bigint							not null AUTO_INCREMENT,
+   	RESTAURANT_TABLE				bigint            				not null,
+   	DRINKS							bigint							,
+   	FOOD							bigint							,
+    primary key (ORDER_ID),
+   	FOREIGN KEY (RESTAURANT_TABLE) REFERENCES RESTAURANT_TABLE(RESTAURANT_TABLE_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (DRINKS) REFERENCES ORDERED_DRINK(ORDERED_DRINK_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (FOOD) REFERENCES ORDERED_FOOD(ORDERED_FOOD_ID) ON DELETE CASCADE ON UPDATE CASCADE
+
+);
+
+create table ORDER_LIST_DRINKS
+(
+	ORDER_LIST_DRINKS_ID					bigint							not null AUTO_INCREMENT,
+   	ORDER_ORDER_ID							bigint            				not null,
+   	DRINKS_ORDERED_DRINK_ID					bigint							not null,
+    primary key (ORDER_LIST_DRINKS_ID),
+   	FOREIGN KEY (ORDER_ORDER_ID) REFERENCES ORDER_LIST(ORDER_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (DRINKS_ORDERED_DRINK_ID) REFERENCES ORDERED_DRINK(ORDERED_DRINK_ID) ON DELETE CASCADE ON UPDATE CASCADE
+
+);
+
+create table ORDER_LIST_FOOD
+(
+	ORDER_LIST_FOOD_ID						bigint							not null AUTO_INCREMENT,
+   	ORDER_ORDER_ID							bigint            				not null,
+   	FOOD_ORDERED_FOOD_ID					bigint							not null,
+    primary key (ORDER_LIST_FOOD_ID),
+   	FOREIGN KEY (ORDER_ORDER_ID) REFERENCES ORDER_LIST(ORDER_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (FOOD_ORDERED_FOOD_ID) REFERENCES ORDERED_FOOD(ORDERED_FOOD_ID) ON DELETE CASCADE ON UPDATE CASCADE
+
+);
+
+create table RESERVATION
+(
+	RESERVATION_ID					bigint							not null AUTO_INCREMENT,
+   	ARRIVAL           				DATE	                   		not null,
+   	DURATION						int								,
+   	RESTAURANT_TABLE				bigint            				,
+   	RESTAURANT						bigint							not null,
+   	GUESTS							varchar(50)						,
+   	INVITED_FRIENDS					varchar(50)						,
+   	ORDERS							bigint							,
+    primary key (RESERVATION_ID),
+   	FOREIGN KEY (RESTAURANT_TABLE) REFERENCES RESTAURANT_TABLE(RESTAURANT_TABLE_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (RESTAURANT) REFERENCES RESTAURANT(RESTAURANT_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (GUESTS) REFERENCES GUEST(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (INVITED_FRIENDS) REFERENCES GUEST(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (ORDERS) REFERENCES ORDER_LIST(ORDER_ID) ON DELETE CASCADE ON UPDATE CASCADE
+
+);
+
+create table RESERVATION_GUESTS
+(
+	RESERVATION_GUESTS_ID			bigint							not null AUTO_INCREMENT,
+   	RESERVATION_RESERVATION_ID		bigint							not null,
+   	GUESTS_EMAIL					varchar(50)						not null,	
+    primary key (RESERVATION_GUESTS_ID),
+   	FOREIGN KEY (RESERVATION_RESERVATION_ID) REFERENCES RESERVATION(RESERVATION_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (GUESTS_EMAIL) REFERENCES GUEST(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+create table RESERVATION_INVITED_FRIENDS
+(
+	RESERVATION_INVITED_FRIENDS_ID		bigint							not null AUTO_INCREMENT,
+   	RESERVATION_RESERVATION_ID			bigint							not null,
+   	INVITED_FRIENDS_EMAIL				varchar(50)						not null,	
+    primary key (RESERVATION_INVITED_FRIENDS_ID),
+   	FOREIGN KEY (RESERVATION_RESERVATION_ID) REFERENCES RESERVATION(RESERVATION_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (INVITED_FRIENDS_EMAIL) REFERENCES GUEST(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+create table RESERVATION_TABLE
+(
+	RESERVATION_RESTAURANT_TABLE_ID			bigint							not null AUTO_INCREMENT,
+   	RESERVATION_RESERVATION_ID				bigint							not null,
+   	TABLE_RESTAURANT_TABLE_ID				bigint							not null,	
+    primary key (RESERVATION_RESTAURANT_TABLE_ID),
+   	FOREIGN KEY (RESERVATION_RESERVATION_ID) REFERENCES RESERVATION(RESERVATION_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (TABLE_RESTAURANT_TABLE_ID) REFERENCES RESTAURANT_TABLE(RESTAURANT_TABLE_ID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+create table RESERVATION_ORDERS
+(
+	RESERVATION_ORDERS_ID					bigint							not null AUTO_INCREMENT,
+   	RESERVATION_RESERVATION_ID				bigint							not null,
+   	ORDERS_ORDER_ID							bigint							not null,	
+    primary key (RESERVATION_ORDERS_ID),
+   	FOREIGN KEY (RESERVATION_RESERVATION_ID) REFERENCES RESERVATION(RESERVATION_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (ORDERS_ORDER_ID) REFERENCES ORDER_LIST(ORDER_ID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+create table PROFILE
+(
+	PROFILE_ID							bigint							not null AUTO_INCREMENT,
+   	EMAIL								varchar(50)						not null,
+   	PASSWORD							varchar(50)						not null,
+   	NAME								varchar(50)						not null,
+   	SURNAME								varchar(50)						not null,	
+    primary key (PROFILE_ID)
+);
+
+
+insert into isa2016.guest values ('email','pass','name','surname','GUEST',null,null);
+insert into isa2016.guest values ('email3','pass','name','surname','GUEST',null,null);
+insert into isa2016.guest values ('email4','pass','name','surname','GUEST',null,null);
+
+insert into restaurant values (1,'name1','description');
+insert into restaurant values (2,'name2','description');
+insert into restaurant values (3,'name3','description');
+
+insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (1,3,1,'email');
+insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (2,4,1,'email3');
+insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (3,5,1,'email4');
+
+insert into restaurant_table values (1,5,'SMOKE',1);      
+
+
+insert into drink values(1,'drink1','description',34.2,1);
+insert into food values (1,'food1','description',43.2,1);
+
+
 
 

@@ -43,7 +43,7 @@ public class RestaurantController {
 	@GetMapping(params="id")
 	@ResponseStatus(HttpStatus.OK)
 	public Restaurant findOne(@PathParam("id") Long id){
-		return restaurantService.findById(id);
+		return restaurantService.findOne(id);
 	}
 
 	@PostMapping
@@ -60,15 +60,15 @@ public class RestaurantController {
 	
 	@DeleteMapping(params="id")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deleteById(@PathParam("id") Long id){
-		Optional.ofNullable(restaurantService.findById(id)).orElseThrow(() -> new ResourceNotFoundException());
-		restaurantService.deleteById(id);
+	public void delete(@PathParam("id") Long id){
+		Optional.ofNullable(restaurantService.findOne(id)).orElseThrow(() -> new ResourceNotFoundException());
+		restaurantService.delete(id);
 	}
 	
 	@PutMapping
 	@ResponseStatus(HttpStatus.OK)
 	public Restaurant put(@Valid @RequestBody Restaurant restaurant){
-		Optional.ofNullable(restaurantService.findById(restaurant.getId())).orElseThrow(() -> new ResourceNotFoundException());
+		Optional.ofNullable(restaurantService.findOne(restaurant.getId())).orElseThrow(() -> new ResourceNotFoundException());
 		return restaurantService.save(restaurant);
 	}
 	

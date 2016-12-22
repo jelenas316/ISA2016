@@ -14,6 +14,16 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 	      	templateUrl : 'home/signup.html',
 	        controller : 'signupController'
 	    })
+	    .state('activation', {
+	    	url : '/activation?id',
+	      	templateUrl : 'home/activation.html',
+	        controller : 'activationController'
+	    })
+	    .state('invitation', {
+	    	url : '/invitation/:id?email',
+	      	templateUrl : 'guest/invitation.html',
+	        controller : 'invitationController'
+	    })
 	    .state('guest', {
 	    	url : '/guest?email',
 	      	templateUrl : 'guest/guest.html',
@@ -27,10 +37,18 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 	    	url : '/friends',
 	        templateUrl : 'guest/friends.html'
 	    })
+	    .state('guest.reservations', {
+	    	url : '/reservations',
+	    	templateUrl : 'guest/reservations.html'
+	    })
 		.state('guest.account', {
 			url : '/account',
 		  	templateUrl : 'guest/account.html'
 		 })
+		 .state('guest.visitedRestaurants', {
+	    	url : '/visitedRestaurants',
+	    	templateUrl : 'guest/visitedRestaurants.html'
+	    })
  		.state('systemManager', {
             url: '/systemManager',
             controller: 'systemManagerController',
@@ -60,6 +78,10 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 	    .state('other', {
 	    	url : '/other',
 	      	templateUrl : 'home.html'
+	    })
+	    .state('notification', {
+	    	url : '/notification',
+	      	templateUrl : 'home/notification.html'
 	    }); 
 }]);
 app.directive('convertToNumber', function() {

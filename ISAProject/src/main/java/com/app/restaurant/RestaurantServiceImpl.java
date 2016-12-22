@@ -22,8 +22,8 @@ public class RestaurantServiceImpl implements RestaurantService{
 	}
 
 	@Override
-	public Restaurant findById(Long id) {
-		return restaurantRepo.findById(id);
+	public Restaurant findOne(Long id) {
+		return restaurantRepo.findOne(id);
 	}
 
 	@Override
@@ -32,8 +32,8 @@ public class RestaurantServiceImpl implements RestaurantService{
 	}
 
 	@Override
-	public void deleteById(Long id) {
-		restaurantRepo.deleteById(id);
+	public void delete(Long id) {
+		restaurantRepo.delete(id);
 	}
 
 }
