@@ -1,8 +1,8 @@
-
 drop table if exists GRADE;
 drop table if exists RESERVATION_TABLE;
 drop table if exists RESERVATION_GUESTS;
 drop table if exists RESERVATION_ORDERS;
+drop table if exists RESERVATION_INVITED_FRIENDS;
 drop table if exists RESERVATION;
 drop table if exists ORDER_LIST_DRINKS;
 drop table if exists ORDER_LIST_FOOD;
@@ -11,10 +11,15 @@ drop table if exists ORDERED_DRINK;
 drop table if exists ORDERED_FOOD;
 drop table if exists GUEST_FRIEND_REQUESTS;
 drop table if exists GUEST_REQUESTS_FOR_FRIENDS;
+drop table if exists GUEST_RESERVATION_REQUESTS;
 drop table if exists GUEST_FRIENDS;
 drop table if exists GUEST;
 drop table if exists USER;
 drop table if exists SYSTEM_MANAGER;
+drop table if exists RESTAURANT_MANAGER;
+drop table if exists RESTAURANT_DRINKS;
+drop table if exists RESTAURANT_MENU;
+drop table if exists RESTAURANT_TABLES;
 drop table if exists DRINK;
 drop table if exists FOOD;
 drop table if exists RESTAURANT_TABLE;
@@ -22,8 +27,7 @@ drop table if exists RESTAURANT;
 drop table if exists WAITER;
 drop table if exists COOK;
 drop table if exists BARTENDER;
-
-
+drop table if exists PROFILE;
 
 create table GUEST
 (
@@ -36,11 +40,6 @@ create table GUEST
    FRIEND_REQUESTS				varchar(50)						,
    primary key (EMAIL)
 );
-
-insert into isa2016.guest values ('email','pass','name','surname','GUEST',null,null);
-insert into isa2016.guest values ('email3','pass','name','surname','GUEST',null,null);
-insert into isa2016.guest values ('email4','pass','name','surname','GUEST',null,null);
-
 
 create table GUEST_FRIENDS
 (
@@ -89,22 +88,14 @@ create table SYSTEM_MANAGER
    ROLE 						enum('SYSTEM_MANAGER')    			,
    primary key (EMAIL)
 );
-/*----------RESTAURANT---------------------*/
-create table RESTAURANT
-(
-   RESTAURANT_ID                   	    bigint             				PRIMARY KEY AUTO_INCREMENT,
-   NAME                					varchar(50)	                   	not null,
-   DESCRIPTION                  		varchar(50)            			not null
-);
+
 /*----------FOOD---------------------*/
 create table FOOD
 (
    FOOD_ID                   	  	    bigint             				PRIMARY KEY AUTO_INCREMENT,
    NAME                					varchar(50)	                   	not null,
    DESCRIPTION                  		varchar(50)            			not null,
-   PRICE								decimal 						not null,
-   FOOD_RESTAURANT							bigint							not null,
-   FOREIGN KEY (FOOD_RESTAURANT) REFERENCES RESTAURANT(RESTAURANT_ID)  ON DELETE CASCADE ON UPDATE CASCADE
+   PRICE								decimal 						not null
 );
 /*----------DRINK---------------------*/
 create table DRINK
@@ -112,9 +103,7 @@ create table DRINK
    DRINK_ID                   	  	    bigint             				PRIMARY KEY AUTO_INCREMENT,
    NAME                					varchar(50)	                   	not null,
    DESCRIPTION                  		varchar(50)            			not null,
-   PRICE								decimal 						not null,
-   DRINK_RESTAURANT						bigint							not null,
-   FOREIGN KEY (DRINK_RESTAURANT) REFERENCES RESTAURANT(RESTAURANT_ID) ON DELETE CASCADE ON UPDATE CASCADE
+   PRICE								decimal 						not null
 );
 
 /*----------RESTAURANT TABLE---------------------*/
@@ -122,11 +111,57 @@ create table RESTAURANT_TABLE
 (
    RESTAURANT_TABLE_ID         	  	    bigint             				PRIMARY KEY AUTO_INCREMENT,
    NUMBER              					INT	                         	not null,
-   POSITION                  			enum('SMOKE','NOSMOKE')      	not null,
-   RESTAURANT_TABLE						bigint							not null,
-   FOREIGN KEY (RESTAURANT_TABLE) REFERENCES RESTAURANT(RESTAURANT_ID) ON DELETE CASCADE ON UPDATE CASCADE
+   POSITION                  			enum('SMOKE','NOSMOKE')      	not null
 );
-
+/*----------RESTAURANT---------------------*/
+create table RESTAURANT
+(
+   RESTAURANT_ID                   	    bigint             				PRIMARY KEY AUTO_INCREMENT,
+   NAME                					varchar(50)	                   	not null,
+   DESCRIPTION                  		varchar(50)            			not null,
+   DRINKS								bigint,
+   TABLES								bigint,
+   MENU									bigint,
+   FOREIGN KEY (DRINKS) REFERENCES RESTAURANT(RESTAURANT_ID) on delete cascade on update cascade  ,
+   FOREIGN KEY (TABLES) REFERENCES RESTAURANT(RESTAURANT_ID) on delete cascade on update cascade  ,
+   FOREIGN KEY (MENU) REFERENCES RESTAURANT(RESTAURANT_ID) on delete cascade on update cascade  
+);
+create table RESTAURANT_DRINKS 
+(
+	RESTAURANT_DRINKS_ID bigint,
+	RESTAURANT_RESTAURANT_ID bigint,
+	DRINKS_DRINK_ID bigint,
+    FOREIGN KEY (RESTAURANT_RESTAURANT_ID) REFERENCES RESTAURANT(RESTAURANT_ID) on delete cascade on update cascade  ,
+    FOREIGN KEY (DRINKS_DRINK_ID) REFERENCES DRINK(DRINK_ID) on delete cascade on update cascade  
+);
+create table RESTAURANT_MENU 
+(
+	RESTAURANT_MENU_ID bigint,
+	RESTAURANT_RESTAURANT_ID bigint,
+	MENU_FOOD_ID bigint,
+    FOREIGN KEY (RESTAURANT_RESTAURANT_ID) REFERENCES RESTAURANT(RESTAURANT_ID) on delete cascade on update cascade  ,
+    FOREIGN KEY (MENU_FOOD_ID) REFERENCES FOOD(FOOD_ID) on delete cascade on update cascade  
+);
+create table RESTAURANT_TABLES 
+(
+	RESTAURANT_TABLES_ID bigint,
+	RESTAURANT_RESTAURANT_ID bigint,
+	TABLES_RESTAURANT_TABLE_ID bigint,
+    FOREIGN KEY (RESTAURANT_RESTAURANT_ID) REFERENCES RESTAURANT(RESTAURANT_ID) on delete cascade on update cascade  ,
+    FOREIGN KEY (TABLES_RESTAURANT_TABLE_ID) REFERENCES RESTAURANT_TABLE(RESTAURANT_TABLE_ID) on delete cascade on update cascade  
+);
+/*----------RESTAURANT MANAGER---------------------*/
+create table RESTAURANT_MANAGER
+(
+   EMAIL                   		varchar(50)                   	not null,
+   PASSWORD                		varchar(50)	                   	not null,
+   NAME                  		varchar(50)            			not null,
+   SURNAME						varchar(50)            			not null,
+   ROLE 						enum('RESTAURANT_MANAGER')    			,
+   RESTAURANT_ID				bigint							not null UNIQUE,
+   FOREIGN KEY (RESTAURANT_ID) REFERENCES RESTAURANT(RESTAURANT_ID) on delete restrict on update restrict,
+   primary key (EMAIL)
+);
 insert into system_manager(EMAIL, PASSWORD, NAME, SURNAME, ROLE)
 VALUES('admin@admin.com','admin','pera','peric','SYSTEM_MANAGER');
 
@@ -168,11 +203,13 @@ create table ORDERED_FOOD
 create table ORDER_LIST
 (
 	ORDER_ID						bigint							not null AUTO_INCREMENT,
-   	RESTAURANT_TABLE				bigint            				not null,
+   	RESTAURANT_TABLE				bigint            				,
+   	GUEST							varchar(50)						not null,
    	DRINKS							bigint							,
    	FOOD							bigint							,
     primary key (ORDER_ID),
    	FOREIGN KEY (RESTAURANT_TABLE) REFERENCES RESTAURANT_TABLE(RESTAURANT_TABLE_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (GUEST) REFERENCES GUEST(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE,
    	FOREIGN KEY (DRINKS) REFERENCES ORDERED_DRINK(ORDERED_DRINK_ID) ON DELETE CASCADE ON UPDATE CASCADE,
    	FOREIGN KEY (FOOD) REFERENCES ORDERED_FOOD(ORDERED_FOOD_ID) ON DELETE CASCADE ON UPDATE CASCADE
 
@@ -208,11 +245,13 @@ create table RESERVATION
    	RESTAURANT_TABLE				bigint            				,
    	RESTAURANT						bigint							not null,
    	GUESTS							varchar(50)						,
+   	INVITED_FRIENDS					varchar(50)						,
    	ORDERS							bigint							,
     primary key (RESERVATION_ID),
    	FOREIGN KEY (RESTAURANT_TABLE) REFERENCES RESTAURANT_TABLE(RESTAURANT_TABLE_ID) ON DELETE CASCADE ON UPDATE CASCADE,
    	FOREIGN KEY (RESTAURANT) REFERENCES RESTAURANT(RESTAURANT_ID) ON DELETE CASCADE ON UPDATE CASCADE,
    	FOREIGN KEY (GUESTS) REFERENCES GUEST(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (INVITED_FRIENDS) REFERENCES GUEST(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE,
    	FOREIGN KEY (ORDERS) REFERENCES ORDER_LIST(ORDER_ID) ON DELETE CASCADE ON UPDATE CASCADE
 
 );
@@ -225,6 +264,16 @@ create table RESERVATION_GUESTS
     primary key (RESERVATION_GUESTS_ID),
    	FOREIGN KEY (RESERVATION_RESERVATION_ID) REFERENCES RESERVATION(RESERVATION_ID) ON DELETE CASCADE ON UPDATE CASCADE,
    	FOREIGN KEY (GUESTS_EMAIL) REFERENCES GUEST(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+create table RESERVATION_INVITED_FRIENDS
+(
+	RESERVATION_INVITED_FRIENDS_ID		bigint							not null AUTO_INCREMENT,
+   	RESERVATION_RESERVATION_ID			bigint							not null,
+   	INVITED_FRIENDS_EMAIL				varchar(50)						not null,	
+    primary key (RESERVATION_INVITED_FRIENDS_ID),
+   	FOREIGN KEY (RESERVATION_RESERVATION_ID) REFERENCES RESERVATION(RESERVATION_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (INVITED_FRIENDS_EMAIL) REFERENCES GUEST(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create table RESERVATION_TABLE
@@ -294,6 +343,46 @@ create table BARTENDER
 insert into isa2016.bartender values ('bartender@bartender.com','bartender','name','surname','BARTENDER');
 insert into isa2016.bartender values ('bartender1@bartender.com','bartender1','name1','surname1','BARTENDER');
 insert into isa2016.bartender values ('bartender2@bartender.com','bartender2','name2','surname2','BARTENDER');
+
+create table PROFILE
+(
+	PROFILE_ID							bigint							not null AUTO_INCREMENT,
+   	EMAIL								varchar(50)						not null,
+   	PASSWORD							varchar(50)						not null,
+   	NAME								varchar(50)						not null,
+   	SURNAME								varchar(50)						not null,	
+    primary key (PROFILE_ID)
+);
+
+
+insert into isa2016.guest values ('email','pass','name','surname','GUEST',null,null);
+insert into isa2016.guest values ('email3','pass','name','surname','GUEST',null,null);
+insert into isa2016.guest values ('email4','pass','name','surname','GUEST',null,null);
+
+
+insert into restaurant values (1,'name1','description',1,null,1);
+insert into restaurant  (RESTAURANT_ID, NAME, DESCRIPTION) values (2,'name2','description');
+insert into restaurant  (RESTAURANT_ID, NAME, DESCRIPTION) values (3,'name3','description');
+
+insert into drink values(1,'drink1','description',34.2);
+insert into food values (1,'food1','description',43.2);
+insert into drink values(2,'drink2','description',34.2);
+insert into food values (2,'food2','description',43.2);
+insert into drink values(3,'drink3','description',34.2);
+insert into food values (3,'food3','description',43.2);
+
+insert into RESTAURANT_DRINKS values(1,1,1);
+insert into RESTAURANT_MENU values(1,1,1);
+insert into RESTAURANT_DRINKS values(1,1,2);
+insert into RESTAURANT_MENU values(1,1,2);
+insert into RESTAURANT_DRINKS values(1,1,3);
+insert into RESTAURANT_MENU values(1,1,3);
+
+insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (1,3,1,'email');
+insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (2,4,1,'email3');
+insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (3,5,1,'email4');
+
+insert into restaurant_table values (1,5,'SMOKE');      
 
 
 

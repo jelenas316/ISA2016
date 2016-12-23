@@ -14,6 +14,16 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 	      	templateUrl : 'home/signup.html',
 	        controller : 'signupController'
 	    })
+	    .state('activation', {
+	    	url : '/activation?id',
+	      	templateUrl : 'home/activation.html',
+	        controller : 'activationController'
+	    })
+	    .state('invitation', {
+	    	url : '/invitation/:id?email',
+	      	templateUrl : 'guest/invitation.html',
+	        controller : 'invitationController'
+	    })
 	    .state('guest', {
 	    	url : '/guest?email',
 	      	templateUrl : 'guest/guest.html',
@@ -26,6 +36,22 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 	    .state('guest.friends', {
 	    	url : '/friends',
 	        templateUrl : 'guest/friends.html'
+	    })
+	    .state('guest.reservations', {
+	    	url : '/reservations',
+	    	templateUrl : 'guest/reservations.html'
+	    })
+	    .state('guest.reservations.ordered', {
+	    	url : '/ordered',
+	    	templateUrl : 'guest/orderedFoodAndDrinks.html'
+	    })
+	    .state('guest.reservations.food', {
+	    	url : '/food',
+	    	templateUrl : 'guest/food.html'
+	    })
+	    .state('guest.reservations.drink', {
+	    	url : '/drink',
+	    	templateUrl : 'guest/drink.html'
 	    })
 		.state('guest.account', {
 			url : '/account',
@@ -56,8 +82,30 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 			url : '/systemManagerProfile',
 		  	templateUrl : 'systemManager/systemManagerProfile.html'
 		 })
+        .state('restaurantManager', {
+			url : '/restaurantManager',
+            controller: 'restaurantManagerController',
+		  	templateUrl : 'restaurantManager/restaurantManager.html'
+		 })
 	    .state('other', {
 	    	url : '/other',
 	      	templateUrl : 'home.html'
+	    })
+	    .state('notification', {
+	    	url : '/notification',
+	      	templateUrl : 'home/notification.html'
 	    }); 
 }]);
+app.directive('convertToNumber', function() {
+  return {
+    require: 'ngModel',
+    link: function(scope, element, attrs, ngModel) {
+      ngModel.$parsers.push(function(val) {
+        return parseInt(val, 10);
+      });
+      ngModel.$formatters.push(function(val) {
+        return '' + val;
+      });
+    }
+  };
+});

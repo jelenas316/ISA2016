@@ -14,12 +14,13 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import com.app.drink.Drink;
 import com.app.food.Food;
+import com.app.restauranttable.RestaurantTable;
 
 import lombok.Data;
 
-@Data
 @Table(name = "restaurant")
 @Entity
+@Data
 public class Restaurant {
 
 	@Id	
@@ -32,11 +33,15 @@ public class Restaurant {
 	
 	@NotBlank
 	private String description;
-
-	@OneToMany
-	private List<Food> menu;
 	
 	@OneToMany
-	private List<Drink> drinkCard;
+	private List<Drink> drinks ;
+	
+	@OneToMany
+	private List<Food> menu ;
+	
+	@OneToMany
+	private List<RestaurantTable> tables;
+
 	
 }

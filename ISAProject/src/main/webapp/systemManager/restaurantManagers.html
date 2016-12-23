@@ -1,32 +1,52 @@
-	<div class="centered">
-		<form name="user">
-	
-			<label>Name: </label>
-			<input name="user.name" type="text" ng-model="user.name" class="form-control" required/>
-	
-			<label>Surname: </label>
-			<input  name="user.surname" type="text" ng-model="user.surname" class="form-control" required/>
-	
-			<label>Email: </label>
-			<input name="user.email" type="text" ng-model="user.email" class="form-control" required/>
-	
-			<label>Password: </label>
-			<input name="user.password" type="password" ng-model="user.password" class="form-control" required/>
-	
-			<label>Repeat password: </label>
-			<input name="user.repeatedPassword" type="password" ng-model="repeatedPassword" class="form-control" required/>
-	
-            <label>Restaurant: </label>
-            <select class="form-control" ng-model="selectedRestaurant" required>
-               <option ng-repeat="restaurant in restaurants">
-                   {{restaurant.name}}
-               </option>
-            </select>
-            
-			<br><br>
-	
-			<div class="button">
-				<button type="submit" class="btn btn-primary" ng-click="user.$valid && signUp()">Register</button>
-			</div>
-		</form>
-	</div>
+<div ng-if = "$parent.register == 'undefined'" class = "col-sm-8">
+    <h1><span>Restaurant managers</span></h1>
+    <table class="table table-bordered">
+        <tr>
+        <th>Name</th>
+        <th>Surname</th> 
+        <th>Email</th>
+        <th>Restaurant</th>            
+
+        </tr>
+        <tr ng-repeat="user in $parent.restaurantManagers">
+        <td>{{user.name}}</td>
+        <td>{{user.surname}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.restaurant.id}}</td>
+        </tr>
+    </table>
+    <button type="button" class="btn btn-primary" ng-click="registration()">Register new</button>
+</div>
+<div class="centered" ng-if = "$parent.register == 'register'">
+    <form name="user">
+        <h1><span>Registration: </span></h1>
+        <label>Name: </label>
+        <input name="user.name" type="text" ng-model="restaurantManager.name" class="form-control" required/>
+
+        <label>Surname: </label>
+        <input  name="user.surname" type="text" ng-model="restaurantManager.surname" class="form-control" required/>
+
+        <label>Email: </label>
+        <input name="user.email" type="email" ng-model="restaurantManager.email" class="form-control"
+        oninvalid="this.setCustomValidity('Please enter an valid email address.')" oninput="setCustomValidity('')" required/>
+
+        <label>Password: </label>
+        <input name="user.password" type="password" ng-model="restaurantManager.password" class="form-control" required/>
+
+        <label>Repeat password: </label>
+        <input name="user.repeatedPassword" type="password" ng-model="restaurantManager.repeatedPassword" class="form-control" required/>
+
+        <label>Restaurant: </label>
+        <select class="form-control" ng-model="restaurantManager.restaurant" convert-to-number required>
+           <option ng-repeat="restaurant in restaurants" ng-value="restaurant.id">
+               {{restaurant.id}}
+           </option>
+        </select>
+
+        <br><br>
+
+        <div class="button">
+            <button type="submit" class="btn btn-primary" ng-click="user.$valid && signUp('restaurantManager')">Register</button>
+        </div>
+    </form>
+</div>

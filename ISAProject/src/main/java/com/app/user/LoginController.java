@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.app.guest.Guest;
 import com.app.guest.GuestService;
+import com.app.restaurantmanager.RestaurantManager;
+import com.app.restaurantmanager.RestaurantManagerService;
 import com.app.systemmanager.SystemManager;
 import com.app.systemmanager.SystemManagerService;
 
@@ -23,10 +25,14 @@ public class LoginController {
 	
 	private final SystemManagerService systemManagerService;
 	
+	private final RestaurantManagerService restaurantManagerService;
+	
 	@Autowired
-	public LoginController(final GuestService guestService, final SystemManagerService systemManagerService) {
+	public LoginController(final GuestService guestService, final SystemManagerService systemManagerService,
+			final RestaurantManagerService restaurantManagerService) {
 		this.guestService=guestService;
 		this.systemManagerService = systemManagerService;
+		this.restaurantManagerService = restaurantManagerService;
 	}
 	
 	@PostMapping
@@ -41,6 +47,8 @@ public class LoginController {
 			user = guestService.findOne( userDTO.getEmail()); 
 		}else if(systemManagerService.findOne(userDTO.getEmail()) != null){
 			user = systemManagerService.findOne( userDTO.getEmail()); ;
+		}else if(restaurantManagerService.findOne(userDTO.getEmail()) != null){
+			user = restaurantManagerService.findOne( userDTO.getEmail()); ;
 		}else{
 			throw new ResourceNotFoundException();
 		}
@@ -63,6 +71,8 @@ public class LoginController {
 			return ((Guest)obj).getPassword();
 		}else if(obj instanceof SystemManager){
 			return ((SystemManager)obj).getPassword();
+		}else if(obj instanceof RestaurantManager){
+			return ((RestaurantManager)obj).getPassword();
 		}
 		
 		return "";

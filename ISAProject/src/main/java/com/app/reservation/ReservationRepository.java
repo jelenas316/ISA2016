@@ -12,4 +12,7 @@ public interface ReservationRepository extends CrudRepository<Reservation, Long>
 	@Query("select r from Reservation r where r.arrival < ?1")
 	public Iterable<Reservation> findBy(Date today);
 	
+	@Query("select r from Reservation r where r.arrival > ?1")
+	public Iterable<Reservation> findFutureReservations(Date today);
+	
 }

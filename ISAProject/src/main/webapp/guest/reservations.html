@@ -1,0 +1,56 @@
+<div>
+
+		<div class = "col-sm-8" 
+			ng-show="$parent.futureReservations.length>0 && $parent.reservationOrder.id==undefined">
+			<h3>Reservations:</h3>
+			<br>
+			<table class="table table-bordered sortable">
+			  <tr>
+			    <th>Restaurant name</th>
+			    <th>Restaurant description</th>
+			    <th>Arrival</th>
+			    <th>Duration</th>
+			    <th>Friends</th>
+			    <th>Order</th>
+			  </tr>
+			  <tr ng-repeat="reservation in $parent.futureReservations">
+			    <td>{{reservation.restaurant.name}}</td>
+			    <td>{{reservation.restaurant.description}}</td>
+			    <td>{{reservation.arrival}}</td>
+			    <td>{{reservation.duration}}</td>
+			    <td></td>
+			    <td><button type="button" class="btn btn-primary" ng-click="order(reservation)">Order</button></td>
+			  </tr>
+			</table>
+		</div>
+		
+		<div class = "col-sm-8" ng-show="$parent.reservationOrder.id!=undefined">
+			<button type="button" class="btn btn-primary" ng-click="cancel()">
+				<span class="glyphicon glyphicon-arrow-left"></span> Back</button>
+			<br><br>
+			<h3>Order:</h3>
+			<br>
+			<p>Restaurant: {{$parent.reservationOrder.restaurant.name}}</p>
+			<p>Date and time: {{$parent.reservationOrder.arrival}}</p>
+			
+			<br><br>
+			<div class="centered">
+				<div class="navbar navbar-inverse">
+				    <div class="container-fluid"> 
+						<ul class="nav navbar-nav">
+				            <li><a ui-sref=".ordered">Ordered</a></li>
+				            <li><a ui-sref=".food">Food</a></li>
+				            <li><a ui-sref=".drink">Drink</a></li>
+		        		</ul>
+		        	</div>
+				</div>
+			</div>
+			
+			<div>
+			    <div ui-view></div>
+			</div>
+		</div>
+
+	
+</div>
+

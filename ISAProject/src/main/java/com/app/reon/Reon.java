@@ -2,7 +2,7 @@ package com.app.reon;
 
 import java.util.ArrayList;
 
-import com.app.table.RestaurantTable;
+import com.app.restauranttable.RestaurantTable;
 
 import lombok.Data;
 

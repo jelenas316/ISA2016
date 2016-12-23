@@ -42,6 +42,12 @@ public class ReservationServiceImpl implements ReservationService{
 		reservationRepo.delete(id);
 	}
 
+
+	@Override
+	public List<Reservation> findFutureReservationsForGuest(String email) {
+		return getByEmail(email, reservationRepo.findFutureReservations(new Date()));
+	}
+
 	@Override
 	public Iterable<Reservation> findPreviousByGuest(String email) {
 		return getByEmail(email, reservationRepo.findBy(new Date()));

@@ -35,8 +35,11 @@ h1, .button{
 
 h1{
 	padding-top: 20px;
+   
 }
-
+h1 span { 
+    background-color: #333333; 
+}
 input { 
     background-color: white;
     color: black;
@@ -56,18 +59,31 @@ table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sor
 }
 
 label {
-    background-color: #000000;
+    background-color: #333333; 
 }
 
 .right {
     position: -15px; 
 }
-ul.nav a:hover,
-ul.nav a:focus
-{
-    text-decoration: underline; !important;
-}
-.active {  text-decoration: underline; !important;}
 
-.navbutton:active { background-color: red;
+.nav > li > a:focus, 
+.nav > li > a:hover 
+{
+    text-decoration: underline;
+    background-color: pink;
+}
+
+.navbar-btn{
+    background-color: #333333;
+    color: whitesmoke;
+}
+
+.navbar-btn:hover {
+   background-color: whitesmoke;
+    color: #333333;
+}
+
+.navbar-btn:focus {
+    background-color: whitesmoke;
+    color: #333333;
 }

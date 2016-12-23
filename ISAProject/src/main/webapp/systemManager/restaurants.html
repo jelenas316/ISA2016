@@ -1,0 +1,34 @@
+<div ng-if = "$parent.register == 'undefined'" class = "col-sm-8">
+    <h1><span>Restaurants</span></h1>
+    <table class="table table-bordered">
+        <tr>
+        <th>Name</th>
+        <th>Description</th> 
+
+        </tr>
+        <tr ng-repeat="restaurant in $parent.restaurants">
+        <td>{{restaurant.name}}</td>
+        <td>{{restaurant.description}}</td>
+        </tr>
+    </table>
+    <button type="button" class="btn btn-primary" ng-click="registration()">Register new</button>
+</div>
+
+<div class = "centered" ng-if = "$parent.register == 'register'">
+   
+        <form name="res">
+             <h1><span>Registration: </span></h1>
+            <label>Name: </label>
+            <input name="restaurant.name" type="text" ng-model="restaurant.name" class="form-control" required/>
+
+            <label>Description: </label>
+            <input  name="restaurant.description" type="text" ng-model="restaurant.description" class="form-control" required/>
+
+            <br><br>
+
+            <div class="button">
+                <button type="submit" class="btn btn-primary" ng-click="res.$valid && signUp('restaurant')">Register</button>
+            </div>
+        </form>
+</div>
+

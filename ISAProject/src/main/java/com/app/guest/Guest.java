@@ -46,4 +46,5 @@ public class Guest{
 	@Column(name="FRIEND_REQUESTS")
 	private List<Guest> friendRequests;
 	
+	
 }

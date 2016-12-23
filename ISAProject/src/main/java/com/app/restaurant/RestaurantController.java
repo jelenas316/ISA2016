@@ -1,6 +1,8 @@
 package com.app.restaurant;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
@@ -17,6 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.drink.Drink;
+import com.app.food.Food;
+import com.app.restauranttable.RestaurantTable;
+
 @RestController
 @RequestMapping(path="/restaurants")
 public class RestaurantController {
@@ -31,24 +37,32 @@ public class RestaurantController {
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
 	public Iterable<Restaurant> findAll(){
-		return restaurantService.findAll();
+		
+	 Iterable<Restaurant> res = restaurantService.findAll();
+		return res;
 	}
 	
-	@GetMapping(params="email")
+	@GetMapping(params="id")
 	@ResponseStatus(HttpStatus.OK)
-	public Restaurant findOne(@PathParam("email") String email){
-		return restaurantService.findOne(email);
+	public Restaurant findOne(@PathParam("id") Long id){
+		return restaurantService.findOne(id);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Restaurant save(@Valid @RequestBody Restaurant restaurant){
+		/*Set<Drink> drinkCard = new HashSet<Drink>();
+		Set<Food> menu = new HashSet<Food>();
+		Set<RestaurantTable> tables= new HashSet<RestaurantTable>();
+		restaurant.setDrinkCard(drinkCard);
+		restaurant.setMenu(menu);
+		restaurant.setTables(tables);*/
 		return restaurantService.save(restaurant);
 	}
 	
 	@DeleteMapping(params="id")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathParam("id") String id){
+	public void delete(@PathParam("id") Long id){
 		Optional.ofNullable(restaurantService.findOne(id)).orElseThrow(() -> new ResourceNotFoundException());
 		restaurantService.delete(id);
 	}
@@ -56,7 +70,7 @@ public class RestaurantController {
 	@PutMapping
 	@ResponseStatus(HttpStatus.OK)
 	public Restaurant put(@Valid @RequestBody Restaurant restaurant){
-		//Optional.ofNullable(restaurantService.findOne(restaurant.getId())).orElseThrow(() -> new ResourceNotFoundException());
+		Optional.ofNullable(restaurantService.findOne(restaurant.getId())).orElseThrow(() -> new ResourceNotFoundException());
 		return restaurantService.save(restaurant);
 	}
 	

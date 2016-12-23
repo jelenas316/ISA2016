@@ -22,7 +22,7 @@ public class RestaurantServiceImpl implements RestaurantService{
 	}
 
 	@Override
-	public Restaurant findOne(String id) {
+	public Restaurant findOne(Long id) {
 		return restaurantRepo.findOne(id);
 	}
 
@@ -32,7 +32,7 @@ public class RestaurantServiceImpl implements RestaurantService{
 	}
 
 	@Override
-	public void delete(String id) {
+	public void delete(Long id) {
 		restaurantRepo.delete(id);
 	}
 
