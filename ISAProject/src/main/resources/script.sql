@@ -19,6 +19,9 @@ drop table if exists DRINK;
 drop table if exists FOOD;
 drop table if exists RESTAURANT_TABLE;
 drop table if exists RESTAURANT;
+drop table if exists WAITER;
+drop table if exists COOK;
+drop table if exists BARTENDER;
 
 
 
@@ -244,7 +247,53 @@ create table RESERVATION_ORDERS
    	FOREIGN KEY (ORDERS_ORDER_ID) REFERENCES ORDER_LIST(ORDER_ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+/*----------WAITER---------------------*/
 
+create table WAITER
+(
+   EMAIL                   		varchar(50)                   	not null,
+   PASSWORD                		varchar(50)	                   	not null,
+   NAME                  		varchar(50)            			not null,
+   SURNAME						varchar(50)            			not null,
+   ROLE 						enum('GUEST','RESTAURANT_MANAGER', 'WAITER',' COOK', 'BARTENDER', 'SYSTEM_MANAGER', 'BIDDER')          			not null,
+   primary key(EMAIL)
+);
+
+insert into isa2016.waiter values ('waiter@waiter.com','waiter','name','surname','WAITER');
+insert into isa2016.waiter values ('waiter1@waiter.com','waiter1','name1','surname1','WAITER');
+insert into isa2016.waiter values ('waiter2@waiter.com','waiter2','name2','surname2','WAITER');
+
+/*----------COOK---------------------*/
+
+create table COOK
+(
+   EMAIL                   		varchar(50)                   	not null,
+   PASSWORD                		varchar(50)	                   	not null,
+   NAME                  		varchar(50)            			not null,
+   SURNAME						varchar(50)            			not null,
+   ROLE 						enum('GUEST','RESTAURANT_MANAGER', 'WAITER','COOK', 'BARTENDER', 'SYSTEM_MANAGER', 'BIDDER')          			not null,
+   primary key(EMAIL)
+);
+
+insert into isa2016.cook values ('cook@cook.com','cook','name','surname','COOK');
+insert into isa2016.cook values ('cook1@cook.com','cook1','name1','surname1','COOK');
+insert into isa2016.cook values ('cook2@cook.com','cook2','name2','surname2','COOK');
+
+/*----------BARTENDER---------------------*/
+
+create table BARTENDER
+(
+   EMAIL                   		varchar(50)                   	not null,
+   PASSWORD                		varchar(50)	                   	not null,
+   NAME                  		varchar(50)            			not null,
+   SURNAME						varchar(50)            			not null,
+   ROLE 						enum('GUEST','RESTAURANT_MANAGER', 'WAITER',' COOK', 'BARTENDER', 'SYSTEM_MANAGER', 'BIDDER')          			not null,
+   primary key(EMAIL)
+);
+
+insert into isa2016.bartender values ('bartender@bartender.com','bartender','name','surname','BARTENDER');
+insert into isa2016.bartender values ('bartender1@bartender.com','bartender1','name1','surname1','BARTENDER');
+insert into isa2016.bartender values ('bartender2@bartender.com','bartender2','name2','surname2','BARTENDER');
 
 
 
