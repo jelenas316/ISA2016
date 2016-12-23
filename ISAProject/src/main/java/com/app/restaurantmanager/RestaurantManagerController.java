@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -51,6 +52,10 @@ public class RestaurantManagerController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public RestaurantManager save(@Valid @RequestBody RestaurantManagerDTO restaurantManager){
+		if(restaurantManagerService.findOne(restaurantManager.getEmail())!= null){
+			throw new DataIntegrityViolationException("Duplicate entry for key "+ restaurantManager.getEmail());
+		}
+			
 		Restaurant restaurant = restaurantService.findOne(restaurantManager.getRestaurant().longValue());
 		RestaurantManager manager = new RestaurantManager();
 		manager.setEmail(restaurantManager.getEmail());
