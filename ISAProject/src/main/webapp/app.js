@@ -41,6 +41,18 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 	    	url : '/reservations',
 	    	templateUrl : 'guest/reservations.html'
 	    })
+	    .state('guest.reservations.ordered', {
+	    	url : '/ordered',
+	    	templateUrl : 'guest/orderedFoodAndDrinks.html'
+	    })
+	    .state('guest.reservations.food', {
+	    	url : '/food',
+	    	templateUrl : 'guest/food.html'
+	    })
+	    .state('guest.reservations.drink', {
+	    	url : '/drink',
+	    	templateUrl : 'guest/drink.html'
+	    })
 		.state('guest.account', {
 			url : '/account',
 		  	templateUrl : 'guest/account.html'

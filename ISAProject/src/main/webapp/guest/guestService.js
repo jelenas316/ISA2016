@@ -4,6 +4,9 @@ app.service('guestService', ['$http', function($http){
 	var gradeUrl='/grades';
 	var reservationUrl='/reservations';
 	var restaurantUrl='/restaurants';
+	var foodUrl='/orderedFood';
+	var drinkUrl= '/orderedDrinks';
+	var orderUrl= '/orders';
 	
 	
 	
@@ -62,6 +65,24 @@ app.service('guestService', ['$http', function($http){
 	
 	this.findOneRestaurant = function(id){
 		return $http.get(restaurantUrl + "?id=" + id);
+	}
+	
+	
+	
+	this.saveFood = function(food){
+		return $http.post(foodUrl, food);
+	}
+	
+	
+	
+	this.saveDrink = function(drink){
+		return $http.post(drinkUrl, drink);
+	}
+	
+	
+	
+	this.saveOrder = function(order){
+		return $http.post(orderUrl, order);
 	}
 	
 }]);

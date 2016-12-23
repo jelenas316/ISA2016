@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.app.guest.Guest;
 import com.app.restauranttable.RestaurantTable;
 
 import lombok.Data;
@@ -28,10 +29,15 @@ public class Order {
 	private Long id;
 	
 
-	@NotNull
+//	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "RESTAURANT_TABLE")
 	private RestaurantTable table;
+	
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name = "GUEST")
+	private Guest guest;
 
 	@OneToMany
 	private List<OrderedDrink> drinks;

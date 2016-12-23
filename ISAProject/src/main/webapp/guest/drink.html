@@ -1,0 +1,20 @@
+<div>
+	<div>
+		<br>
+		<table class="table table-bordered sortable">
+		  <tr>
+		    <th>Name</th>
+		    <th>Description</th>
+		    <th>Price</th>
+		    <th>Order</th>
+		  </tr>
+		  <tr ng-repeat="drink in $parent.reservationOrder.restaurant.drinks">
+		    <td>{{drink.name}}</td>
+		    <td>{{drink.description}}</td>
+		    <td>{{drink.price}}</td>
+		    <td><button type="button" class="btn btn-primary" ng-click="addDrink(drink)">
+		    	<span class="glyphicon glyphicon-ok"></span></button></td>
+		  </tr>
+		</table>
+	</div>
+</div>
