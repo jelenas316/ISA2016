@@ -27,7 +27,8 @@
         <input  name="user.surname" type="text" ng-model="restaurantManager.surname" class="form-control" required/>
 
         <label>Email: </label>
-        <input name="user.email" type="text" ng-model="restaurantManager.email" class="form-control" required/>
+        <input name="user.email" type="email" ng-model="restaurantManager.email" class="form-control"
+        oninvalid="this.setCustomValidity('Please enter an valid email address.')" oninput="setCustomValidity('')" required/>
 
         <label>Password: </label>
         <input name="user.password" type="password" ng-model="restaurantManager.password" class="form-control" required/>

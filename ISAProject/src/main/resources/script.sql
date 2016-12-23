@@ -323,5 +323,3 @@ insert into drink values(1,'drink1','description',34.2);
 insert into food values (1,'food1','description',43.2);
 
 
-
-

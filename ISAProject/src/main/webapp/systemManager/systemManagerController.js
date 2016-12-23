@@ -24,45 +24,53 @@ app.controller('systemManagerController', ['$scope', '$window', '$location', 'sy
     function setUser(user){
     }
     $scope.signUp = function(type){
-        if(type == 'systemManager'){            
-            $scope.systemManager.role = "SYSTEM_MANAGER";
-            systemManagerService.save($scope.systemManager).then(
-                function(response){
-                    alert("Uspesna registracija.");  
-                    $scope.register = "undefined";
-                    $scope.systemManager = {};
-                    findAllSystemManagers();
-                },
-                function(response){
-                    alert("Neuspesna registracija.");                   
-                }
-            );
+        if(type == 'systemManager'){
+            if($scope.systemManager.password == $scope.systemManager.repeatedPassword){
+                $scope.systemManager.role = "SYSTEM_MANAGER";
+                systemManagerService.save($scope.systemManager).then(
+                    function(response){
+                        alert("Registration successful.");  
+                        $scope.register = "undefined";
+                        $scope.systemManager = {};
+                        findAllSystemManagers();
+                    },
+                    function(response){
+                        alert("Registration failed.");                   
+                    }
+                );
+            }else{
+                alert("Password and repeated password not match.");
+            }
         }else if(type == 'restaurantManager'){
-            restaurantManagerService.save($scope.restaurantManager).then(
-                function(response){
-                    alert("Uspesna registracija.");  
-                    $scope.register = "undefined";
-                    $scope.restaurantManager = {};
-                    findAllRestaurantManagers();   
-                },
-                function(response){
-                    alert("Neuspesna registracija.");                   
-                }
-            );
+            if($scope.restaurantManager.password == $scope.restaurantManager.repeatedPassword){
+                restaurantManagerService.save($scope.restaurantManager).then(
+                    function(response){
+                        alert("Registration successful.");  
+                        $scope.register = "undefined";
+                        $scope.restaurantManager = {};
+                        findAllRestaurantManagers();   
+                    },
+                    function(response){
+                        alert("Registration failed.");                   
+                    }
+                );
+            }else{
+                alert("Password and repeated password not match.");
+            }
         }else if(type == 'restaurant'){
             restaurantService.save($scope.restaurant).then(
                 function(response){
-                    alert("Uspesna registracija.");    
+                    alert("Registration successful.");    
                     $scope.register = "undefined";
                     $scope.restaurant = {};
                     findAllRestaurants();
                 },
                 function(response){
-                    alert("Neuspesna registracija.");                   
+                    alert("Registration failed.");                   
                 }
             );
         }else{
-             alert("Greska.");      
+             alert("Error while registring.");      
         }
     }
 
