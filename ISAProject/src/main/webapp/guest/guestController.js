@@ -59,6 +59,7 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 					$scope.restaurantForReservation={};
 					$scope.reservation={};
 					$scope.stepCounter=0;
+					$scope.reservationOrder={};
 				},
 				function(response){
 					$state.go('login');
@@ -250,7 +251,75 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 	}
 	
 	$scope.order = function(reservation){
-		console.log('order');
+		$scope.reservationOrder=reservation;
+		var hasOrder=false;
+		for(index in $scope.reservationOrder.orders){
+			if($scope.reservationOrder.orders[index].guest.email==$scope.user.email){
+				$scope.usersOrders=$scope.reservationOrder.orders[index];
+				hasOrder=true;
+				break;
+			}
+		}
+		if(hasOrder==false){
+			$scope.usersOrders={};
+			$scope.usersOrders.guest=$scope.user;
+			$scope.usersOrders.drinks=[];
+			$scope.usersOrders.food=[];
+		}
+
+		if($state.current.name=="guest.reservations"){	
+			$state.go('.ordered',{ email : $scope.user.email });
+		}
+	}
+
+	$scope.addFood = function(food){
+		var orderFood={};
+		orderFood.quantity=1;
+		orderFood.food=food;
+		orderFood.foodStatus='WAITING';
+		guestService.saveFood(orderFood).then(
+				function(response){
+					$scope.usersOrders.food.push(response.data);
+					saveOrder();
+				}
+		);
+	}
+	
+	$scope.addDrink = function(drink){
+		var orderDrink={};
+		orderDrink.quantity=1;
+		orderDrink.drink=drink;
+		orderDrink.foodStatus='WAITING';
+		guestService.saveDrink(orderDrink).then(
+				function(response){
+					$scope.usersOrders.drinks.push(response.data);
+					saveOrder();
+				}
+		);
+		
+	}
+	
+	function saveOrder(){
+		guestService.saveOrder($scope.usersOrders).then(
+				function(response){
+					if($scope.usersOrders.id!=undefined){
+						for(index in $scope.reservationOrder.orders){
+							if($scope.reservationOrder.orders[index].id==$scope.usersOrders.id){
+								$scope.reservationOrder.orders[index]=response.data;
+								break;
+							}
+						}
+					}else{
+						$scope.reservationOrder.orders.push(response.data);
+					}
+					guestService.saveReservation($scope.reservationOrder).then(
+							function(response){
+								alert('Food/drink has been ordered successfully.');
+								$scope.order(response.data);
+							}
+					);
+				}
+		);
 	}
 	
 }]);

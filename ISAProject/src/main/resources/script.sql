@@ -201,11 +201,13 @@ create table ORDERED_FOOD
 create table ORDER_LIST
 (
 	ORDER_ID						bigint							not null AUTO_INCREMENT,
-   	RESTAURANT_TABLE				bigint            				not null,
+   	RESTAURANT_TABLE				bigint            				,
+   	GUEST							varchar(50)						not null,
    	DRINKS							bigint							,
    	FOOD							bigint							,
     primary key (ORDER_ID),
    	FOREIGN KEY (RESTAURANT_TABLE) REFERENCES RESTAURANT_TABLE(RESTAURANT_TABLE_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (GUEST) REFERENCES GUEST(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE,
    	FOREIGN KEY (DRINKS) REFERENCES ORDERED_DRINK(ORDERED_DRINK_ID) ON DELETE CASCADE ON UPDATE CASCADE,
    	FOREIGN KEY (FOOD) REFERENCES ORDERED_FOOD(ORDERED_FOOD_ID) ON DELETE CASCADE ON UPDATE CASCADE
 
@@ -308,9 +310,23 @@ insert into isa2016.guest values ('email3','pass','name','surname','GUEST',null,
 insert into isa2016.guest values ('email4','pass','name','surname','GUEST',null,null);
 
 
-insert into restaurant (RESTAURANT_ID, NAME, DESCRIPTION) values (1,'name1','description');
+insert into restaurant values (1,'name1','description',1,null,1);
 insert into restaurant  (RESTAURANT_ID, NAME, DESCRIPTION) values (2,'name2','description');
 insert into restaurant  (RESTAURANT_ID, NAME, DESCRIPTION) values (3,'name3','description');
+
+insert into drink values(1,'drink1','description',34.2);
+insert into food values (1,'food1','description',43.2);
+insert into drink values(2,'drink2','description',34.2);
+insert into food values (2,'food2','description',43.2);
+insert into drink values(3,'drink3','description',34.2);
+insert into food values (3,'food3','description',43.2);
+
+insert into RESTAURANT_DRINKS values(1,1,1);
+insert into RESTAURANT_MENU values(1,1,1);
+insert into RESTAURANT_DRINKS values(1,1,2);
+insert into RESTAURANT_MENU values(1,1,2);
+insert into RESTAURANT_DRINKS values(1,1,3);
+insert into RESTAURANT_MENU values(1,1,3);
 
 insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (1,3,1,'email');
 insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (2,4,1,'email3');
@@ -318,8 +334,5 @@ insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (3,5,1,'email
 
 insert into restaurant_table values (1,5,'SMOKE');      
 
-
-insert into drink values(1,'drink1','description',34.2);
-insert into food values (1,'food1','description',43.2);
 
 
