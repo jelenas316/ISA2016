@@ -29,6 +29,7 @@ drop table if exists COOK;
 drop table if exists BARTENDER;
 drop table if exists PROFILE;
 drop table if exists SHIFT;
+drop table if exists WORK_SCHEDULE;
 
 create table GUEST
 (
@@ -363,6 +364,12 @@ create table SHIFT
 	DATUM								DATE							not null,
 	primary key(SHIFT_ID)
 
+);
+
+create table WORK_SCHEDULE
+(
+	WORK_SCHEDULE_ID					bigint							not null,
+	primary key(WORK_SCHEDULE_ID)
 );
 
 
