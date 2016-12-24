@@ -28,6 +28,7 @@ drop table if exists WAITER;
 drop table if exists COOK;
 drop table if exists BARTENDER;
 drop table if exists PROFILE;
+drop table if exists SHIFT;
 
 create table GUEST
 (
@@ -354,6 +355,19 @@ create table PROFILE
     primary key (PROFILE_ID)
 );
 
+create table SHIFT
+(
+	SHIFT_ID							bigint							not null AUTO_INCREMENT,
+	BEGIN_OF_SHIFT						TIME							not null,
+	END_OF_SHIFT						TIME							not null,
+	DATUM								DATE							not null,
+	primary key(SHIFT_ID)
+
+);
+
+
+insert into isa2016.shift values (1, '8:00', '14:00', '2016-03-10');
+
 
 insert into isa2016.guest values ('email','pass','name','surname','GUEST',null,null);
 insert into isa2016.guest values ('email3','pass','name','surname','GUEST',null,null);
@@ -383,6 +397,5 @@ insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (2,4,1,'email
 insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (3,5,1,'email4');
 
 insert into restaurant_table values (1,5,'SMOKE');      
-
 
 

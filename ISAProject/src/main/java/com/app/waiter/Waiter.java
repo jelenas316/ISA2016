@@ -34,4 +34,5 @@ public class Waiter {
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
+	
 }
