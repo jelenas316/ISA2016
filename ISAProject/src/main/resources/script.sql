@@ -242,7 +242,8 @@ create table ORDER_LIST_FOOD
 create table RESERVATION
 (
 	RESERVATION_ID					bigint							not null AUTO_INCREMENT,
-   	ARRIVAL           				DATE	                   		not null,
+   	ARRIVAL           				DATE 	              			not null,
+   	ARRIVAL_TIME					TIME							not null,
    	DURATION						int								,
    	RESTAURANT_TABLE				bigint            				,
    	RESTAURANT						bigint							not null,

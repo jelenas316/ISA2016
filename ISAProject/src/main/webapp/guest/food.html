@@ -1,5 +1,5 @@
 <div>
-	<div>
+	<div ng-show="$parent.reservationOrder.restaurant.menu.length>0">
 		<br>
 		<table class="table table-bordered sortable">
 		  <tr>
@@ -16,5 +16,9 @@
 		    	<span class="glyphicon glyphicon-ok"></span></button></td>
 		  </tr>
 		</table>
+	</div>
+	
+	<div ng-show="$parent.reservationOrder.restaurant.menu.length==0">
+		<h3>There are no food.</h3>
 	</div>
 </div>

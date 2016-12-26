@@ -1,6 +1,7 @@
 package com.app.reservation;
 
-import java.util.Date;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -12,11 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 import com.app.guest.Guest;
 import com.app.order.Order;
@@ -35,9 +32,12 @@ public class Reservation {
 	private Long id;
 
 	@NotNull
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(style = "yyyy-MM-dd")
 	private Date arrival;
+	
+	@NotNull
+	@Column(name = "ARRIVAL_TIME")
+	private Time arrivalTime;
+	
 	
 	private Integer duration;
 	
@@ -63,4 +63,5 @@ public class Reservation {
 	//lista porudzbina
 	@OneToMany
 	private List<Order> orders;
+	
 }

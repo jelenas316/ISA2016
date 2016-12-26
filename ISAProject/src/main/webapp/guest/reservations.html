@@ -1,4 +1,4 @@
-<div>
+<div data-ng-init="checkTimeAndDate()">
 
 		<div class = "col-sm-8" 
 			ng-show="$parent.futureReservations.length>0 && $parent.reservationOrder.id==undefined">
@@ -8,21 +8,33 @@
 			  <tr>
 			    <th>Restaurant name</th>
 			    <th>Restaurant description</th>
-			    <th>Arrival</th>
+			    <th>Arrival date</th>
+			    <th>Arrival time</th>
 			    <th>Duration</th>
 			    <th>Friends</th>
 			    <th>Order</th>
+			    <th>Cancel</th>
 			  </tr>
 			  <tr ng-repeat="reservation in $parent.futureReservations">
 			    <td>{{reservation.restaurant.name}}</td>
 			    <td>{{reservation.restaurant.description}}</td>
 			    <td>{{reservation.arrival}}</td>
+			    <td>{{reservation.arrivalTime}}</td>
 			    <td>{{reservation.duration}}</td>
 			    <td></td>
 			    <td><button type="button" class="btn btn-primary" ng-click="order(reservation)">Order</button></td>
+			    <td><button ng-show="$parent.notChangeable.indexOf(reservation.id)==-1"
+			    	type="button" class="btn btn-primary" 
+			    	ng-click="cancelReservation(reservation)">Cancel</button></td>
 			  </tr>
 			</table>
 		</div>
+		
+		<div class = "col-sm-8" 
+			ng-show="$parent.futureReservations.length==0">
+			<h3>There are no reservations.</h3>
+		</div>
+		
 		
 		<div class = "col-sm-8" ng-show="$parent.reservationOrder.id!=undefined">
 			<button type="button" class="btn btn-primary" ng-click="cancel()">

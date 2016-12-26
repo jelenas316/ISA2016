@@ -1,37 +1,52 @@
 <div class = "centered2" ng-show="$parent.reservationOrder.id!=undefined">
 	<div ng-show="$parent.usersOrders.food.length>0">
-		<br><h3>Ordered food:</h3>
+		<h3>Ordered food:</h3>
 		<table class="table table-bordered sortable">
 		  <tr>
 		    <th>Name</th>
 		    <th>Description</th>
 		    <th>Quantity</th>
 		    <th>Price</th>
+		    <th ng-show="$parent.notChangeable.indexOf($parent.reservationOrder.id)==-1">Cancel</th>
 		  </tr>
 		  <tr ng-repeat="food in $parent.usersOrders.food">
 		    <td>{{food.food.name}}</td>
 		    <td>{{food.food.description}}</td>
 		    <td>{{food.quantity}}</td>
 		    <td>{{food.food.price}}</td>
+		    <td ng-show="$parent.notChangeable.indexOf($parent.reservationOrder.id)==-1">
+		    	<button type="button" class="btn btn-primary" 
+			    	ng-click="cancelFood(food)">Cancel</button></td>
 		  </tr>
 		</table>
+		<br>
 	</div>
 	
 	<div ng-show="$parent.usersOrders.drinks.length>0">
-		<br><h3>Ordered drinks:</h3>
+		<h3>Ordered drinks:</h3>
 		<table class="table table-bordered sortable">
 		  <tr>
 		    <th>Name</th>
 		    <th>Description</th>
 		    <th>Quantity</th>
 		    <th>Price</th>
+		    <th ng-show="$parent.notChangeable.indexOf($parent.reservationOrder.id)==-1">Cancel</th>
 		  </tr>
 		  <tr ng-repeat="drink in $parent.usersOrders.drinks">
 		    <td>{{drink.drink.name}}</td>
 		    <td>{{drink.drink.description}}</td>
 		    <td>{{drink.quantity}}</td>
 		    <td>{{drink.drink.price}}</td>
+		    <td ng-show="$parent.notChangeable.indexOf($parent.reservationOrder.id)==-1">
+		    	<button	type="button" class="btn btn-primary" 
+			    	ng-click="cancelDrink(drink)">Cancel</button></td>
 		  </tr>
 		</table>
+		<br>
+	</div>
+	
+	<div ng-show="$parent.usersOrders.drinks.length==0 && $parent.usersOrders.food.length==0">
+		<h3>You haven't ordered anything yet.</h3>
+		<br>
 	</div>
 </div>

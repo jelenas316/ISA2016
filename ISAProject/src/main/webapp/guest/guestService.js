@@ -48,6 +48,7 @@ app.service('guestService', ['$http', function($http){
 	
 	
 	
+	
 	this.getVisitedRestaurants = function(email){
 		return $http.get(reservationUrl + "?email=" + email);
 	}
@@ -60,6 +61,18 @@ app.service('guestService', ['$http', function($http){
 		return $http.get(reservationUrl + "/next?email=" + email);
 	}
 	
+	this.cancelOrderedFood = function(order, orderedFood){
+		return $http.put(reservationUrl + "?order=" + order + "&orderedFood=" + orderedFood);
+	}
+	
+	this.cancelOrderedDrink = function(order, orderedDrink){
+		return $http.put(reservationUrl + "?order=" + order + "&orderedDrink=" + orderedDrink);
+	}	
+	this.cancelReservation = function(reservation, email){
+		return $http.put(reservationUrl + "?reservation=" + reservation + "&email=" + email);
+	}	
+	
+	
 	
 	
 	
@@ -69,9 +82,14 @@ app.service('guestService', ['$http', function($http){
 	
 	
 	
+	
+	
+	
 	this.saveFood = function(food){
 		return $http.post(foodUrl, food);
 	}
+	
+	
 	
 	
 	
@@ -81,8 +99,15 @@ app.service('guestService', ['$http', function($http){
 	
 	
 	
+	
+	
+	
 	this.saveOrder = function(order){
 		return $http.post(orderUrl, order);
+	}
+	
+	this.findOrder = function(orderId){
+		return $http.get(orderUrl + "?id=" + orderId);
 	}
 	
 }]);

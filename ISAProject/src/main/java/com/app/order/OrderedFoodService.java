@@ -6,5 +6,5 @@ public interface OrderedFoodService {
 	OrderedFood findOne(Long id);
 	OrderedFood save(OrderedFood orderedFood);
 	void delete(Long id);
-	
+
 }

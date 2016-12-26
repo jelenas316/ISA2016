@@ -251,6 +251,7 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 	}
 	
 	$scope.order = function(reservation){
+		$scope.checkTimeAndDate();
 		$scope.reservationOrder=reservation;
 		var hasOrder=false;
 		for(index in $scope.reservationOrder.orders){
@@ -266,7 +267,6 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 			$scope.usersOrders.drinks=[];
 			$scope.usersOrders.food=[];
 		}
-
 		if($state.current.name=="guest.reservations"){	
 			$state.go('.ordered',{ email : $scope.user.email });
 		}
@@ -322,6 +322,78 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 		);
 	}
 	
+	$scope.checkTimeAndDate = function(){
+		$scope.notChangeable = [];
+		var currentDate = new Date();
+		for(index in $scope.futureReservations){
+			var arrivalDate=$scope.futureReservations[index].arrival;
+			if(Number(currentDate.getFullYear())== Number(arrivalDate.substring(0,4)) &&
+					Number(currentDate.getMonth()+1)== Number(arrivalDate.substring(5,7)) &&
+					Number(currentDate.getDate())== Number(arrivalDate.substring(8,10))){
+
+				var arrivalTime = $scope.futureReservations[index].arrivalTime;
+				var indexH = arrivalTime.indexOf(':');
+				var hours = Number(arrivalTime.substring(0,indexH));
+				var indexM = arrivalTime.indexOf(':', indexH+1);
+				var minutes = Number(arrivalTime.substring(indexH+1,indexM));
+				if((hours*60+minutes)-(currentDate.getHours()*60+currentDate.getMinutes())<30){
+					$scope.notChangeable.push($scope.futureReservations[index].id);
+				}
+			}
+		}
+	}
+
+
+	$scope.cancelReservation = function(reservation){
+		$scope.checkTimeAndDate();
+		if($scope.notChangeable.indexOf(reservation.id)==-1){
+			guestService.cancelReservation(reservation.id, $scope.user.email).then(
+					function(){
+						alert('Canceled reservation.');
+						guestService.findFutureReservations($scope.user.email).then(
+								function(response){
+									$scope.futureReservations=response.data;
+								}
+						);
+					}
+			);
+		}else
+			alert('Reservation can\'t be canceled. It can be canceled at list 30 minutes earlier. ');
+	}
+	
+	$scope.cancelFood = function(orderedFood){
+		$scope.checkTimeAndDate();
+		if($scope.notChangeable.indexOf($scope.reservationOrder.id)==-1){
+			guestService.cancelOrderedFood($scope.usersOrders.id, orderedFood.id).then(
+					function(){
+						alert('Canceled ' + orderedFood.food.name + ".");
+						guestService.findOrder($scope.usersOrders.id).then(
+								function(response){
+									$scope.usersOrders=response.data;
+								}
+						);
+					}
+			);
+		}else
+			alert('Ordered food can\'t be canceled. It can be canceled at list 30 minutes earlier. ');
+	}
+
+	$scope.cancelDrink = function(orderedDrink){
+		$scope.checkTimeAndDate();
+		if($scope.notChangeable.indexOf($scope.reservationOrder.id)==-1){
+			guestService.cancelOrderedDrink($scope.usersOrders.id, orderedDrink.id).then(
+					function(){
+						alert('Canceled ' + orderedDrink.drink.name + ".");
+						guestService.findOrder($scope.usersOrders.id).then(
+								function(response){
+									$scope.usersOrders=response.data;
+								}
+						);
+					}
+			);
+		}else
+			alert('Ordered drink can\'t be canceled. It can be canceled at list 30 minutes earlier. ');
+	}
 }]);
 
 

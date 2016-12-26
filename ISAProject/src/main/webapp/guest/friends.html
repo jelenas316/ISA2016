@@ -42,10 +42,9 @@
 		</table>
 	</div>
 	
-	
 	<div class = "col-sm-3">
-		<br><br>
-		
+		<h3>Add friend:</h3>
+		<br>
 		<input type="text" list="friends" class="form-control" placeholder="search" ng-model="$parent.friend.email"/>
 		<datalist id="friends">
 		    <option ng-if="guest.email!=user.email" ng-repeat="guest in guests"

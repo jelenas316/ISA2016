@@ -1,7 +1,7 @@
 <div>
 
-	<div ng-show="$parent.stepCounter==0">
-		<div class = "col-sm-8" ng-show="$parent.copyOfRestaurants.length>0">
+	<div ng-show="$parent.stepCounter==0 && $parent.copyOfRestaurants.length>0">
+		<div class = "col-sm-8">
 			<h3>Restaurants:</h3>
 			<br>
 			<table class="table table-bordered sortable">
@@ -33,6 +33,11 @@
 				<button type="button" class="btn btn-primary" ng-click="searchRestaurants()">Search</button>
 			</div>	
 		</div>
+		
+	</div>
+
+	<div class = "col-sm-8" ng-show="$parent.copyOfRestaurants.length==0">
+		<h3>There are no restaurants.</h3>
 	</div>
 	
 	<div ng-show="$parent.stepCounter>0">
@@ -46,10 +51,14 @@
 				<input name="reservation.restaurant.name" type="text" 
 					ng-model="$parent.reservation.restaurant.name" class="form-control" required disabled/>
 		
-				<p>Date and time: </p>
+				<p>Date: </p>
 				<input name="reservation.arrival" type="text" ng-model="$parent.reservation.arrival" 
-						class="form-control" required/>
-		
+						class="form-control" placeholder="yyyy-MM-dd" required/>
+				
+				<p>Time: </p>
+				<input name="reservation.arrivalTime" type="text" ng-model="$parent.reservation.arrivalTime" 
+						class="form-control" placeholder="HH:mm:ss" required/>
+				
 				<p>Duration: </p>
 				<input name="reservation.duration" type="number" ng-model="$parent.reservation.duration"
 						 class="form-control" min="0" max="5"/>

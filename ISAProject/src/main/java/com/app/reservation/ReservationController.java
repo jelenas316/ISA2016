@@ -3,6 +3,7 @@ package com.app.reservation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +26,12 @@ import com.app.grade.GradeService;
 import com.app.grade.RestaurantDTO;
 import com.app.guest.Guest;
 import com.app.guest.GuestService;
+import com.app.order.Order;
+import com.app.order.OrderService;
+import com.app.order.OrderedDrink;
+import com.app.order.OrderedDrinkService;
+import com.app.order.OrderedFood;
+import com.app.order.OrderedFoodService;
 import com.app.restaurant.Restaurant;
 
 @RestController
@@ -36,15 +42,22 @@ public class ReservationController {
 	private final GradeService gradeService;
 	private final GuestService guestService;
 	private final MailService mailService;
+	private final OrderService orderService;
+	private final OrderedFoodService orderedFoodService;
+	private final OrderedDrinkService orderedDrinkService;
 	
 	@Autowired
 	public ReservationController(final ReservationService reservationService,
 			final GradeService gradeService, final GuestService guestService,
-			final MailService mailService) {
+			final MailService mailService, final OrderService orderService,
+			final OrderedFoodService orderedFoodService, final OrderedDrinkService orderedDrinkService) {
 		this.reservationService = reservationService;
 		this.gradeService = gradeService;
 		this.guestService = guestService;
 		this.mailService = mailService;
+		this.orderService = orderService;
+		this.orderedFoodService = orderedFoodService;
+		this.orderedDrinkService = orderedDrinkService;
 	}
 	
 	@GetMapping
@@ -139,9 +152,40 @@ public class ReservationController {
 		return reservationService.findFutureReservationsForGuest(email);
 	}
 	
+	@PutMapping(params={"order", "orderedFood"})
+	@ResponseStatus(HttpStatus.OK)
+	public void cancelOrderedFood(@PathParam("order") Long order, 
+			@PathParam("orderedFood") Long orderedFood){
+		Order orderObject = Optional.ofNullable(orderService.findOne(order))
+				.orElseThrow(() -> new ResourceNotFoundException());
+		Optional.ofNullable(orderedFoodService.findOne(orderedFood))
+			.orElseThrow(() -> new ResourceNotFoundException());
+		reservationService.cancelOrderedFood(orderObject, orderedFood);
+	}
+	
+	@PutMapping(params={"order", "orderedDrink"})
+	@ResponseStatus(HttpStatus.OK)
+	public void cancelOrderedDrink(@PathParam("order") Long order, 
+			@PathParam("orderedDrink") Long orderedDrink){
+		Order orderObject = Optional.ofNullable(orderService.findOne(order))
+				.orElseThrow(() -> new ResourceNotFoundException());
+		Optional.ofNullable(orderedDrinkService.findOne(orderedDrink))
+			.orElseThrow(() -> new ResourceNotFoundException());
+		reservationService.cancelOrderedDrink(orderObject, orderedDrink);
+	}
+	
+	@PutMapping(params={"reservation", "email"})
+	@ResponseStatus(HttpStatus.OK)
+	public void cancelReservation(@PathParam("reservation") Long reservation, 
+			@PathParam("email") String email){
+		Reservation reservationObject = Optional.ofNullable(reservationService.findOne(reservation))
+				.orElseThrow(() -> new ResourceNotFoundException());
+		reservationService.cancelReservation(reservationObject,email);
+	}
+	
 	public List<VisitedRestaurantDTO> reservationToDTO(Iterable<Reservation> reservations, 
 			List<RestaurantDTO> restaurantDTOs, Guest guest){
-		List<VisitedRestaurantDTO> returnValue = new ArrayList<>();
+				List<VisitedRestaurantDTO> returnValue = new ArrayList<>();
 		VisitedRestaurantDTO dto = new VisitedRestaurantDTO();
 		for(Reservation reservation : reservations){
 			dto = new VisitedRestaurantDTO();
