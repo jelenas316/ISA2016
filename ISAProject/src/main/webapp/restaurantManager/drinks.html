@@ -1,0 +1,41 @@
+<div class = "col-sm-8 col-sm-offset-2">
+    <h1><span>Drink card</span></h1>
+    <table class="table table-bordered">
+        <tr>
+        <th>Name</th>
+        <th>Description</th> 
+        <th>Price</th>
+        <th colspan = "2">Operation</th>
+
+        </tr>
+        <tr ng-repeat="drink in $parent.res.drinks | orderBy:'id'">
+        <td>{{drink.name}}</td>
+        <td>{{drink.description}}</td>
+        <td>{{drink.price}}</td>
+        <td><button ng-click = '$parent.$parent.editDrink(drink)' class = "btn btn-primary" >Edit</button></td>
+        <td><button ng-click = "$parent.$parent.deleteDrink(drink)" class = "btn btn-primary" >Delete</button></td>
+        </tr>
+    </table>
+    <br/>
+</div>
+<br/><br/>
+<div class="centered">
+    <h1><span>Add drink:</span></h1>
+    <form name="drink">
+
+        <label>Name: </label>
+        <input name="drink.name" type="text" ng-model="$parent.drink.name" class="form-control" required/>
+
+        <label>Description: </label>
+        <input  name="drink.description" type="text" ng-model="$parent.drink.description" class="form-control" required/>
+
+        <label>Price: </label>
+        <input name="drink.price" type="number" ng-model="$parent.drink.price" class="form-control" required/>
+
+        <br>
+
+        <div class="button">
+            <button type="submit" class="btn btn-primary" ng-click="drink.$valid && $parent.createDrink()"><span class="glyphicon glyphicon-ok"></span> OK</button>
+        </div>
+    </form>
+</div>

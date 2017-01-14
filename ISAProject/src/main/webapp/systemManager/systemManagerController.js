@@ -1,10 +1,9 @@
 app.controller('systemManagerController', ['$scope', '$window', '$location', 'systemManagerService', 'loginService', 'restaurantService',
-                                           'restaurantManagerService','$state',
-	function ($scope, $window, $location, systemManagerService, loginService, restaurantService, restaurantManagerService, $state) {
+                                           'restaurantManagerService',
+	function ($scope, $window, $location, systemManagerService, loginService, restaurantService, restaurantManagerService) {
 
 	function init(){
 
-		$scope.user={};
         $scope.restaurant={};
         $scope.restaurantManager={};
         $scope.systemManager={};
@@ -21,8 +20,6 @@ app.controller('systemManagerController', ['$scope', '$window', '$location', 'sy
 
 	init();
         
-    function setUser(user){
-    }
     $scope.signUp = function(type){
         if(type == 'systemManager'){
             if($scope.systemManager.password == $scope.systemManager.repeatedPassword){
@@ -91,7 +88,6 @@ app.controller('systemManagerController', ['$scope', '$window', '$location', 'sy
             }
         );
     } 
-       
         
     function findAllRestaurants(){
         restaurantService.findAll().then(

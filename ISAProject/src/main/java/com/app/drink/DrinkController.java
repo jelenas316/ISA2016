@@ -1,5 +1,6 @@
 package com.app.drink;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -17,15 +18,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.food.Food;
+import com.app.restaurant.Restaurant;
+import com.app.restaurant.RestaurantService;
+
 @RestController
 @RequestMapping(path="/drinks")
 public class DrinkController {
 
 	private final DrinkService drinkService;
 	
+	private final RestaurantService restaurantService;
+	
 	@Autowired
-	public DrinkController(final DrinkService drinkService) {
+	public DrinkController(final DrinkService drinkService, final RestaurantService restaurantService) {
 		this.drinkService=drinkService;
+		this.restaurantService = restaurantService;	
 	}
 	
 	@GetMapping
@@ -42,8 +50,32 @@ public class DrinkController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Drink save(@Valid @RequestBody Drink drink){
-		return drinkService.save(drink);
+	public Restaurant save(@Valid @RequestBody DrinkDTO drink){
+		int index = -1;
+		BigDecimal big = new BigDecimal(drink.getPrice().toString());
+		Restaurant restaurant = restaurantService.findOne(drink.getResId().longValue());
+		Drink drink1= new Drink();
+		drink1.setName(drink.getName());
+		drink1.setDescription(drink.getDescription());
+		drink1.setPrice(big);
+		if(drinkService.findById(drink.getId()) != null){
+			drink1.setId(drink.getId());
+		}
+		for (Drink drinkk: restaurant.getDrinks()) {
+			if(drinkk.getId().equals(drink.getId())){
+				index = restaurant.getDrinks().indexOf(drinkk);
+			}
+		}
+		if(index!=-1){
+			restaurant.getDrinks().remove(index);
+			restaurant.getDrinks().add(drink1);
+			drink1.setId(drink.getId());
+		}else{
+			restaurant.getDrinks().add(drink1);
+		}
+		drinkService.save(drink1);
+		restaurantService.save(restaurant);	   
+	    return restaurant;
 	}
 	
 	@DeleteMapping(params="id")

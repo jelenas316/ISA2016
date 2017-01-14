@@ -96,7 +96,7 @@ create table FOOD
 (
    FOOD_ID                   	  	    bigint             				PRIMARY KEY AUTO_INCREMENT,
    NAME                					varchar(50)	                   	not null,
-   DESCRIPTION                  		varchar(50)            			not null,
+   DESCRIPTION                  		varchar(100)            		not null,
    PRICE								decimal 						not null
 );
 /*----------DRINK---------------------*/
@@ -104,7 +104,7 @@ create table DRINK
 (
    DRINK_ID                   	  	    bigint             				PRIMARY KEY AUTO_INCREMENT,
    NAME                					varchar(50)	                   	not null,
-   DESCRIPTION                  		varchar(50)            			not null,
+   DESCRIPTION                  		varchar(100)            		not null,
    PRICE								decimal 						not null
 );
 
@@ -113,14 +113,15 @@ create table RESTAURANT_TABLE
 (
    RESTAURANT_TABLE_ID         	  	    bigint             				PRIMARY KEY AUTO_INCREMENT,
    NUMBER              					INT	                         	not null,
-   POSITION                  			enum('SMOKE','NOSMOKE')      	not null
+   POSITION                  			enum('SMOKE','NOSMOKE')      	not null,
+   STATUS								enum('FREE', 'RESERVED')		not null
 );
 /*----------RESTAURANT---------------------*/
 create table RESTAURANT
 (
    RESTAURANT_ID                   	    bigint             				PRIMARY KEY AUTO_INCREMENT,
    NAME                					varchar(50)	                   	not null,
-   DESCRIPTION                  		varchar(50)            			not null,
+   DESCRIPTION                  		varchar(100)            		not null,
    DRINKS								bigint,
    TABLES								bigint,
    MENU									bigint,
@@ -381,10 +382,11 @@ insert into isa2016.guest values ('email','pass','name','surname','GUEST',null,n
 insert into isa2016.guest values ('email3','pass','name','surname','GUEST',null,null);
 insert into isa2016.guest values ('email4','pass','name','surname','GUEST',null,null);
 
-
-insert into restaurant values (1,'name1','description',1,null,1);
+insert into restaurant (RESTAURANT_ID, NAME, DESCRIPTION) values (1,'name1','description');
 insert into restaurant  (RESTAURANT_ID, NAME, DESCRIPTION) values (2,'name2','description');
 insert into restaurant  (RESTAURANT_ID, NAME, DESCRIPTION) values (3,'name3','description');
+
+insert into restaurant_manager (EMAIL, PASSWORD, NAME, SURNAME, ROLE, RESTAURANT_ID) values ('a','a','name','surname','RESTAURANT_MANAGER',1);
 
 insert into drink values(1,'drink1','description',34.2);
 insert into food values (1,'food1','description',43.2);
@@ -404,6 +406,21 @@ insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (1,3,1,'email
 insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (2,4,1,'email3');
 insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (3,5,1,'email4');
 
-insert into restaurant_table values (1,5,'SMOKE');      
+insert into restaurant_table values (1,1,'SMOKE', 'FREE');    
+insert into restaurant_table values (2,2,'SMOKE', 'FREE'); 
+insert into restaurant_table values (3,3,'SMOKE', 'FREE'); 
+insert into restaurant_table values (4,4,'SMOKE', 'FREE'); 
+insert into restaurant_table values (5,5,'SMOKE', 'FREE'); 
+insert into restaurant_table values (6,6,'SMOKE', 'FREE'); 
+insert into restaurant_table values (7,7,'SMOKE', 'FREE'); 
+insert into restaurant_table values (8,8,'SMOKE', 'RESERVED'); 
+insert into RESTAURANT_TABLES values(1,1,1);
+insert into RESTAURANT_TABLES values(1,1,2);
+insert into RESTAURANT_TABLES values(1,1,3);
+insert into RESTAURANT_TABLES values(1,1,4);
+insert into RESTAURANT_TABLES values(1,1,5);
+insert into RESTAURANT_TABLES values(1,1,6);
+insert into RESTAURANT_TABLES values(1,1,7);
+insert into RESTAURANT_TABLES values(1,1,8);
 
 

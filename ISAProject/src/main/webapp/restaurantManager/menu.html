@@ -1,0 +1,41 @@
+<div class = "col-sm-8 col-sm-offset-2">
+    <h1><span>Menu</span></h1>
+    <table class="table table-bordered">
+        <tr>
+        <th>Name</th>
+        <th>Description</th> 
+        <th>Price</th>
+        <th colspan = "2">Operation</th>
+
+        </tr>
+        <tr ng-repeat="food in $parent.res.menu | orderBy:'id'">
+        <td>{{food.name}}</td>
+        <td>{{food.description}}</td>
+        <td>{{food.price}}</td>
+        <td><button ng-click = '$parent.$parent.editFood(food)' class = "btn btn-primary" >Edit</button></td>
+        <td><button ng-click = "$parent.$parent.deleteFood(food)" class = "btn btn-primary" >Delete</button></td>
+        </tr>  
+    </table>
+    <br/>
+</div>
+
+<div class="centered">
+    <h1><span>Add food:</span></h1>
+    <form name="food">
+
+        <label>Name: </label>
+        <input name="food.name" type="text" ng-model="$parent.food.name" class="form-control" required/>
+
+        <label>Description: </label>
+        <input  name="food.description" type="text" ng-model="$parent.food.description" class="form-control" required/>
+
+        <label>Price: </label>
+        <input name="food.price" type="number" ng-model="$parent.food.price" class="form-control" required/>
+
+        <br>
+
+        <div class="button">
+            <button type="submit" class="btn btn-primary" ng-click="food.$valid && $parent.createFood()"><span class="glyphicon glyphicon-ok"></span> OK</button>
+        </div>
+    </form>
+</div>

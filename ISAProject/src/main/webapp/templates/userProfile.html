@@ -1,0 +1,26 @@
+<div class="centered">
+    <form name="user">
+
+        <label>Name: </label>
+        <input name="user.name" type="text" ng-model="$parent.user.name" class="form-control" required/>
+
+        <label>Surname: </label>
+        <input  name="user.surname" type="text" ng-model="$parent.user.surname" class="form-control" required/>
+
+        <label>Email: </label>
+        <input name="user.email" type="text" ng-model="$parent.user.email" class="form-control" disabled/>
+
+        <label>Password: </label>
+        
+        <input type="{{inputType}}" ng-model="$parent.user.password" class="form-control" />
+        <input type="checkbox" id="checkbox" ng-model="passwordCheckbox" ng-click="hideShowPassword()" />
+        <label ng-if="passwordCheckbox">Hide password</label>
+        <label ng-if="!passwordCheckbox">Show password</label>  
+
+        <br><br>
+
+        <div class="button">
+            <button type="submit" class="btn btn-primary" ng-click="user.$valid && $parent.update()"><span class="glyphicon glyphicon-ok"></span> Update</button>
+        </div>
+    </form>
+</div>

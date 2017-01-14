@@ -23,7 +23,10 @@
     margin-right:auto;
     margin-left:auto;
 }
-
+.centered3
+{
+    text-align: center;
+}
 .buttonsRight{
     width:150px;
     margin-left:auto;
@@ -52,14 +55,18 @@ table, th, td {
    	height: 30px;
    	table-layout:fixed;
 	background-color: #333333;
+    border-collapse: collapse;
 }
-
+td {
+  word-wrap: break-word;
+}
 table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after { 
     content: " \25B4\25BE" 
 }
 
 label {
     background-color: #333333; 
+   
 }
 
 .right {
@@ -70,7 +77,7 @@ label {
 .nav > li > a:hover 
 {
     text-decoration: underline;
-    background-color: pink;
+    background-color: whitesmoke;
 }
 
 .navbar-btn{
@@ -86,4 +93,72 @@ label {
 .navbar-btn:focus {
     background-color: whitesmoke;
     color: #333333;
+}
+.dropdown:hover .dropdown-menu {
+    background-color: #222;
+    color: whitesmoke;
+}
+
+.inverse-dropdown {
+    background-color: #222;
+    color: whitesmoke;
+    border-color: #222;
+    text-align:center;
+    border-style: solid;
+    width:100%;
+}
+.inverse-dropdown:hover{
+    color:#000;
+    background-color:  #fff;
+    border-style: solid;
+    width:100%;
+}
+.free {
+    font-size: 14px;
+    height: 50px;
+    width: 50px;
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    color: #fff;
+    background-color: #428bca;
+    border-color: #357ebd;
+    background-image: none;
+    outline: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    
+}
+.remove {
+    font-size: 14px;
+    height: 50px;
+    width: 50px;
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    background-image: none;
+    outline: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;;
+}
+.reserved {
+    font-size: 14px;
+    height: 50px;
+    width: 50px;
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;    
+    color: #fff;
+    background-color: #f0ad4e;
+    border-color: #eea236;
+    background-image: none;
+    outline: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;;
 }

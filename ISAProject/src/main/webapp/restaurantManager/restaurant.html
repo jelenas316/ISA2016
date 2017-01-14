@@ -1,0 +1,17 @@
+<div class="col-sm-6 col-sm-offset-3 centered3">
+    <form name="restaurant">
+
+        <label>Name: </label>
+        <input name="restaurant.name" type="text" ng-model="$parent.user.restaurant.name" class="form-control" required/>
+
+        <label>Description: </label>
+        <input  name="restaurant.description" type="textarea" ng-model="$parent.user.restaurant.description" class="form-control" required/>
+
+        <br><br>
+
+        <div class="button">
+            <button type="submit" class="btn btn-primary" ng-click="restaurant.$valid && $parent.updateAbout();"><span class="glyphicon glyphicon-ok"></span> Update</button>
+        </div>
+    </form>
+</div>
+<div ui-view></div>

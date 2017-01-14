@@ -1,8 +1,6 @@
 package com.app.restaurant;
 
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
@@ -12,16 +10,13 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.app.drink.Drink;
-import com.app.food.Food;
-import com.app.restauranttable.RestaurantTable;
 
 @RestController
 @RequestMapping(path="/restaurants")
@@ -46,6 +41,7 @@ public class RestaurantController {
 	@ResponseStatus(HttpStatus.OK)
 	public Restaurant findOne(@PathParam("id") Long id){
 		return restaurantService.findOne(id);
+	
 	}
 
 	@PostMapping
@@ -60,11 +56,12 @@ public class RestaurantController {
 		return restaurantService.save(restaurant);
 	}
 	
-	@DeleteMapping(params="id")
+	@DeleteMapping(path = "/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathParam("id") Long id){
+	public void delete(@PathVariable Long id) {
 		Optional.ofNullable(restaurantService.findOne(id)).orElseThrow(() -> new ResourceNotFoundException());
 		restaurantService.delete(id);
+		
 	}
 	
 	@PutMapping

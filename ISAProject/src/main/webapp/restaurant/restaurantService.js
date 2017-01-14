@@ -7,8 +7,12 @@ app.service('restaurantService', ['$http', function($http){
 		return $http.get(url);
 	}
     
-    this.save = function(restaurant){
-		return $http.post(url, restaurant);
+    this.findOne = function(id){
+		return $http.get(url+"/"+id);
+	}
+    
+    this.save = function(resId){
+		return $http.post(url, resId);
 	}
 
 }]);

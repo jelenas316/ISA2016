@@ -1,1 +1,29 @@
-<h1>Restaurant manager</h1>
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" >Restaurant
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu inverse-dropdown">
+                    <li><button class = "inverse-dropdown" ui-sref=".restaurant">About</button></li>
+                    <li><button class = "inverse-dropdown" ng-click="restaurantOpen()" ui-sref=".menu">Menu</button></li>
+                    <li><button class = "inverse-dropdown" ng-click="restaurantOpen()" ui-sref=".drinks">Drink</button></li>
+                    <li><button class = "inverse-dropdown" ng-click="restaurantOpen()" ui-sref=".tables">Tables</button></li>
+                </ul>
+            </li>
+            <li><a ui-sref=".waiters" >Waiters</a></li>
+            <li><a ui-sref=".bartenders" >Bartenders</a></li>
+            <li><a ui-sref=".cooks" >Cooks</a></li>
+            <li><a ui-sref=".purchaseGrocery" >Purchase grocery</a></li>
+          
+        </ul>
+        
+        <ul class="nav navbar-nav pull-right">
+            <li><a ui-sref=".userProfile" ><span class="glyphicon glyphicon-user"></span> {{user.email}}</a></li>
+            <li><a ui-sref="login"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+        </ul> 
+        
+    </div>
+</nav>
+    <div ui-view></div>

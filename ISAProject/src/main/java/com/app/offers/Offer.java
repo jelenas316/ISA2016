@@ -3,6 +3,8 @@ package com.app.offers;
 import java.math.BigDecimal;
 import java.util.Map;
 
+import javax.persistence.OneToMany;
+
 import com.app.bidder.Bidder;
 import com.app.drink.Drink;
 
@@ -29,5 +31,8 @@ public class Offer {
 	private Map<FoodStuff, BigDecimal> food;
 	
 	private boolean accepted;
+	
+	@OneToMany
+	private Bidder bidder;
 	
 }

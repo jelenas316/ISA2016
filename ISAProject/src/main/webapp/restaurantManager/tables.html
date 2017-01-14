@@ -1,0 +1,32 @@
+<br/>
+<h1><span>Configuration tables:</span></h1>
+<div ng-if = "$parent.res.tables && $parent.res.tables.length > 0" class = "centered2">
+    <span ng-repeat="item in $parent.res.tables">
+        <button ng-class=" {free: item.status == 'FREE', remove: item.status == 'REMOVE', reserved: item.status == 'RESERVED'}" type = "button" data-toggle="tooltip" data-placement="top" title={{item.position}} ng-click="clickTable(item)">{{item.number}}</button>
+    </span>
+    <br/>
+</div>
+<br/>
+<div ng-if = "tablesForDelete.length > 0" class = "button">
+     <label>Delete selected tables: </label>
+    <button class="btn btn-primary" ng-click="$parent.deleteTables()"><span class="glyphicon glyphicon-ok"></span> OK</button>
+</div>
+<br/>
+<div class = "centered">
+    <h1><span>Add tables:</span></h1>
+    <form name="tables">
+        <label>Choose segment: </label>
+        <select name = "select" class="form-control" ng-model="$parent.tables.segment" required>
+        <option style="display:none" value=""></option>
+        <option>SMOKE</option>
+        <option ng-selected="selected">NOSMOKE</option>
+        </select>
+
+        <label>Number of tables: </label>
+        <input  name="tables.number" type="number" ng-model="$parent.tables.total" class="form-control" required/>
+        <br>
+        <div class="button">
+            <button type="submit" class="btn btn-primary" ng-click="tables.$valid && $parent.addTables()"><span class="glyphicon glyphicon-ok"></span> OK</button>
+        </div>
+    </form>
+</div>

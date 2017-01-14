@@ -78,14 +78,55 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 			url : '/SystemManagers',
 		  	templateUrl : 'systemManager/systemManagers.html'
 		 })
-        .state('systemManager.systemManagerProfile', {
-			url : '/systemManagerProfile',
-		  	templateUrl : 'systemManager/systemManagerProfile.html'
+        .state('systemManager.userProfile', {
+			url : '/userProfile',
+		  	templateUrl : 'templates/userProfile.html'
 		 })
         .state('restaurantManager', {
 			url : '/restaurantManager',
             controller: 'restaurantManagerController',
 		  	templateUrl : 'restaurantManager/restaurantManager.html'
+		 })
+        .state('restaurantManager.restaurant', {
+			url : '/restaurant',
+            controller: 'restaurantManagerController',
+		  	templateUrl : 'restaurantManager/restaurant.html'
+		 })
+        .state('restaurantManager.userProfile', {
+			url : '/profile',
+            controller: 'restaurantManagerController',
+		  	templateUrl : 'templates/userProfile.html'
+		 })
+        .state('restaurantManager.menu', {
+			url : '/menu',
+            controller: 'restaurantManagerController',
+		  	templateUrl : 'restaurantManager/menu.html'
+		 })    
+        .state('restaurantManager.drinks', {
+			url : '/drinks',
+            controller: 'restaurantManagerController',
+		  	templateUrl : 'restaurantManager/drinks.html'
+		 })  
+        .state('restaurantManager.tables', {
+			url : '/tables',
+            controller: 'restaurantManagerController',
+		  	templateUrl : 'restaurantManager/tables.html'
+		 })
+        .state('restaurantManager.waiters', {
+			url : '/Waiters',
+		  	templateUrl : 'restaurantManager/waiters.html'
+		 })
+        .state('restaurantManager.bartenders', {
+			url : '/bartenders',
+		  	templateUrl : 'restaurantManager/bartenders.html'
+		 })
+        .state('restaurantManager.cooks', {
+			url : '/cooks',
+		  	templateUrl : 'restaurantManager/cooks.html'
+		 })
+       .state('restaurantManager.purchaseGrocery', {
+			url : '/purchaseGrocery',
+		  	templateUrl : 'restaurantManager/purchaseGrocery.html'
 		 })
 	    .state('other', {
 	    	url : '/other',
@@ -108,4 +149,11 @@ app.directive('convertToNumber', function() {
       });
     }
   };
+});
+app.directive('userProfile', function() {
+		var directive = {};
+    directive.restrict = 'E';
+    directive.templateUrl = "templates/userProfile.html";
+
+    return directive;
 });

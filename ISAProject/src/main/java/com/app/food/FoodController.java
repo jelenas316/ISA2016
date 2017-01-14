@@ -1,5 +1,6 @@
 package com.app.food;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -17,15 +18,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.restaurant.Restaurant;
+import com.app.restaurant.RestaurantService;
+
 @RestController
 @RequestMapping(path="/foods")
 public class FoodController {
 
 	private final FoodService foodService;
 	
+	private final RestaurantService restaurantService;
+	
 	@Autowired
-	public FoodController(final FoodService foodService) {
+	public FoodController(final FoodService foodService, final RestaurantService restaurantService) {
 		this.foodService=foodService;
+		this.restaurantService = restaurantService;
 	}
 	
 	@GetMapping
@@ -42,15 +49,39 @@ public class FoodController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Food save(@Valid @RequestBody Food food){
-		return foodService.save(food);
+	public Restaurant save(@Valid @RequestBody FoodDTO food){
+		int index = -1;
+		BigDecimal big = new BigDecimal(food.getPrice().toString());
+		Restaurant restaurant = restaurantService.findOne(food.getResId().longValue());
+		Food food1 = new Food();
+		food1.setName(food.getName());
+		food1.setDescription(food.getDescription());
+		food1.setPrice(big);
+		if(foodService.findById(food.getId()) != null){
+			food1.setId(food.getId());
+		}
+		for (Food foodd: restaurant.getMenu()) {
+			if(foodd.getId().equals(food.getId())){
+				index = restaurant.getMenu().indexOf(foodd);
+			}
+		}
+		if(index!=-1){
+			restaurant.getMenu().remove(index);
+			restaurant.getMenu().add(food1);
+			food1.setId(food.getId());
+		}else{
+			restaurant.getMenu().add(food1);
+		}
+		foodService.save(food1);
+		restaurantService.save(restaurant);	   
+	    return restaurant;
 	}
 	
 	@DeleteMapping(params="id")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void deleteById(@PathParam("id") Long id){
-		Optional.ofNullable(foodService.findById(id)).orElseThrow(() -> new ResourceNotFoundException());
-		foodService.deleteById(id);
+		Optional.ofNullable(foodService.findById(id.longValue())).orElseThrow(() -> new ResourceNotFoundException());
+		foodService.deleteById(id.longValue());
 	}
 	
 	@PutMapping
