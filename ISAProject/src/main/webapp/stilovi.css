@@ -48,14 +48,18 @@ input {
     color: black;
 }
 
-table, th, td {
+.table {
    	border: 1px solid black;
    	text-align:center;
    	padding: 15px;
    	height: 30px;
    	table-layout:fixed;
 	background-color: #333333;
+    color:white;
     border-collapse: collapse;
+}
+td, th{
+   text-align:center;
 }
 td {
   word-wrap: break-word;
@@ -161,4 +165,13 @@ label {
     outline: 0;
     -webkit-box-shadow: none;
     box-shadow: none;;
+}
+.center{
+    text-align:center;
+}
+input[readonly].default-cursor {
+    cursor: default;
+}
+input[ng-readonly].default-cursor {
+    cursor: default;
 }

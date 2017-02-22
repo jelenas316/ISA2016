@@ -8,8 +8,7 @@ app.service('systemManagerService', ['$http', function($http){
 	}
     this.update = function(data){
 		return $http.put(url,data);
-	}
-    
+	}    
     this.save = function(user){
 		return $http.post(url, user);
 	}

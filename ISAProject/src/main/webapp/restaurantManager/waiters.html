@@ -1,0 +1,107 @@
+<div ng-if = "state == 'undefined'" class = "col-sm-8 col-sm-offset-2 center">
+    <table class="table table-bordered">
+        <caption>Waiters</caption>
+        <tr>
+            <th>Email</th>
+            <th>Name</th> 
+            <th>Surname</th>
+            <th>Birth date</th>
+            <th>Dress size</th> 
+            <th>Shoes size</th>
+            <th>Working schedule</th>
+        </tr>
+        <tr ng-repeat="waiter in waiters">
+            <td>{{waiter.email}}</td>
+            <td>{{waiter.name}}</td>
+            <td>{{waiter.surname}}</td>
+            <td>{{waiter.dateOfBirth}}</td>
+            <td>{{waiter.dressSize}}</td>
+            <td>{{waiter.shoesSize}}</td>
+            <td><button ng-click = 'workSchedule(waiter)' class = "btn btn-primary">View</button></td>
+        </tr>
+    </table>
+    <button ng-click = 'addWaiter()' class = "btn btn-primary ">Add waiter</button>
+</div>
+<div ng-if = "state == 'schedule' || state == 'expandTablesForShift'" class = "col-sm-8 col-sm-offset-2 center">    
+    <br/>
+    <table class="table table-bordered">
+        <caption>Working schedule for waiter: {{waiter.email}}</caption>
+        <tr>
+            <th>Start date</th>
+            <th>End date</th> 
+            <th>Time</th>
+            <th colspan="2">Operation</th>
+        </tr>        
+        <tr ng-repeat="shift in waiter.shifts">
+            <td>{{shift.startDate}}</td>
+            <td>{{shift.endDate}}</td>
+            <td>{{shift.beginOfShift}} - {{shift.endOfShift}}</td>
+            <td><button ng-click = 'expandTablesForShift(shift)' class = "btn btn-primary">Tables</button></td>
+            <td><button ng-disabled = "flag" ng-click = 'deleteShift(shift)' class = "btn btn-primary">Delete</button></td>
+        </tr>
+    </table>  
+    <button ng-click = 'shift()' class = "btn btn-primary">New shift</button>
+    <button ng-click = 'exitSchedule()' class = "btn btn-primary">Back</button>
+    <br/><br/>
+    <div class = "col-sm-6 col-sm-offset-3" ng-if = "state=='expandTablesForShift'">
+        <h1><span>Tables:</span></h1><br/>
+        <span ng-repeat="item in expandTables">
+            <button class="btn btn-success  btn-lg" type = "button">{{item.number}}</button>
+        </span>
+    </div>
+</div>
+
+<div class = "col-sm-6 col-sm-offset-3" ng-if = "state=='shift'">
+    <div rg-range-picker="myDatetimeRange" labels="myDatetimeLabels">
+    </div>
+    <h1><span>Choose tables:</span></h1><br/>
+    <span ng-repeat="item in user.restaurant.tables">
+        <button  ng-class=" {free: item.status != 'REMOVE', remove: item.status == 'REMOVE'}" type = "button" data-toggle="tooltip" data-placement="top" title={{item.position}} ng-click="table(item)">{{item.number}}</button>
+    </span>
+     <h1><span>Choosen tables:</span></h1><br/>
+    <span ng-repeat="item in tablesForShift">
+        <button  class="btn btn-success  btn-lg" type = "button" ng-click="table(item)">{{item.number}}</button>
+    </span>
+    <div class = "center">
+        <br/>
+        <button ng-disabled = "flag" ng-click = 'addShift()' class = "btn btn-primary">Create shift</button>
+        <button ng-click = 'exitAddShift()' class = "btn btn-primary">Back</button>
+    </div>
+</div>
+<div ng-if = "state == 'newWaiter'" class = "col-sm-4 col-sm-offset-4 center">
+        <form name="waiterForm">
+            <br/>            
+            <label>Email: </label>
+			<input name="waiterForm.email" type="email" ng-model="waiter.email" class="form-control" required/>
+	
+			<label>Password: </label>
+			<input type="{{inputType}}" ng-model="waiter.password" class="form-control" />
+            <input type="checkbox" id="checkbox" ng-model="passwordCheckbox" ng-click="hideShowPassword()" reqiured/>
+            <label class = "profilLabel" ng-if="passwordCheckbox">Hide password</label>
+            <label class = "profilLabel" ng-if="!passwordCheckbox">Show password</label> 
+            <br/><br/>
+            			
+            <label>Name: </label>
+			<input name="waiterForm.name" type="text" onkeydown="checkInputText()" ng-model="waiter.name" class="form-control" reqiured/>
+            
+            <label>Surname: </label>
+			<input name="waiterForm.surname" type="text" onkeydown="checkInputText()" class="form-control" ng-model = "waiter.surname" reqiured/>
+            
+			<label>Birth Date: </label>
+            <br/>
+            <dp ng-model="waiter.dateOfBirth"></dp>
+            <br/>
+           
+            <label>Dress size: </label>
+			<input name="waiterForm.dressSize" type="text" onkeydown="checkInputSize()" ng-model="waiter.dressSize" class="form-control" reqiured/>
+	
+			<label>Shoes size: </label>
+			<input name="waiterForm.shoesSize" type="text" onkeydown="checkInputSize()" ng-model="waiter.shoesSize" class="form-control" reqiured/>
+        <br><br>
+
+        <div class="button">
+            <button type="submit" class="btn btn-primary" ng-disabled = "flag" ng-click="create()"><span class="glyphicon glyphicon-ok"></span> Register</button>
+            <button class="btn btn-primary" ng-click="exitSchedule()">Cancel</button>
+        </div>
+    </form>
+</div>

@@ -13,10 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.app.bartender.Bartender;
-import com.app.cook.Cook;
-import com.app.reon.Reon;
-import com.app.waiter.Waiter;
+import com.app.restauranttable.RestaurantTable;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 
@@ -31,24 +29,23 @@ public class Shift {
 	private Long id;
 	
 	@NotNull
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
 	private Time beginOfShift;
 
 	@NotNull
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
 	private Time endOfShift;
 	
 	@NotNull
-	private Date datum;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd" , timezone = "Europe/Budapest")
+	private Date startDate;
 	
-//	private Waiter waiters;
-//	
-//	@OneToMany
-//	private Cook cooks;
-//	
-//	@OneToMany
-//	private Bartender bartenders;
+	@NotNull
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Europe/Budapest")
+	private Date endDate;
 	
-//	@NotNull
-//	private Reon reon;
+	@OneToMany
+	private List<RestaurantTable> reon;	
 	
 }
 

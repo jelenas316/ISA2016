@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.app.drink.Drink;
@@ -41,6 +43,7 @@ public class Restaurant {
 	private List<Food> menu ;
 	
 	@OneToMany
+	@NotFound(action=NotFoundAction.IGNORE)
 	private List<RestaurantTable> tables;
 
 	

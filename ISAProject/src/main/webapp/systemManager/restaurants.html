@@ -1,4 +1,4 @@
-<div ng-if = "$parent.register == 'undefined'" class = "col-sm-8">
+<div ng-if = "$parent.register == 'undefined'" class = "col-sm-8 col-sm-offset-2">
     <h1><span>Restaurants</span></h1>
     <table class="table table-bordered">
         <tr>
@@ -14,15 +14,15 @@
     <button type="button" class="btn btn-primary" ng-click="registration()">Register new</button>
 </div>
 
-<div class = "centered" ng-if = "$parent.register == 'register'">
-   
+<div class = "centered" class = "col-sm-4 col-sm-offset-4" ng-if = "$parent.register == 'register'">
+        <br/>
         <form name="res">
              <h1><span>Registration: </span></h1>
             <label>Name: </label>
             <input name="restaurant.name" type="text" ng-model="restaurant.name" class="form-control" required/>
 
             <label>Description: </label>
-            <input  name="restaurant.description" type="text" ng-model="restaurant.description" class="form-control" required/>
+            <input name="restaurant.description" type="text" ng-model="restaurant.description" class="form-control" required/>
 
             <br><br>
 

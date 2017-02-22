@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.food.Food;
 import com.app.restaurant.Restaurant;
 import com.app.restaurant.RestaurantService;
 
@@ -58,12 +57,12 @@ public class DrinkController {
 		drink1.setName(drink.getName());
 		drink1.setDescription(drink.getDescription());
 		drink1.setPrice(big);
-		if(drinkService.findById(drink.getId()) != null){
+		if(drink.getId()!= null && drinkService.findById(drink.getId()) != null){
 			drink1.setId(drink.getId());
 		}
-		for (Drink drinkk: restaurant.getDrinks()) {
-			if(drinkk.getId().equals(drink.getId())){
-				index = restaurant.getDrinks().indexOf(drinkk);
+		for (int i = 0; i< restaurant.getDrinks().size(); i++) {
+			if(restaurant.getDrinks().get(i).getId().equals(drink.getId())){
+				index = i;
 			}
 		}
 		if(index!=-1){

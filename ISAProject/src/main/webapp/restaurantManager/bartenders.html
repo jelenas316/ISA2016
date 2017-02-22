@@ -1,0 +1,91 @@
+<div ng-if = "state == 'undefined'" class = "col-sm-8 col-sm-offset-2 center">
+    <table class="table table-bordered">
+        <caption>Bartenders</caption>
+        <tr>
+            <th>Email</th>
+            <th>Name</th> 
+            <th>Surname</th>
+            <th>Birth date</th>
+            <th>Dress size</th> 
+            <th>Shoes size</th>
+            <th>Working schedule</th>
+        </tr>
+        <tr ng-repeat="bartender in bartenders">
+            <td>{{bartender.email}}</td>
+            <td>{{bartender.name}}</td>
+            <td>{{bartender.surname}}</td>
+            <td>{{bartender.dateOfBirth}}</td>
+            <td>{{bartender.dressSize}}</td>
+            <td>{{bartender.shoesSize}}</td>
+            <td><button ng-click = 'workSchedule(bartender)' class = "btn btn-primary">View</button></td>
+        </tr>
+    </table>
+    <button ng-click = 'addBartender()' class = "btn btn-primary ">Add bartender</button>
+</div>
+<div ng-if = "state == 'schedule'" class = "col-sm-8 col-sm-offset-2 center">    
+    <br/>
+    <table class="table table-bordered">
+        <caption>Working schedule for bartender: {{bartender.email}}</caption>
+        <tr>
+            <th>Start date</th>
+            <th>End date</th> 
+            <th>Time</th>
+            <th>Operation</th>
+        </tr>        
+        <tr ng-repeat="shift in bartender.shifts">
+            <td>{{shift.startDate}}</td>
+            <td>{{shift.endDate}}</td>
+            <td>{{shift.beginOfShift}} - {{shift.endOfShift}}</td>
+            <td><button ng-click = 'deleteShift(shift)'  ng-disabled = "flag" class = "btn btn-primary">Delete</button></td>
+        </tr>
+    </table>  
+    <button ng-click = 'shift()' class = "btn btn-primary">New shift</button>
+    <button ng-click = 'exitSchedule()' class = "btn btn-primary">Back</button>
+</div>
+
+<div class = "col-sm-6 col-sm-offset-3" ng-if = "state=='shift'">
+    <div rg-range-picker="myDatetimeRange" labels="myDatetimeLabels">
+    </div>
+    <div class = "center">
+        <br/>
+        <button ng-click = 'addShift()'  ng-disabled = "flag" class = "btn btn-primary">Create shift</button>
+        <button ng-click = 'exitAddShift()' class = "btn btn-primary">Back</button>
+    </div>
+</div>
+<div ng-if = "state == 'newBartender'" class = "col-sm-4 col-sm-offset-4 center">
+        <form name="bartenderForm">
+            <br/>            
+            <label>Email: </label>
+			<input name="bartenderForm.email" type="email" ng-model="bartender.email" class="form-control" required/>
+	
+			<label>Password: </label>
+			<input type="{{inputType}}" ng-model="bartender.password" class="form-control" />
+            <input type="checkbox" id="checkbox" ng-model="passwordCheckbox" ng-click="hideShowPassword()" reqiured/>
+            <label class = "profilLabel" ng-if="passwordCheckbox">Hide password</label>
+            <label class = "profilLabel" ng-if="!passwordCheckbox">Show password</label> 
+            <br/><br/>
+            			
+            <label>Name: </label>
+			<input name="bartenderForm.name" type="text" onkeydown="checkInputText()" ng-model="bartender.name" class="form-control" reqiured/>
+            
+            <label>Surname: </label>
+			<input name="bartenderForm.surname" onkeydown="checkInputText()" type="text" ng-model="bartender.surname" class="form-control" reqiured/>
+            
+			<label>Birth Date: </label>
+            <br/>
+            <dp ng-model="bartender.dateOfBirth"></dp>
+            <br/>
+           
+            <label>Dress size: </label>
+			<input name="bartenderForm.dressSize" type="text" onkeydown="checkInputSize()" ng-model="bartender.dressSize" class="form-control" reqiured/>
+	
+			<label>Shoes size: </label>
+			<input  name="bartenderForm.shoesSize" type="text" onkeydown="checkInputSize()" ng-model="bartender.shoesSize" class="form-control" reqiured/>
+            <br><br>
+
+        <div class="button">
+            <button type="submit" class="btn btn-primary"  ng-disabled = "flag" ng-click="create()"><span class="glyphicon glyphicon-ok"></span> Register</button>
+            <button class="btn btn-primary" ng-click="exitSchedule()">Cancel</button>
+        </div>
+    </form>
+</div>

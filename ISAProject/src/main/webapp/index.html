@@ -1,32 +1,34 @@
 <!DOCTYPE html>
 <html ng-app="app">
 <head>
-<meta charset="ISO-8859-1">
-    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+<meta charset="utf-8">
+    <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>      
+    <!--jquery-->
+    <script src="lib/jquery/jquery-2.1.4.min.js"></script>
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <!--bootstrap-->
+    <link href="lib/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>  
+    <!--angular-->  
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-animate.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-touch.min.js"></script>
+    <script src="lib/angular/angular-resource.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.4.4/angular-sanitize.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.3/ui-bootstrap-tpls.min.js"></script>   
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>   
+    <!--shift datetime range picker-->  
+    <script src="bower_components/venturocket-angular-slider/build/angular-slider.js"></script>    
+    <link rel="stylesheet" href="bower_components/datetimeRangePicker/range-picker.css"/>
+    <script src="bower_components/datetimeRangePicker/range-picker.js"></script>
+    <!--working schedule-->    
+    <!-- <link rel="stylesheet" href="bower_components/ng-responsive-calendar/dist/css/calendar.min.css"/>
+    <script src="bower_components/ng-responsive-calendar/dist/js/calendar-tpls.min.js"></script>  --> 
     
-<!-- CSS (load bootstrap) -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-   <!--for dropdown menu -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     
- <script src="js/jquery/jquery-2.0.3.js"></script>
-
- <!-- Bootstrap ============================================================= -->
-
- <!-- AngularJS ============================================================= -->   
-    
-    
-<!-- In production use:
- <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
- --> 
-    
- <script src="lib/angular/angular.js"></script>
- <script src="lib/angular/angular-resource.js"></script>
-    
-
+    <script src="app.js"></script>   
 	<link rel="stylesheet" type="text/css" href="stilovi.css">
-	<script src="app.js"></script>
+	
 	<script src="home/loginController.js"></script>
 	<script src="home/loginService.js"></script>
 	<script src="home/signupController.js"></script>
@@ -49,13 +51,43 @@
 	<script src="drink/drinkService.js"></script>
     <script src="restaurantTable/restaurantTableController.js"></script>
 	<script src="restaurantTable/restaurantTableService.js"></script>
+    <script src="restaurantManager/rmbartendersController.js"></script>
+    <script src="restaurantManager/rmcooksController.js"></script>
+    <script src="restaurantManager/rmwaitresController.js"></script>
+    <script src="waiter/waiterService.js"></script>
+    <script src="bartender/bartenderService.js"></script>
+    <script src="cook/cookService.js"></script>
 
-	<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">
-		
+	<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">		
 	<script src="http://www.w3schools.com/lib/w3data.js"></script>
-		
-	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
-	
+    
+    <script>
+        function checkInputSize() {
+            if(event.keyCode>=48 && event.keyCode <=57 || event.keyCode>=96 && event.keyCode <=105 || event.keyCode==190 || event.keyCode==8 || event.keyCode==9 || event.keyCode==13 || event.keyCode==46){
+
+            }else{
+                event.preventDefault();
+                return false;
+            }
+        }
+        function checkInputTextNumber() {
+            if(event.keyCode>=48 && event.keyCode <=57 || event.keyCode>=96 && event.keyCode <=105 || event.keyCode>=65 && event.keyCode <=90 || event.keyCode==8 || event.keyCode==9 || event.keyCode==13 || event.keyCode==46 || event.keyCode==188  || event.keyCode==190 || event.keyCode==32){
+
+            }else{
+                event.preventDefault();
+                return false;
+            }
+        }
+        function checkInputText() {
+            if(event.keyCode>=65 && event.keyCode <=90 || event.keyCode==8 || event.keyCode==9 || event.keyCode==13 || event.keyCode==46 || event.keyCode==32){
+
+            }else{
+                event.preventDefault();
+                return false;
+            }
+        }
+    </script>
+
 <title>Restaurant</title>
 </head>
 <body class="bg">

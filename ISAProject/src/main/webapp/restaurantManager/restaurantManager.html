@@ -12,9 +12,15 @@
                     <li><button class = "inverse-dropdown" ng-click="restaurantOpen()" ui-sref=".tables">Tables</button></li>
                 </ul>
             </li>
-            <li><a ui-sref=".waiters" >Waiters</a></li>
-            <li><a ui-sref=".bartenders" >Bartenders</a></li>
-            <li><a ui-sref=".cooks" >Cooks</a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" >Workers
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu inverse-dropdown">
+                    <li><button class = "inverse-dropdown" ui-sref=".waiters">Waiters</button></li>
+                    <li><button class = "inverse-dropdown" ui-sref=".bartenders">Bartenders</button></li>
+                    <li><button class = "inverse-dropdown" ui-sref=".cooks">Cooks</button></li>
+                </ul>
+            </li>
             <li><a ui-sref=".purchaseGrocery" >Purchase grocery</a></li>
           
         </ul>

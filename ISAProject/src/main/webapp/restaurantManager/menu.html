@@ -8,34 +8,33 @@
         <th colspan = "2">Operation</th>
 
         </tr>
-        <tr ng-repeat="food in $parent.res.menu | orderBy:'id'">
+        <tr ng-repeat="food in res.menu | orderBy:'id'">
         <td>{{food.name}}</td>
         <td>{{food.description}}</td>
         <td>{{food.price}}</td>
-        <td><button ng-click = '$parent.$parent.editFood(food)' class = "btn btn-primary" >Edit</button></td>
-        <td><button ng-click = "$parent.$parent.deleteFood(food)" class = "btn btn-primary" >Delete</button></td>
+        <td><button ng-click = 'editFood(food)' class = "btn btn-primary" >Edit</button></td>
+        <td><button ng-click = "deleteFood(food)" ng-disabled = "flagDelete" class = "btn btn-primary" >Delete</button></td>
         </tr>  
     </table>
     <br/>
 </div>
 
-<div class="centered">
+<div class="col-sm-4 col-sm-offset-4 center">
     <h1><span>Add food:</span></h1>
-    <form name="food">
+    <form name="food1">
 
         <label>Name: </label>
-        <input name="food.name" type="text" ng-model="$parent.food.name" class="form-control" required/>
+        <input name="food1.name" type="text" onkeydown="checkInputText()"  ng-model="food.name" class="form-control" required/>
 
         <label>Description: </label>
-        <input  name="food.description" type="text" ng-model="$parent.food.description" class="form-control" required/>
+        <input name="food1.description" type="text" onkeydown="checkInputTextNumber()"  ng-model="food.description" class="form-control" required/>
 
         <label>Price: </label>
-        <input name="food.price" type="number" ng-model="$parent.food.price" class="form-control" required/>
-
+        <input name="food1.price" type="text" onkeydown="checkInputTextSize()"  ng-model="food.price" class="form-control" required/>
         <br>
 
         <div class="button">
-            <button type="submit" class="btn btn-primary" ng-click="food.$valid && $parent.createFood()"><span class="glyphicon glyphicon-ok"></span> OK</button>
+            <button type="submit" class="btn btn-primary" ng-disabled = "flag" ng-click="food1.$valid && createFood()"><span class="glyphicon glyphicon-ok"></span> OK</button>
         </div>
     </form>
 </div>

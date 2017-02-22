@@ -57,12 +57,12 @@ public class FoodController {
 		food1.setName(food.getName());
 		food1.setDescription(food.getDescription());
 		food1.setPrice(big);
-		if(foodService.findById(food.getId()) != null){
+		if(food.getId()!= null && foodService.findById(food.getId()) != null){
 			food1.setId(food.getId());
 		}
-		for (Food foodd: restaurant.getMenu()) {
-			if(foodd.getId().equals(food.getId())){
-				index = restaurant.getMenu().indexOf(foodd);
+		for (int i = 0; i< restaurant.getMenu().size(); i++) {
+			if(restaurant.getMenu().get(i).getId().equals(food.getId())){
+				index = i;
 			}
 		}
 		if(index!=-1){

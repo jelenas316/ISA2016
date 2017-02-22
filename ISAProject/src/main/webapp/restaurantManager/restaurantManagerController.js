@@ -1,10 +1,14 @@
-app.controller('restaurantManagerController', ['$scope', '$window', '$location', 'restaurantManagerService', 'loginService','restaurantService',
-                                               'loginService','foodService','$state','drinkService','restaurantTableService',
-	function ($scope, $window, $location, restaurantManagerService, loginService, restaurantService, loginService, foodService, $state, drinkService,restaurantTableService) {
+app.controller('restaurantManagerController', ['$scope', '$window', '$location', 'restaurantManagerService', 'loginService','restaurantService','foodService','$state','drinkService','restaurantTableService',
+	function ($scope, $window, $location, restaurantManagerService, loginService, restaurantService, foodService, $state, drinkService,restaurantTableService) {
         
 	function init(){
-       
-        $scope.user = loginService.getUser(); 
+        if($window.localStorage.getItem("user") == undefined){
+             $state.go('login'); 
+             return;
+        }
+              
+        var result = JSON.parse(localStorage.getItem("user"));
+        $scope.user = result[0];
         $scope.food = {};	
         $scope.drink = {};
         $scope.restaurantTables = [];
@@ -13,9 +17,78 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
         $scope.configuration = {};
         $scope.tablesForDelete = [];
         $scope.inputType = 'password';
-	};
-
+        $scope.flag = false;
+        $scope.flagDelete = false;
+        //$scope.eventSource = $scope.createRandomEvents();
+   
+    }
+             
+    $scope.createRandomEvents = function() {
+        var events = [];
+            var date = new Date();
+            var startTime;
+            var endTime;
+            var startMinute = Math.floor(Math.random() * 24 * 60);
+            var endMinute = Math.floor(Math.random() * 180) + startMinute;
+            startTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() , date.getHours(), date.getMinutes());
+            endTime = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1, date.getHours()+4, date.getMinutes());
+            events.push({
+                title: 'Radnik - ' + $scope.user.username,
+                startTime: startTime,
+                endTime: endTime,
+                allDay: false
+            });
+        return events;
+    }
 	init();
+    $scope.myDatetimeRange = {
+		date: {
+			from: new Date(),
+			to: new Date(),
+            min: new Date()
+		},
+		time: {
+			from: 480, // default low value
+			to: 1020, // default high value
+            step: 30, // step width
+            minRange: 60, // min range
+            hours24: false // true for 24hrs based time | false for PM and AM
+		}
+	};
+    $scope.myDatetimeLabels = {
+        date: {
+            from: 'Start date',
+            to: 'End date'
+        }
+    };
+
+    $scope.whentimechangedata = {};
+
+    $scope.whenTimeChange = function (data) {
+        console.log('schedule changes', data);
+        $scope.whentimechangedata = data;
+    };
+
+    // show only time slider
+    $scope.timeRangePicker = {
+        time: {
+            from: 480, // default low value
+            to: 1020, // default high value
+            step: 60, // step width
+            minRange: 60, // min range
+            hours24: false // true for 24hrs based time | false for PM and AM
+        }
+    };
+
+    // show only date pickers
+    $scope.dateRangePicker = {
+        date: {
+            from: new Date(),
+            to: new Date()
+        }
+    };
+
+    $scope.mixRangeDate = 1; //days
         
     $scope.restaurantOpen = function(){
         restaurantManagerService.findOne($scope.user.id).then(
@@ -28,26 +101,32 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
         );
     }
     $scope.deleteFood = function(food){
+        $scope.flagDelete = true;
         var index = $scope.res.menu.indexOf(food);
         foodService.delete(food.id).then(
             function(response){
                 $scope.res.menu.splice(index, 1);
+                 $scope.flagDelete = false;
             },
             function(response){
                 alert("Error wile deleting.");
+                 $scope.flagDelete = false;
             }
         );
     }
     $scope.createFood = function(){
+         $scope.flag = true;
          $scope.food.resId = $scope.user.restaurant.id;
          foodService.save($scope.food).then(
             function(response){
                 $scope.food = {};                
                 $scope.res = response.data;
-                alert("Added.");                                   
+                alert("Added.");      
+                 $scope.flag = false;
             },
             function(response){
                 alert("Error wile adding.");
+                $scope.flag = false;
             }
         );
     }
@@ -58,26 +137,32 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
         $scope.food.price = food.price;
     }
     $scope.deleteDrink = function(drink){
+        $scope.flagDelete = true;
         var index = $scope.res.drinks.indexOf(drink);
         drinkService.delete(drink.id).then(
             function(response){
                 $scope.res.drinks.splice(index, 1);
+                $scope.flagDelete = false;
             },
             function(response){
                 alert("Error wile deleting.");
+                $scope.flagDelete = false;s
             }
         );
     }
     $scope.createDrink = function(){
+         $scope.flag = true;
          $scope.drink.resId = $scope.user.restaurant.id;
          drinkService.save($scope.drink).then(
             function(response){
                 $scope.drink = {};    
                 $scope.res = response.data;
-                alert("Added.");                                   
+                alert("Added.");  
+                $scope.flag = false;
             },
             function(response){
                 alert("Error wile adding.");
+                $scope.flag = false;
             }
         );
     }
@@ -105,8 +190,13 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
         else
           $scope.inputType = 'password';
     };
-    
-    $scope.addTables = function(){
+    $scope.addTables = function(){   
+        $scope.flag = true;
+        if($scope.res.tables.length+$scope.tables.total>50){
+            alert("Restaurant max table number is 50.");
+            $scope.flag = false;
+            return;
+        }
         for (i = 0; i < $scope.tables.total; i++) { 
             $scope.table = {};  
             $scope.table.number = i+1;
@@ -119,10 +209,12 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
         restaurantTableService.save($scope.configuration).then(
             function(response){
                 $scope.res = response.data;
-                alert("Added tables.");                                   
+                alert("Added tables.");  
+                $scope.flag = false;
             },
             function(response){
                 alert("Error wile adding.");
+                $scope.flag = false;
             }
         );
     }
@@ -139,15 +231,29 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
         }
     }
     $scope.deleteTables = function(){
+        $scope.flagDelete = true;
         $scope.tablesForDelete.push($scope.res.id);
         restaurantTableService.delete($scope.tablesForDelete).then(
             function(response){
                 alert("Tables removed.");                   
                 $scope.restaurantOpen();
                 $scope.tablesForDelete = [];
+                $scope.flagDelete = false;
             },
             function(response){
                 alert("Error wile removing tables.");
+                $scope.flagDelete = false;
+            }
+        );
+    }
+    $scope.updateManager = function(){
+        restaurantManagerService.update($scope.user).then(
+            function(response){
+                $scope.user = response.data;
+                alert("Successfuly updated.");
+            },
+            function(response){
+                alert("Error while updating user.");
             }
         );
     }

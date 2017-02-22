@@ -1,5 +1,5 @@
-var app = angular.module('app', ['ui.router']);
-
+'use strict';
+var app = angular.module('app', ['ui.router','ngAnimate','ngTouch','ngSanitize','rgkevin.datetimeRangePicker','ui.bootstrap']);
 app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise('/login');
     
@@ -114,14 +114,17 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 		 })
         .state('restaurantManager.waiters', {
 			url : '/Waiters',
+            controller: 'rmwaitersController',
 		  	templateUrl : 'restaurantManager/waiters.html'
 		 })
         .state('restaurantManager.bartenders', {
 			url : '/bartenders',
+            controller: 'rmbartendersController',
 		  	templateUrl : 'restaurantManager/bartenders.html'
 		 })
         .state('restaurantManager.cooks', {
 			url : '/cooks',
+            controller: 'rmcooksController',
 		  	templateUrl : 'restaurantManager/cooks.html'
 		 })
        .state('restaurantManager.purchaseGrocery', {
@@ -154,6 +157,20 @@ app.directive('userProfile', function() {
 		var directive = {};
     directive.restrict = 'E';
     directive.templateUrl = "templates/userProfile.html";
+
+    return directive;
+});
+app.directive('dp', function() {
+	var directive = {};
+    directive.restrict = 'E';
+    directive.templateUrl = "templates/datePickerTemplate.html";
+		directive.link = function($scope, element, attrs) {
+			$scope.isOpened = false;
+			$scope.open = function() { $scope.isOpened = true;}
+		}
+		directive.scope =  {
+        model:'=ngModel',	minDate: '=min'
+    }
 
     return directive;
 });

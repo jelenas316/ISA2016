@@ -3,6 +3,7 @@ app.controller('loginController', ['$scope', '$window', '$location', '$state', '
 
 	function init(){
 		$scope.loginData={};
+        $window.localStorage.removeItem("user");   
 	}
 
 	init();
@@ -12,14 +13,18 @@ app.controller('loginController', ['$scope', '$window', '$location', '$state', '
 		loginService.logIn($scope.loginData).then(
 			function(response){
 				$scope.loginData={};
-				if(response.data.role=="GUEST"){
+				if(response.data.role=="GUEST"){                    
 					$state.go('guest',{ email : response.data.email });
-				}else if(response.data.role=="SYSTEM_MANAGER"){                    
-                    loginService.setUser(response.data);
-                    $state.go('systemManager',{ email : response.data.email });                   
-                }else if(response.data.role=="RESTAURANT_MANAGER"){                    
-                    loginService.setUser(response.data);
-                    $state.go('restaurantManager',{ email : response.data.email });                   
+				}else if(response.data.role=="SYSTEM_MANAGER"){    
+                    var user = [];
+                    user.push(response.data);
+                    $window.localStorage.setItem("user", JSON.stringify(user));
+                    $state.go('systemManager');                   
+                }else if(response.data.role=="RESTAURANT_MANAGER"){                     
+                    var user = [];
+                    user.push(response.data);
+                    $window.localStorage.setItem("user", JSON.stringify(user));
+                    $state.go('restaurantManager');                   
                 }
                 else
 					$state.transitionTo('other');

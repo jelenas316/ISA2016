@@ -3,14 +3,20 @@ app.controller('systemManagerController', ['$scope', '$window', '$location', 'sy
 	function ($scope, $window, $location, systemManagerService, loginService, restaurantService, restaurantManagerService) {
 
 	function init(){
+        
+        if($window.localStorage.getItem("user") == undefined){
+             $state.go('login'); 
+             return;
+        }              
+        var result = JSON.parse(localStorage.getItem("user"));
+        $scope.user = result[0];
 
         $scope.restaurant={};
         $scope.restaurantManager={};
         $scope.systemManager={};
-        $scope.user={};
 		$scope.repeatedPassword="";
-        $scope.user = loginService.getUser();
         $scope.register = "undefined";
+        $scope.inputType ='password';
         
         findAllSystemManagers();
         findAllRestaurantManagers();
@@ -20,9 +26,22 @@ app.controller('systemManagerController', ['$scope', '$window', '$location', 'sy
 
 	init();
         
+    $scope.validateSize = function(text){
+        return /^[1-9][0-9]{0,1}(\,[1-9]){0,1}$/.test(text);        
+    }
+    $scope.validatePass = function (text) {
+        return /^[A-Za-z0-9\_\-]{4,30}$/.test(text);
+    }
+    $scope.validateText = function(text){
+        return /^[A-Za-z]{2,30}$/.test(text);
+    }
+    $scope.emailValidate = function (email) {
+        return /^[A-Za-z]+[A-Za-z0-9\.\-\_]*\@[A-Za-z0-9]+\.[A-Za-z]{2,4}$/.test(email);
+    }        
     $scope.signUp = function(type){
         if(type == 'systemManager'){
-            if($scope.systemManager.password == $scope.systemManager.repeatedPassword){
+            if($scope.systemManager.password == $scope.systemManager.repeatedPassword 
+               && $scope.validateUser($scope.systemManager)){
                 $scope.systemManager.role = "SYSTEM_MANAGER";
                 systemManagerService.save($scope.systemManager).then(
                     function(response){
@@ -39,7 +58,7 @@ app.controller('systemManagerController', ['$scope', '$window', '$location', 'sy
                 alert("Password and repeated password not match.");
             }
         }else if(type == 'restaurantManager'){
-            if($scope.restaurantManager.password == $scope.restaurantManager.repeatedPassword){
+            if($scope.restaurantManager.password == $scope.restaurantManager.repeatedPassword && $scope.validateUser($scope.systemManager)){
                 restaurantManagerService.save($scope.restaurantManager).then(
                     function(response){
                         alert("Registration successful.");  
@@ -55,6 +74,16 @@ app.controller('systemManagerController', ['$scope', '$window', '$location', 'sy
                 alert("Password and repeated password not match.");
             }
         }else if(type == 'restaurant'){
+            if(!$scope.validateText($scope.restaurant.name) || $scope.restaurant.name == undefined){
+                alert("Enter valid name (Between 2 and 30 letters).");
+                $scope.flag = false;
+                return;
+            }
+            if(!$scope.validateText($scope.restaurant.description) || $scope.restaurant.description == undefined){
+                alert("Enter valid description (Between 2 and 30 letters).");
+                $scope.flag = false;
+                return;
+            }
             restaurantService.save($scope.restaurant).then(
                 function(response){
                     alert("Registration successful.");    
@@ -71,6 +100,28 @@ app.controller('systemManagerController', ['$scope', '$window', '$location', 'sy
         }
     }
 
+    $scope.validateUser = function(user){
+         if(!$scope.emailValidate(user.email) || user.email == undefined){
+            alert("Enter valid email.");
+            $scope.flag = false;
+            return;
+        }
+        if(!$scope.validatePass(user.password) || user.password == undefined){
+            alert("Enter valid password (Between 4 and 30 letters and numbers).");
+            $scope.flag = false;
+            return;
+        }
+        if(!$scope.validateText(user.name) || user.name == undefined){
+            alert("Enter valid name (Between 2 and 30 letters).");
+            $scope.flag = false;
+            return;
+        }
+        if(!$scope.validateText(user.surname) || user.surname == undefined){
+            alert("Enter valid surname (Between 2 and 30 letters).");
+            $scope.flag = false;
+            return;
+        }
+    }
     $scope.registration = function(){
         $scope.register = "register";
     }    
@@ -78,7 +129,7 @@ app.controller('systemManagerController', ['$scope', '$window', '$location', 'sy
     $scope.list = function(){
         $scope.register = "undefined";
     } 
-    $scope.update = function(){
+    $scope.updateManager = function(){
         systemManagerService.update($scope.user).then(
             function(response){
                 alert("Updated.");                 
@@ -111,5 +162,12 @@ app.controller('systemManagerController', ['$scope', '$window', '$location', 'sy
             }
         );
     } 
+          // Hide & show password function
+    $scope.hideShowPassword = function(){
+        if ($scope.inputType == 'password')
+          $scope.inputType = 'text';
+        else
+          $scope.inputType = 'password';
+    };
 
 }]);

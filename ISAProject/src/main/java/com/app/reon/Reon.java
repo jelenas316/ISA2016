@@ -14,7 +14,7 @@ public class Reon {
 //	@Id
 //	@GeneratedValue(strategy = GenerationType.AUTO)
 //	@Column(name = "REON_ID")
-	private Long id;
+//	private Long id;
 	
 	private ArrayList<RestaurantTable> tables;
 
