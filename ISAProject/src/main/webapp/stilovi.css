@@ -175,3 +175,20 @@ input[readonly].default-cursor {
 input[ng-readonly].default-cursor {
     cursor: default;
 }
+
+.clicked {
+    font-size: 14px;
+    height: 50px;
+    width: 50px;
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    color: #fff;
+    background-color: #004080;
+    border-color: #357ebd;
+    background-image: none;
+    outline: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}

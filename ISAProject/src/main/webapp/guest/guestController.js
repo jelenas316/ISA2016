@@ -60,6 +60,10 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 					$scope.reservation={};
 					$scope.stepCounter=0;
 					$scope.reservationOrder={};
+					$scope.arrivalMinutes=undefined;
+					$scope.arrivalHours=undefined;
+					$scope.durationMinutes=undefined;
+					$scope.durationHours=undefined;
 				},
 				function(response){
 					$state.go('login');
@@ -210,6 +214,7 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 	
 	$scope.reserve = function(restaurant){
 		$scope.reservation.restaurant=restaurant;
+		
 		$scope.invitedFriends=[];
 		for(index in $scope.user.friends){
 			var friend={
@@ -221,18 +226,78 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 		$scope.stepCounter=1;
 	}
 	
+	$scope.addTable = function(table){
+		table.clicked = true;
+	}
+	
+	$scope.removeTable = function(table){
+		table.clicked=false;
+	}
+	
+	
 	$scope.cancel = function(){
 		initializeData($scope.user.email);
 	}
 	
 	$scope.next = function(){
 		$scope.stepCounter=$scope.stepCounter+1;
+		if($scope.stepCounter==2){
+			if($scope.reservation.arrival==undefined){
+				$scope.stepCounter = 1;
+				alert('You must add arrival date.');
+			}else{
+				var date = $scope.reservation.arrival.getFullYear() + "-" + ($scope.reservation.arrival.getMonth()+1) 
+					+ "-" + $scope.reservation.arrival.getDate();
+				$scope.reservation.arrivalTime = 
+					($scope.arrivalHours).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
+					+ ":" + ($scope.arrivalMinutes).toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})
+					+ ":00";
+				$scope.reservation.duration = $scope.durationHours * 60 + $scope.durationMinutes;
+				guestService.findFreeTables($scope.reservation.restaurant.id, date, 
+						$scope.reservation.arrivalTime, $scope.reservation.duration).then(
+						function(response){
+							$scope.tables = response.data;
+							for(table in $scope.tables){
+								$scope.tables[table].clicked=false;
+							}
+						}
+				);
+				$scope.reservation.tables=[];
+			}
+		}
+		if($scope.stepCounter==3){
+			var counter=0;
+			for(table in $scope.tables){
+				if($scope.tables[table].clicked==true)
+					counter++;
+			}
+			if(counter==0){
+				$scope.stepCounter=2;
+				alert('You must choose at least one table.');
+			}
+		}
+	}
+	
+	$scope.back = function(){
+		$scope.stepCounter=$scope.stepCounter-1;
+		if($scope.stepCounter==1){
+			$scope.tables = [];
+			$scope.reservation.tables=[];
+		}
+		
 	}
 
 	$scope.finish = function(){
 		$scope.reservation.guests=[];
 		$scope.reservation.guests.push($scope.user);
 		$scope.reservation.invitedFriends=[];
+		for(table in $scope.tables){
+			if($scope.tables[table].clicked==true){
+				var t = {};
+				t.id = $scope.tables[table].id;
+				$scope.reservation.tables.push(t);
+			}
+		}
 		for(index in $scope.invitedFriends){
 			if($scope.invitedFriends[index].checked==true)
 				$scope.reservation.invitedFriends.push($scope.invitedFriends[index].friend);
