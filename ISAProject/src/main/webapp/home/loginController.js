@@ -25,6 +25,21 @@ app.controller('loginController', ['$scope', '$window', '$location', '$state', '
                     user.push(response.data);
                     $window.localStorage.setItem("user", JSON.stringify(user));
                     $state.go('restaurantManager');                   
+                }else if(response.data.role=="WAITER"){
+                	 var user = [];
+                	 user.push(response.data);
+                     $window.localStorage.setItem("user", JSON.stringify(user));
+                     $state.go('waiter');
+                }else if(response.data.role=="BARTENDER"){
+                	var user = [];
+                	user.push(response.data);
+                	$window.localStorage.setItem("user", JSON.stringify(user));
+                    $state.go('bartender');
+                }else if(response.data.role=="COOK"){
+                	var user = [];
+                	user.push(response.data);
+                	$window.localStorage.setItem("user", JSON.stringify(user));
+                    $state.go('cook');
                 }
                 else
 					$state.transitionTo('other');

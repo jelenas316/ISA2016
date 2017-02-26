@@ -131,6 +131,21 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 			url : '/purchaseGrocery',
 		  	templateUrl : 'restaurantManager/purchaseGrocery.html'
 		 })
+		.state('waiter', {
+	    	url : '/waiter',
+	      	templateUrl : 'waiter/waiter.html',
+	        controller : 'waiterController'
+		 })
+		.state('bartender', {
+			url : '/bartender',
+			templateUrl : 'bartender/bartender.html',
+			controller : 'bartenderController'
+		})
+		.state('cook', {
+			url : '/cook',
+			templateUrl : 'cook/cook.html',
+			controller : 'cookController'
+		})
 	    .state('other', {
 	    	url : '/other',
 	      	templateUrl : 'home.html'
