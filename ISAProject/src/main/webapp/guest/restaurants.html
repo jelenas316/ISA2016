@@ -46,25 +46,68 @@
 			<div class = "col-sm-6">
 				<br>
 				<h3>Reservation:</h3><br>
-		
+				
 				<p>Restaurant: </p>
 				<input name="reservation.restaurant.name" type="text" 
 					ng-model="$parent.reservation.restaurant.name" class="form-control" required disabled/>
-		
-				<p>Date: </p>
-				<input name="reservation.arrival" type="text" ng-model="$parent.reservation.arrival" 
-						class="form-control" placeholder="yyyy-MM-dd" required/>
 				
-				<p>Time: </p>
-				<input name="reservation.arrivalTime" type="text" ng-model="$parent.reservation.arrivalTime" 
-						class="form-control" placeholder="HH:mm:ss" required/>
+				<br>
+				<button type="button" class="btn btn-primary" 
+						ng-show="$parent.stepCounter>1" 
+						ng-click="back()">Back</button>
 				
-				<p>Duration: </p>
-				<input name="reservation.duration" type="number" ng-model="$parent.reservation.duration"
-						 class="form-control" min="0" max="5"/>
+				<div ng-show="$parent.stepCounter==1">
+					<p>Date: </p>
+					<dp name="reservation.arrival" ng-model="$parent.reservation.arrival" 
+						placeholder="yyyy-MM-dd"></dp>
+            
+					<p>Time: </p>
+					<div class="col-sm-12">
+						<div class="col-sm-3">
+							<input name="arrivalHours" type="number" ng-model="$parent.arrivalHours" 
+								class="form-control" placeholder="h" min="0" max="23" 
+								ng-pattern="/^[0-9]{1,2}$/" required/>
+						</div>
+						<div class="col-sm-3">
+							<input name="arrivalMinutes" type="number" ng-model="$parent.arrivalMinutes" 
+								class="form-control" placeholder="min" min="0" max="59" step="15" 
+								ng-pattern="/^[0-9]{1,2}$/" required/>
+						</div>
+					</div>
+
+					<p>Duration: </p>
+					<div class="col-sm-12">
+						<div class="col-sm-3">
+							<input name="durationHours" type="number" ng-model="$parent.durationHours" 
+								class="form-control" placeholder="h" min="0" max="23" 
+								ng-pattern="/^[0-9]{1,2}$/" required/>
+						</div>
+						<div class="col-sm-3">
+							<input name="durationMinutes" type="number" ng-model="$parent.durationMinutes" 
+								class="form-control" placeholder="min" min="0" max="59" step="15" 
+								ng-pattern="/^[0-9]{1,2}$/" required/>
+						</div>
+					</div>
+					
+				</div>
 				
 				<div ng-show="$parent.stepCounter==2">
-					tables
+					<br>
+					<label>S -> Smoking allowed<br>NS -> Smoking not allowed</label>
+					<br>
+					<span ng-repeat = "table in $parent.tables">
+						<button class="reserved" ng-if = "table.status == 'RESERVED'" disabled>{{table.number}} 
+							<smoke ng-if="table.position == 'SMOKE'">S</smoke>
+							<smoke ng-if="table.position == 'NOSMOKE'">NS</smoke></button>
+						<button class="free" ng-if = "table.status == 'FREE' && table.clicked==false"
+						 ng-click="addTable(table)">{{table.number}} 
+							<smoke ng-if="table.position == 'SMOKE'">S</smoke>
+							<smoke ng-if="table.position == 'NOSMOKE'">NS</smoke></button>
+						<button class="clicked" ng-if = "table.status == 'FREE' && table.clicked==true"
+						 ng-click="removeTable(table)">{{table.number}} 
+							<smoke ng-if="table.position == 'SMOKE'">S</smoke>
+							<smoke ng-if="table.position == 'NOSMOKE'">NS</smoke></button>
+					</span>
 				</div>
 				
 				<div ng-show="$parent.stepCounter==3">
@@ -89,7 +132,7 @@
 						
 				</div>
 				
-				<br>		
+				<br><br>		
 				<div class="button">
 					<button type="submit" class="btn btn-primary" ng-click="cancel()">Cancel</button>
 					<button type="submit" class="btn btn-primary" 

@@ -71,7 +71,10 @@ app.service('guestService', ['$http', function($http){
 	this.cancelReservation = function(reservation, email){
 		return $http.put(reservationUrl + "?reservation=" + reservation + "&email=" + email);
 	}	
-	
+	this.findFreeTables = function(restaurant, date, time, duration){
+		return $http.get(reservationUrl + "?restaurant=" + restaurant + "&date=" + date 
+				+ "&time=" + time + "&duration=" + duration);
+	}
 	
 	
 	
