@@ -34,7 +34,7 @@ public class Order {
 	@JoinColumn(name = "RESTAURANT_TABLE")
 	private RestaurantTable table;
 	
-	@NotNull
+//	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "GUEST")
 	private Guest guest;

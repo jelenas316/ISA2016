@@ -136,16 +136,32 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 	      	templateUrl : 'waiter/waiter.html',
 	        controller : 'waiterController'
 		 })
+		 .state('waiter.profile', {
+			 url : '/profile',
+			 templateUrl : 'waiter/profile.html'
+		 })
+		 .state('waiter.order', {
+			 url : '/order',
+			 templateUrl : 'waiter/order.html'
+		 })
 		.state('bartender', {
 			url : '/bartender',
 			templateUrl : 'bartender/bartender.html',
 			controller : 'bartenderController'
 		})
+		.state('bartender.profile', {
+			 url : '/profile',
+			 templateUrl : 'bartender/profile.html'
+		 })
 		.state('cook', {
 			url : '/cook',
 			templateUrl : 'cook/cook.html',
 			controller : 'cookController'
 		})
+		.state('cook.profile', {
+			 url : '/profile',
+			 templateUrl : 'cook/profile.html'
+		 })
 	    .state('other', {
 	    	url : '/other',
 	      	templateUrl : 'home.html'
@@ -153,7 +169,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 	    .state('notification', {
 	    	url : '/notification',
 	      	templateUrl : 'home/notification.html'
-	    }); 
+	    });
 }]);
 app.directive('convertToNumber', function() {
   return {

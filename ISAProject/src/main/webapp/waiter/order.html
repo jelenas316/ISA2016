@@ -1,0 +1,19 @@
+<div>
+	<table class="table table-bordered">
+        <caption>Orders</caption>
+        <tr>
+            <th>Id</th>
+            <th>Restaurant table</th> 
+            <th>Guest</th>
+            <th>Drink</th>
+            <th>Food</th> 
+        </tr>
+        <tr ng-repeat="order in order_list">
+            <td>{{order.orderId}}</td>
+            <td>{{order.restaurantTable}}</td>
+            <td>{{order.guest}}</td>
+            <td>{{order.drink}}</td>
+            <td>{{order.food}}</td>
+        </tr>
+    </table>
+</div>

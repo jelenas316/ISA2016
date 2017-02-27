@@ -7,6 +7,12 @@ app.controller('bartenderController', ['$scope', '$window', '$location', 'barten
              $state.go('login'); 
              return;
         }
+		 
+		 var result = JSON.parse(localStorage.getItem("user"));
+		 $scope.user = result[0];
+		 console.log($scope.user);
 	};
+	
+	init();
 
 }]);

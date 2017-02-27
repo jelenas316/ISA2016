@@ -213,7 +213,7 @@ create table ORDER_LIST
 (
 	ORDER_ID						bigint							not null AUTO_INCREMENT,
    	RESTAURANT_TABLE				bigint            				,
-   	GUEST							varchar(50)						not null,
+   	GUEST							varchar(50)						,
    	DRINKS							bigint							,
    	FOOD							bigint							,
     primary key (ORDER_ID),

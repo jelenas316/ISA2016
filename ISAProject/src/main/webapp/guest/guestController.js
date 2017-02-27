@@ -240,6 +240,7 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 	}
 	
 	$scope.next = function(){
+		console.log($scope.user);
 		$scope.stepCounter=$scope.stepCounter+1;
 		if($scope.stepCounter==2){
 			if($scope.reservation.arrival==undefined){
@@ -259,6 +260,8 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 							$scope.tables = response.data;
 							for(table in $scope.tables){
 								$scope.tables[table].clicked=false;
+								console.log($scope.user);
+								console.log($scope.tables);
 							}
 						}
 				);
