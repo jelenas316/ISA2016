@@ -1,4 +1,5 @@
 <div>
+	<div class = "col-sm-8">
 	<table class="table table-bordered">
         <caption>Orders</caption>
         <tr>
@@ -6,14 +7,16 @@
             <th>Restaurant table</th> 
             <th>Guest</th>
             <th>Drink</th>
-            <th>Food</th> 
+            <th>Food</th>
         </tr>
-        <tr ng-repeat="order in order_list">
-            <td>{{order.orderId}}</td>
+        <tr ng-repeat="order in $parent.orders">
+            <td>{{order.id}}</td>
             <td>{{order.restaurantTable}}</td>
             <td>{{order.guest}}</td>
-            <td>{{order.drink}}</td>
-            <td>{{order.food}}</td>
+            <td>{{order.drinks.drink.name}}</td>
+            <td>{{order.food.food.name}}</td>
+            <td><button type="button" class="btn btn-primary">Change</button></td>
         </tr>
     </table>
+    </div>
 </div>

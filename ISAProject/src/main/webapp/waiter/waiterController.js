@@ -16,6 +16,7 @@ app.controller('waiterController', ['$scope', '$window', '$location', 'waiterSer
 	    waiterService.findAllOrders().then (
 	    		function(response) {
 	    			console.log(response.data);
+	    			$scope.orders=response.data;
 	    		}
 	    );
 	    //console.log($scope.repeatedPassword);
