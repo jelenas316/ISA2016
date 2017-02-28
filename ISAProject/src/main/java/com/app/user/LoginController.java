@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.bidder.Bidder;
+import com.app.bidder.BidderService;
 import com.app.guest.Guest;
 import com.app.guest.GuestService;
 import com.app.restaurantmanager.RestaurantManager;
@@ -27,12 +29,15 @@ public class LoginController {
 	
 	private final RestaurantManagerService restaurantManagerService;
 	
+	private final BidderService bidderService;
+	
 	@Autowired
 	public LoginController(final GuestService guestService, final SystemManagerService systemManagerService,
-			final RestaurantManagerService restaurantManagerService) {
+			final RestaurantManagerService restaurantManagerService, final BidderService bidderService) {
 		this.guestService=guestService;
 		this.systemManagerService = systemManagerService;
 		this.restaurantManagerService = restaurantManagerService;
+		this.bidderService = bidderService;
 	}
 	
 	@PostMapping
@@ -49,6 +54,8 @@ public class LoginController {
 			user = systemManagerService.findOne( userDTO.getEmail()); ;
 		}else if(restaurantManagerService.findOne(userDTO.getEmail()) != null){
 			user = restaurantManagerService.findOne( userDTO.getEmail()); ;
+		}else if(bidderService.findOne(userDTO.getEmail()) != null){
+			user = bidderService.findOne( userDTO.getEmail()); ;
 		}else{
 			throw new ResourceNotFoundException();
 		}
@@ -73,6 +80,8 @@ public class LoginController {
 			return ((SystemManager)obj).getPassword();
 		}else if(obj instanceof RestaurantManager){
 			return ((RestaurantManager)obj).getPassword();
+		} if(obj instanceof Bidder){
+			return ((Bidder)obj).getPassword();
 		}
 		
 		return "";

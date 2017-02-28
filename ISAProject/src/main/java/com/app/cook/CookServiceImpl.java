@@ -66,6 +66,9 @@ public class CookServiceImpl implements CookService {
 	public boolean addShift(ShiftDTO shift) {
 		Cook w = cookRepo.findOne(shift.getWorker());
 		List<Shift> shifts = w.getShifts();
+		if(shift.getId() == -1){
+			shift.setId(null);
+		}
 		Shift sh = createShift(shift);
 		if(shift.getReon().size()!=0){
 			sh.setReon(shift.getReon());
@@ -78,8 +81,8 @@ public class CookServiceImpl implements CookService {
 				Date shiftDateStart = sdf.parse(dateStart);
 				Date shiftDateEnd= sdf.parse(dateEnd);
 				shiftDateEnd = addDays(shiftDateEnd, 1);
-				if(sh.getEndDate().before(shiftDateStart)
-						|| sh.getStartDate().after(shiftDateEnd)){
+				if((sh.getEndDate().before(shiftDateStart)
+						|| sh.getStartDate().after(shiftDateEnd))|| shifts.get(i).getId()==shift.getId()){
 					continue;					
 				}else{
 					return false;
@@ -88,8 +91,16 @@ public class CookServiceImpl implements CookService {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		if(shift.getId()!=null){
+			for (int i =0; i< shifts.size(); i++) {
+				if(shifts.get(i).getId() == shift.getId()){
+					w.getShifts().set(i, sh);
+				}
+			}
+		}else{
+			w.getShifts().add(sh);
+		}
 		shiftRepo.save(sh);
-		w.getShifts().add(sh);
 		cookRepo.save(w);
 		return true;
 		
@@ -113,6 +124,9 @@ public class CookServiceImpl implements CookService {
 		Time endOfShift = Time.valueOf(String.valueOf((endHours < 10 ? "0" : "") 
 				+ endHours)+":"+String.valueOf((endMinutes< 10 ? "0" : "") + endMinutes)+":00");
 		Shift s = new Shift();
+		if(shift.getId()!=null){
+			s.setId(shift.getId());
+		}
 		s.setBeginOfShift(beginOfShift);
 		s.setEndOfShift(endOfShift);
 		s.setStartDate(shift.getStartDate());

@@ -1,5 +1,5 @@
 <p class="input-group">
-	<input type="text" class="form-control"  ng-readonly="true" ng-click="open()"   max-date="'2017-02-21'"
+	<input type="text" class="form-control"  ng-readonly="true" ng-click="open()" min-date="$parent.minDate" max-date="maxDate"
 	  ng-model="model" is-open="isOpened" datepicker-popup="yyyy-MM-dd"/>
 	<span class="input-group-btn">
 	       <button type="button" class="btn btn-default" ng-click="open()"><i class="glyphicon glyphicon-calendar"></i></button>

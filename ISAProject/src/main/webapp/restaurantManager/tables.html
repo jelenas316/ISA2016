@@ -25,6 +25,9 @@
 
         <label>Number of tables: </label>
         <input name="tables1.number" type="number" min = "1"  ng-model="tables.total" class="form-control" required/>
+        <br/>
+        <label>Number of seats per table: </label>
+        <input name="tables1.numberOfSeats" type="number" min = "1" max = "10" ng-model="tables.numberOfSeats" class="form-control" required/>
         <br>
         <div class="button">
             <button class="btn btn-primary" ng-disabled = "flag" ng-click="tables1.$valid && addTables()"><span class="glyphicon glyphicon-ok"></span> OK</button>

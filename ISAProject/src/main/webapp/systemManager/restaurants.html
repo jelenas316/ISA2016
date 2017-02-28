@@ -19,10 +19,10 @@
         <form name="res">
              <h1><span>Registration: </span></h1>
             <label>Name: </label>
-            <input name="restaurant.name" type="text" ng-model="restaurant.name" class="form-control" required/>
+            <input name="restaurant.name" type="text" onkeydown="checkInputText()" ng-model="restaurant.name" class="form-control" required/>
 
             <label>Description: </label>
-            <input name="restaurant.description" type="text" ng-model="restaurant.description" class="form-control" required/>
+            <input name="restaurant.description" type="text" onkeydown="checkInputTextNumber()" ng-model="restaurant.description" class="form-control" required/>
 
             <br><br>
 

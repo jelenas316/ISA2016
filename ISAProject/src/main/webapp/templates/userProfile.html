@@ -1,11 +1,13 @@
-<div class="centered">
+<div class=" col-sm-4 col-sm-offset-4 center">
     <form name="manager">
 
         <label>Name: </label>
         <input name="name" type="text" onkeydown="checkInputText()" ng-model="user.name" class="form-control" required/>
 
-        <label>Surname: </label>
-        <input  name="surname" type="text" onkeydown="checkInputText()" ng-model="user.surname" class="form-control" required/>
+        <div ng-if = "user.surname != undefined">
+            <label>Surname: </label>
+            <input name="surname" type="text" onkeydown="checkInputText()" ng-model="user.surname" class="form-control" required/>
+        </div>
 
         <label>Email: </label>
         <input name="email" type="text" ng-model="user.email" class="form-control" disabled/>

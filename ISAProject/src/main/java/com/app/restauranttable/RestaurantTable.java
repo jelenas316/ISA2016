@@ -29,4 +29,7 @@ public class RestaurantTable {
 	
 	@Enumerated(EnumType.STRING)
 	private Segment position;	
+	
+	@NotNull
+	private int numberOfSeats;
 }

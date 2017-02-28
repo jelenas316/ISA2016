@@ -40,9 +40,6 @@ h1{
 	padding-top: 20px;
    
 }
-h1 span { 
-    background-color: #333333; 
-}
 input { 
     background-color: white;
     color: black;
@@ -61,16 +58,11 @@ input {
 td, th{
    text-align:center;
 }
-td {
+td, th {
   word-wrap: break-word;
 }
 table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after { 
     content: " \25B4\25BE" 
-}
-
-label {
-    background-color: #333333; 
-   
 }
 
 .right {

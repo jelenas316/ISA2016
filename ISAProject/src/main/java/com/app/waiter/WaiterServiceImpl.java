@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.app.restaurant.Restaurant;
-import com.app.restaurant.RestaurantRepository;
 import com.app.shift.Shift;
 import com.app.shift.ShiftDTO;
 import com.app.shift.ShiftRepository;
@@ -24,13 +23,11 @@ public class WaiterServiceImpl implements WaiterService {
 	
 	private final WaiterRepository waiterRepo;
 	private final ShiftRepository shiftRepo;
-	private final RestaurantRepository restaurantRepo;
 	
 	@Autowired
-	public WaiterServiceImpl(final WaiterRepository waiterRepo, final ShiftRepository shiftRepo, final RestaurantRepository restaurantRepo){
+	public WaiterServiceImpl(final WaiterRepository waiterRepo, final ShiftRepository shiftRepo){
 		this.waiterRepo = waiterRepo;
 		this.shiftRepo= shiftRepo;
-		this.restaurantRepo = restaurantRepo;
 	}
 	
 	@Override
@@ -70,6 +67,9 @@ public class WaiterServiceImpl implements WaiterService {
 	public boolean addShift(ShiftDTO shift) {
 		Waiter w = waiterRepo.findOne(shift.getWorker());
 		List<Shift> shifts = w.getShifts();
+		if(shift.getId() == -1){
+			shift.setId(null);
+		}
 		Shift sh = createShift(shift);
 		if(shift.getReon().size()!=0){
 			sh.setReon(shift.getReon());
@@ -82,8 +82,8 @@ public class WaiterServiceImpl implements WaiterService {
 				Date shiftDateStart = sdf.parse(dateStart);
 				Date shiftDateEnd= sdf.parse(dateEnd);
 				shiftDateEnd = addDays(shiftDateEnd, 1);
-				if(sh.getEndDate().before(shiftDateStart)
-						|| sh.getStartDate().after(shiftDateEnd)){
+				if((sh.getEndDate().before(shiftDateStart)
+						|| sh.getStartDate().after(shiftDateEnd)) || shifts.get(i).getId()==shift.getId()){
 					continue;					
 				}else{
 					return false;
@@ -92,8 +92,16 @@ public class WaiterServiceImpl implements WaiterService {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		shiftRepo.save(sh);
-		w.getShifts().add(sh);
+		if(shift.getId()!=null){
+			for (int i =0; i< shifts.size(); i++) {
+				if(shifts.get(i).getId() == shift.getId()){
+					w.getShifts().set(i, sh);
+				}
+			}
+		}else{
+			w.getShifts().add(sh);
+		}
+		shiftRepo.save(sh);		
 		waiterRepo.save(w);
 		return true;
 		
@@ -117,6 +125,9 @@ public class WaiterServiceImpl implements WaiterService {
 		Time endOfShift = Time.valueOf(String.valueOf((endHours < 10 ? "0" : "") 
 				+ endHours)+":"+String.valueOf((endMinutes< 10 ? "0" : "") + endMinutes)+":00");
 		Shift s = new Shift();
+		if(shift.getId()!=null){
+			s.setId(shift.getId());
+		}
 		s.setBeginOfShift(beginOfShift);
 		s.setEndOfShift(endOfShift);
 		s.setStartDate(shift.getStartDate());

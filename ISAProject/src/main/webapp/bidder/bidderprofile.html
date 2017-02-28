@@ -1,0 +1,24 @@
+<div ng-if = "state == 'changePass'" class = "col-sm-4 col-sm-offset-4 center">
+    
+    <label>Enter password: </label>
+    <input type="{{inputType}}" ng-model="$parent.newPassword" class="form-control" />
+    <input type="checkbox" id="checkbox" ng-model="passwordCheckbox" ng-click="hideShowPassword()" reqiured/>
+    <label class = "profilLabel" ng-if="passwordCheckbox">Hide password</label>
+    <label class = "profilLabel" ng-if="!passwordCheckbox">Show password</label> 
+    <br/><br/>
+    <button ng-click = 'changePassword()' class = "btn btn-primary ">Confirm</button>
+</div>
+<div ng-if = "state != 'changePass'" class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            <li><a ui-sref=".offers">Past offers</a></li>
+            <li><a ui-sref=".activeList">Active list</a></li>          
+        </ul>
+        
+        <ul class="nav navbar-nav pull-right">
+            <li><a ui-sref=".userProfile" ><span class="glyphicon glyphicon-user"></span> {{user.email}}</a></li>
+            <li><a ui-sref="login"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+        </ul>         
+    </div>
+</div>
+    <div ui-view></div>

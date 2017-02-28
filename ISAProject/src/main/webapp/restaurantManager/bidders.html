@@ -1,0 +1,61 @@
+<div ng-if = "state == 'undefined'" class = "col-sm-8 col-sm-offset-2 center">
+    <table class="table table-bordered">
+        <caption>Bidders</caption>
+        <tr>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Offers</th>
+        </tr>
+        <tr ng-repeat="bidder in bidders">
+            <td>{{bidder.email}}</td>
+            <td>{{bidder.name}}</td>
+            <td><button ng-click = 'expandOffers(bidder)' class = "btn btn-primary">View</button></td>
+        </tr>
+    </table>
+    <button ng-click = 'addBidder()' class = "btn btn-primary ">Add bidder</button>
+</div>
+<div ng-if = "state == 'offers'" class = "col-sm-8 col-sm-offset-2 center">    
+    <br/>
+    <table class="table table-bordered">
+        <caption>Offers for bidder: {{bidder.email}}</caption>
+        <tr>	
+            <th>Total price</th>
+            <th>Delivery time</th> 
+            <th>Drinks</th>
+            <th>Food</th>
+            <th>Accepted</th>
+        </tr>        
+        <tr ng-repeat="offer in offers">
+            <td>{{offer.totalPrice}}</td>
+            <td>{{offer.deliveryTime}}</td>
+            <td><button ng-click = 'expandDrinks(offer)' class = "btn btn-primary">View</button></td>
+            <td><button ng-click = 'expandFood(offer)' class = "btn btn-primary">View</button></td>
+            <td>{{offer.accepted}}</td>
+        </tr>
+    </table>  
+    <button class="btn btn-primary" ng-click="exit()">Back</button>
+</div>
+<div ng-if = "state == 'newBidder'" class = "col-sm-4 col-sm-offset-4 center">
+        <form name="bidderForm">
+            <br/>            
+            <label>Email: </label>
+			<input name="bidderForm.email" type="email" ng-model="bidder.email" class="form-control" required/>
+	
+			<label>Password: </label>
+			<input type="{{inputType}}" ng-model="bidder.password" class="form-control" />
+            <input type="checkbox" id="checkbox" ng-model="passwordCheckbox" ng-click="hideShowPassword()" reqiured/>
+            <label class = "profilLabel" ng-if="passwordCheckbox">Hide password</label>
+            <label class = "profilLabel" ng-if="!passwordCheckbox">Show password</label> 
+            <br/><br/>
+            			
+            <label>Name: </label>
+			<input name="bidderForm.name" type="text" onkeydown="checkInputText()"  ng-model="bidder.name" class="form-control" reqiured/>
+            
+        <br><br>
+
+        <div class="button">
+            <button type="submit" class="btn btn-primary" ng-disabled = "flag" ng-click="create()"><span class="glyphicon glyphicon-ok"></span> Register</button>
+            <button class="btn btn-primary"  ng-disabled = "flag" ng-click="exit()">Cancel</button>
+        </div>
+    </form>
+</div>

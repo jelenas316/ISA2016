@@ -25,6 +25,11 @@ app.controller('loginController', ['$scope', '$window', '$location', '$state', '
                     user.push(response.data);
                     $window.localStorage.setItem("user", JSON.stringify(user));
                     $state.go('restaurantManager');                   
+                }else if(response.data.role=="BIDDER"){                     
+                    var user = [];
+                    user.push(response.data);
+                    $window.localStorage.setItem("user", JSON.stringify(user));
+                    $state.go('bidder');                   
                 }
                 else
 					$state.transitionTo('other');
