@@ -224,7 +224,11 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 			$scope.invitedFriends.push(friend);
 		}
 		$scope.stepCounter=1;
+		
+		setMap('Dunavska ulica');
 	}
+
+	
 	
 	$scope.addTable = function(table){
 		table.clicked = true;

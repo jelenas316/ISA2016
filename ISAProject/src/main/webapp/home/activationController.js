@@ -12,6 +12,8 @@ app.controller('activationController', ['$scope', '$window', '$location', '$stat
 					alert('Request doesn\'t exist.');
 				}
 		);
+		
+		$scope.showActivation = false;
 	}
 
 	init();
@@ -36,7 +38,16 @@ app.controller('activationController', ['$scope', '$window', '$location', '$stat
 					}
 			);
 		}else
-			alert('Error.');
+			alert('Wrong password.');
+	}
+	
+	$scope.checkPassword = function(){
+		if($scope.profile.password==$scope.password){
+			$scope.showActivation = true;
+			$scope.password="";
+		}else{
+			alert('Wrong password.');
+		}
 	}
 	
 }]);

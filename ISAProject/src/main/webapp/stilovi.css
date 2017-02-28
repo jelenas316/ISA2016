@@ -192,3 +192,9 @@ input[ng-readonly].default-cursor {
     -webkit-box-shadow: none;
     box-shadow: none;
 }
+
+
+.map-canvas {
+	height: 400px;
+	width: 400px;
+}

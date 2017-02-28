@@ -90,12 +90,75 @@
             }
         }
     </script>
+    
+    <!-- MAP -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+	    <script type="text/javascript" 
+	    	src="https://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+	<script>
+		var map;
+		var service;
+		var searchName
+		
+		function setMap(adress){
+			searchName = adress;
+    		navigator.geolocation.getCurrentPosition(initialise);
+	    	
+		}
+		
+    	function initialise(location){
+    		
+    		var currentLocation = new google.maps.LatLng(location.coords.latitude, location.coords.longitude);
+    		
+    		var mapOptions = {
+    			center: currentLocation,
+    			zoom: 12,
+    			mapTypeId: google.maps.MapTypeId.ROADMAP
+    		};
+    		
+    		map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+    		
+    		setMarker(currentLocation,null)
+    		
+    		service =  new google.maps.places.PlacesService(map);
+    		
+    		//ensures we wait until the map is initialised before we perform the search
+    		google.maps.event.addListenerOnce(map, 'bounds_changed', performSearch);
+
+    	}
+    	
+    	function performSearch(){
+    		var  request = {
+				bounds: map.getBounds(),    				
+				radius:'500',    				
+    			name: searchName
+    		}
+    		service.nearbySearch(request, handleSearchResults);
+    	}
+    	
+    	function handleSearchResults(results, status){
+
+    		if (status == google.maps.places.PlacesServiceStatus.OK) {
+	    		for(result in results){
+	    			setMarker(results[result].geometry.location,results[result].icon)
+	    		}
+    		}
+    	}
+    	
+    	function setMarker(position,icon){
+    		var marker = new google.maps.Marker({
+    			position: position,
+    			map: map,
+    			icon: icon
+    		});
+    	}
+    </script>	    
 
 <title>Restaurant</title>
 </head>
 <body class="bg">
     
- 	<div>    
+    <div>    
             <div ui-view></div>
     </div>
 </body>
