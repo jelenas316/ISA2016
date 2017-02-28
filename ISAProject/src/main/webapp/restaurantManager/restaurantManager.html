@@ -21,7 +21,15 @@
                     <li><button class = "inverse-dropdown" ui-sref=".cooks">Cooks</button></li>
                 </ul>
             </li>
-            <li><a ui-sref=".purchaseGrocery" >Purchase grocery</a></li>
+            <li><a ui-sref=".bidders">Bidders</a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" >Groceries
+                <span class="caret"></span></a>
+                <ul class="dropdown-menu inverse-dropdown">
+                    <li><button class = "inverse-dropdown" ui-sref=".groceries">List</button></li>                    
+                    <li><button class = "inverse-dropdown" ui-sref=".pastPurchases">Past purchases</button></li>
+                </ul>
+            </li>
           
         </ul>
         

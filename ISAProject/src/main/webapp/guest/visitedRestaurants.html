@@ -5,12 +5,27 @@
 		<br>
 		<table class="table table-bordered sortable">
 		  <tr>
-		    <th>Name</th>
-		    <th>Date</th>
-		    <th>Reiting</th>
+		    <th ng-click="$parent.sortType = 'restaurant.name'; $parent.sortReverse = !$parent.sortReverse">Name
+	            <span ng-show="$parent.sortType == 'restaurant.name' && !$parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-down"></span>
+	            <span ng-show="$parent.sortType == 'restaurant.name' && $parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-up"></span>
+	        </th>
+		    <th ng-click="$parent.sortType = 'arrival'; $parent.sortReverse = !$parent.sortReverse">Date
+		        <span ng-show="$parent.sortType == 'arrival' && !$parent.sortReverse" 
+		        	class="glyphicon glyphicon-chevron-down"></span>
+	            <span ng-show="$parent.sortType == 'arrival' && $parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-up"></span>
+	        </th>
+		    <th  ng-click="$parent.sortType = 'restaurant.reitingStars'; $parent.sortReverse = !$parent.sortReverse">Reiting
+		    	<span ng-show="$parent.sortType == 'restaurant.reitingStars' && !$parent.sortReverse" 
+		        	class="glyphicon glyphicon-chevron-down"></span>
+	            <span ng-show="$parent.sortType == 'restaurant.reitingStars' && $parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-up"></span>
+	        </th>
 		    <th>Friends</th>
 		  </tr>
-		  <tr ng-repeat="restaurant in $parent.visitedRestaurants">
+		  <tr ng-repeat="restaurant in $parent.visitedRestaurants | orderBy:sortType:sortReverse">
 		    <td>{{restaurant.restaurant.name}}</td>
 		    <td>{{restaurant.arrival}}</td>
 		    <td>{{restaurant.restaurant.reitingStars}}</td>

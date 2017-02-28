@@ -15,8 +15,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.app.drinkgrocery.DrinkGrocery;
+import com.app.foodStuff.FoodStuff;
 
 @RestController
 @RequestMapping(path="/restaurants")
@@ -69,6 +73,18 @@ public class RestaurantController {
 	public Restaurant put(@Valid @RequestBody Restaurant restaurant){
 		Optional.ofNullable(restaurantService.findOne(restaurant.getId())).orElseThrow(() -> new ResourceNotFoundException());
 		return restaurantService.save(restaurant);
+	}
+	@RequestMapping(value = "/getFoodStuff/{id}", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public Iterable<FoodStuff> getFoodStuff(@PathVariable Long id){
+		Restaurant res = restaurantService.findOne(id);
+		return restaurantService.getFoodStuff(res);	
+	}
+	@RequestMapping(value = "/getDrinkGroceries/{id}", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public Iterable<DrinkGrocery> getDrinkGroceries(@PathVariable Long id){
+		Restaurant res = restaurantService.findOne(id);
+		return restaurantService.getDrinkGroceries(res);	
 	}
 	
 }

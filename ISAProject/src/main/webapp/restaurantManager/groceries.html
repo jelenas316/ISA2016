@@ -1,0 +1,183 @@
+<div ng-if = "state == 'offers'" class = "col-sm-10 col-sm-offset-1 center">
+     <table class="table table-bordered">
+        <caption>Offer</caption>
+        <tr >
+            <th>Grocery list</th>
+            <th>Delivery time</th> 
+            <th>Guarantee</th>
+            <th>Total price</th>
+            <th>Accepted</th>
+            <th colspan="3">Operation</th>
+        </tr>
+        <tr ng-repeat="offer in offers track by $index">
+            <td>{{offer.groceryList.id}}</td>
+            <td>{{offer.deliveryTime}}</td>
+            <td>{{offer.guarantee}}</td>
+            <td>{{offer.totalPrice}}</td>
+            <td>{{offer.accepted}}</td>
+            <td><button ng-click = "expand($index)" class = "btn btn-primary ">View</button></td>
+            <td><button ng-click = "acceptOffer(offer)" class = "btn btn-primary ">Accept</button></td>
+            <td><button ng-click = "rejectOffer(offer)" class = "btn btn-primary ">Reject</button></td>
+        </tr>  
+    </table>
+    <button class="btn btn-primary" ng-click="backGroceryList()">Back</button>
+    <br/>
+    <div class = "col-sm-8 col-sm-offset-2 center" ng-if = "expandOffer.food">
+        <table class="table table-bordered">
+            <caption>Food </caption>
+            <tr>
+                <th>Name</th>
+                <th>Description</th> 
+                <th>Quantity</th>
+                <th>Unit price</th>
+            </tr>
+            <tr ng-repeat="item in expandOffer.food">
+                <td>{{item.name}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.price}}</td>
+            </tr>  
+        </table>
+        <table class="table table-bordered">
+            <caption>Drinks</caption>
+            <tr>
+                <th>Name</th>
+                <th>Description</th> 
+                <th>Quantity</th>
+                <th>Unit price</th>
+            </tr>
+            <tr ng-repeat="item in expandOffer.drinks">
+                <td>{{item.name}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.price}}</td>
+            </tr>  
+        </table>
+    </div>
+</div>
+<div ng-if = "state == 'undefined'" class = "col-sm-8 col-sm-offset-2 center">   
+    <table class="table table-bordered">
+        <caption>Food</caption>
+        <tr>
+            <th>Name</th>
+            <th>Description</th> 
+            <th>Quantity</th>
+        </tr>
+        <tr ng-repeat="item in foodStuff">
+            <td>{{item.name}}</td>
+            <td>{{item.description}}</td>
+            <td>{{item.quantity}}</td>
+        </tr>  
+    </table>
+    <table class="table table-bordered">
+        <caption>Drinks</caption>
+        <tr>
+            <th>Name</th>
+            <th>Description</th> 
+            <th>Quantity</th>
+        </tr>
+        <tr ng-repeat="item in drinkGroceries">
+            <td>{{item.name}}</td>
+            <td>{{item.description}}</td>
+            <td>{{item.quantity}}</td>
+        </tr>  
+    </table>
+    <button class = "btn btn-primary" ng-click = "newPurchaseList()">Purchase groceries</button>
+</div>
+<div ng-if = "state == 'groceryList'" class = "col-sm-8 col-sm-offset-2 center">   
+    <table class="table table-bordered">
+        <caption>Purchase list</caption>
+        <tr>
+            <th>Start date</th>
+            <th>End date</th> 
+            <th colspan="2">Operations</th>
+        </tr>
+        <tr>
+            <td>{{purchaseList.startDate}}</td>
+            <td>{{purchaseList.endDate}}</td>
+            <td><button ng-click = "editList()" class = "btn btn-primary">Edit</button></td>
+            <td><button ng-click = "deletePurchaseList()" ng-disabled = "flagDelete" class = "btn btn-primary" >Delete</button></td>
+        </tr>  
+    </table>
+    <button class = "btn btn-primary" ng-click = "expandOffers()">See offers</button>
+    <button class="btn btn-primary" ng-click="back()">Back</button>
+</div>
+<div ng-if="state=='newPurchase' || state == 'addingItems'" class="col-sm-6 col-sm-offset-3 center">   
+    <br/>
+    <table class="table table-bordered">
+        <caption>Food</caption>
+        <tr>
+            <th>Name</th>
+            <th>Description</th> 
+            <th>Quantity</th>
+            <th colspan="2">Operation</th>
+        </tr>
+        <tr ng-repeat="item in purchaseFood">
+            <td>{{item.name}}</td>
+            <td>{{item.description}}</td>
+            <td>{{item.quantity}}</td>
+            <td><button ng-click = "editItem(item, 'food')" class = "btn btn-primary">Edit</button></td>
+            <td><button ng-click = "deleteItem(item, 'food')" ng-disabled = "flagDelete" class = "btn btn-primary" >Delete</button></td>
+        </tr>  
+    </table>
+    <div ng-if = "state!='addingItems'">
+        <button class = "btn btn-primary" ng-click = "addItems('food')">Add grocery</button>
+    </div>
+    <table class="table table-bordered">
+        <caption>Drinks</caption>
+        <tr>
+            <th>Name</th>
+            <th>Description</th> 
+            <th>Quantity</th>
+            <th colspan="2">Operation</th>
+        </tr>
+        <tr ng-repeat="item in purchaseDrinks">
+            <td>{{item.name}}</td>
+            <td>{{item.description}}</td>
+            <td>{{item.quantity}}</td>
+            <td><button ng-click = "editItem(item, 'drink')" class = "btn btn-primary">Edit</button></td>
+            <td><button ng-click = "deleteItem(item, 'drink')" ng-disabled = "flagDelete" class = "btn btn-primary" >Delete</button></td>
+        </tr>  
+    </table>
+    <div ng-if = "state!='addingItems'">
+        <button class = "btn btn-primary" ng-click = "addItems('drink')">Add grocery</button>
+    </div>
+    <br/>
+    <div ng-if = "state == 'addingItems'" class="col-sm-6 col-sm-offset-3 center">
+        <form name="food1">
+            <label>Name: </label>
+            <select ng-hide = "editing=='true'" class = "form-control" ng-model = "item.name" ng-change="DropDownChanged(item.name)">
+                 <option ng-repeat = "grocery in groceries">{{grocery.name}}</option>  
+                 <option value="">New grocery</option>
+            </select><br/>
+            <input type="{{itemType}}" ng-readonly = "editing=='true'" ng-model = "item.name" placeholder = "Enter grocery name" class = "form-control"/>
+
+            <div ng-if = "itemType=='text'">
+                <label>Description: </label>
+                <input ng-readonly = "editing=='true'" name="food1.description" onkeydown="checkInputTextNumber()"  ng-model="item.description" class="form-control"/>
+            </div>
+            <div ng-if = "itemType=='hidden'">
+                <label>Description: </label>
+                <input name="food1.description" ng-model="item.description" ng-readonly = "true" class="form-control"/>
+            </div>
+
+            <label>Quantity: </label>
+            <input name="food1.price" type="number"  ng-model="item.quantity" class="form-control"/>
+            <br>
+
+            <button class="btn btn-primary" ng-disabled = "flag" ng-click="addItem()"><span class="glyphicon glyphicon-ok"></span> Add to list</button>
+            <br/><br/>            
+        </form>
+        <button class = "btn btn-primary" ng-click = "exitAdding()">Finish</button>
+    </div>
+    <div ng-if = "state !='addingItems'" class = " col-sm-6 col-sm-offset-3">
+        <br/>
+        <label>Begin date</label>
+        <dp ng-model="$parent.$parent.startDate"></dp>
+        <label>Expire date</label>
+        <dp ng-model="$parent.$parent.endDate"></dp>
+        <button class="btn btn-primary" ng-disabled = "flag" ng-click="create()"><span class="glyphicon glyphicon-shopping-cart"></span> Create</button>
+        <br/><br/>
+        <button class="btn btn-primary" ng-click="backGroceryList()">Back</button>
+    </div>    
+</div>

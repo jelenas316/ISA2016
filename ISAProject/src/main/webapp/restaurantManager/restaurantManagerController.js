@@ -9,6 +9,10 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
               
         var result = JSON.parse(localStorage.getItem("user"));
         $scope.user = result[0];
+        if($scope.user.role != 'RESTAURANT_MANAGER'){
+             $state.go('login'); 
+             return; 
+        }
         $scope.food = {};	
         $scope.drink = {};
         $scope.restaurantTables = [];
@@ -19,7 +23,6 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
         $scope.inputType = 'password';
         $scope.flag = false;
         $scope.flagDelete = false;
-        //$scope.eventSource = $scope.createRandomEvents();
    
     }
              
@@ -88,6 +91,21 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
         }
     };
 
+    $scope.validateSize = function(text){
+        return /^[1-9][0-9]{0,1}(\.[1-9]){0,1}$/.test(text);        
+    }
+    $scope.validatePass = function (text) {
+        return /^[A-Za-z0-9\_\-]{4,30}$/.test(text);
+    }
+    $scope.validateText = function(text){
+        return /^[A-Za-z0-9]{2,30}$/.test(text);
+    }
+    $scope.validateAddress = function(text){
+        return /^[A-Za-z][a-zA-Z0-9 ]{1,50}$/.test(text);
+    }
+    $scope.emailValidate = function (email) {
+        return /^[A-Za-z]+[A-Za-z0-9\.\-\_]*\@[A-Za-z0-9]+\.[A-Za-z]{2,4}$/.test(email);
+    }
     $scope.mixRangeDate = 1; //days
         
     $scope.restaurantOpen = function(){
@@ -173,6 +191,21 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
         $scope.drink.price = drink.price;
     }
     $scope.updateAbout = function(){
+        if(!$scope.validateText($scope.user.restaurant.name) || $scope.user.restaurant.name == undefined){
+            alert("Enter restaurant name.");
+            $scope.flag = false;
+            return;
+        }
+        if(!$scope.validateAddress($scope.user.restaurant.description) || $scope.user.restaurant.description == undefined){
+            alert("Enter restaurant description.");
+            $scope.flag = false;
+            return;
+        }
+        if(!$scope.validateAddress($scope.user.restaurant.address) || $scope.user.restaurant.address == undefined){
+            alert("Enter restaurant address.");
+            $scope.flag = false;
+            return;
+        }
         restaurantService.save($scope.user.restaurant).then(
             function(response){
                 alert("Updated.");                                   
@@ -194,6 +227,11 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
         $scope.flag = true;
         if($scope.res.tables.length+$scope.tables.total>50){
             alert("Restaurant max table number is 50.");
+            $scope.flag = false;
+            return;
+        }
+        if($scope.tables.numberOfSeats > 20){
+            alert("Max seats per table is 20.");
             $scope.flag = false;
             return;
         }
@@ -246,10 +284,34 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
             }
         );
     }
+   
     $scope.updateManager = function(){
+        if(!$scope.emailValidate($scope.user.email) || $scope.user.email == undefined){
+            alert("Enter valid email.");
+            $scope.flag = false;
+            return;
+        }
+        if(!$scope.validatePass($scope.user.password) || $scope.user.password == undefined){
+            alert("Enter valid password (Between 4 and 30 letters and numbers).");
+            $scope.flag = false;
+            return;
+        }
+        if(!$scope.validateText($scope.user.surname) || $scope.user.surname == undefined){
+            alert("Enter valid surname (Between 2 and 30 letters).");
+            $scope.flag = false;
+            return;
+        }
+        if(!$scope.validateText($scope.user.name) || $scope.user.name == undefined){
+            alert("Enter valid name (Between 2 and 30 letters).");
+            $scope.flag = false;
+            return;
+        }
         restaurantManagerService.update($scope.user).then(
             function(response){
                 $scope.user = response.data;
+                var user = [];
+                user.push(response.data);
+                $window.localStorage.setItem("user", JSON.stringify(user));
                 alert("Successfuly updated.");
             },
             function(response){

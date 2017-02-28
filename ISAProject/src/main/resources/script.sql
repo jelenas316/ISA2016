@@ -22,6 +22,24 @@ drop table if exists BARTENDER;
 drop table if exists COOK_SHIFTS;
 drop table if exists COOK;
 drop table if exists SYSTEM_MANAGER;
+drop table if exists OFFER_PRICES;
+drop table if exists OFFER_GROCERY_LIST;
+drop table if exists OFFER_FOOD;
+drop table if exists OFFER_DRINKS;
+drop table if exists OFFER_BIDDER;
+drop table if exists OFFER;
+drop table if exists GROCERY_LIST_DRINKS;
+drop table if exists GROCERY_LIST_FOOD;
+drop table if exists GROCERY_LIST;
+drop table if exists BIDDER_OFFERS;
+drop table if exists BIDDER;
+drop table if exists DRINK_GROCERY;
+drop table if exists FOOD_STUFF;
+drop table if exists DRINK_OFFER;
+drop table if exists FOOD_STUFF_OFFER;
+drop table if exists PRICES;
+drop table if exists DRINK_GROCERY_RESTAURANT;
+drop table if exists FOOD_STUFF_RESTAURANT;
 drop table if exists RESTAURANT_MANAGER;
 drop table if exists RESTAURANT_DRINKS;
 drop table if exists RESTAURANT_MENU;
@@ -34,6 +52,7 @@ drop table if exists RESTAURANT_TABLE;
 drop table if exists RESTAURANT;
 drop table if exists PROFILE;
 drop table if exists WORK_SCHEDULE;
+
 
 create table GUEST
 (
@@ -119,20 +138,24 @@ create table RESTAURANT_TABLE
    RESTAURANT_TABLE_ID         	  	    bigint             				PRIMARY KEY AUTO_INCREMENT,
    NUMBER              					INT	                         	not null,
    POSITION                  			enum('SMOKE','NOSMOKE')      	not null,
-   STATUS								enum('FREE', 'RESERVED')		not null
+   STATUS								enum('FREE', 'RESERVED')		not null,
+   NUMBER_OF_SEATS						INT								not null
 );
+
 /*----------RESTAURANT---------------------*/
 create table RESTAURANT
 (
    RESTAURANT_ID                   	    bigint             				PRIMARY KEY AUTO_INCREMENT,
    NAME                					varchar(50)	                   	not null,
+   ADDRESS								varchar(100)					not null,
    DESCRIPTION                  		varchar(100)            		not null,
    DRINKS								bigint,
    TABLES								bigint,
    MENU									bigint,
    FOREIGN KEY (DRINKS) REFERENCES RESTAURANT(RESTAURANT_ID) on delete cascade on update cascade  ,
    FOREIGN KEY (TABLES) REFERENCES RESTAURANT(RESTAURANT_ID) on delete cascade on update cascade  ,
-   FOREIGN KEY (MENU) REFERENCES RESTAURANT(RESTAURANT_ID) on delete cascade on update cascade  
+   FOREIGN KEY (MENU) REFERENCES RESTAURANT(RESTAURANT_ID) on delete cascade on update cascade
+   
 );
 create table RESTAURANT_DRINKS 
 (
@@ -336,6 +359,7 @@ create table SHIFT_REON
 	FOREIGN KEY (SHIFT_SHIFT_ID) REFERENCES SHIFT(SHIFT_ID),
 	FOREIGN KEY (REON_RESTAURANT_TABLE_ID) REFERENCES RESTAURANT_TABLE(RESTAURANT_TABLE_ID)
 );
+
 /*----------WAITER---------------------*/	
 create table WAITER
 (
@@ -349,6 +373,7 @@ create table WAITER
    RESTAURANT					bigint							not null,
    SHIFTS						bigint							,
    ROLE 						enum('WAITER')          			not null,
+   ACTIVATED					boolean,
    primary key(EMAIL),
    FOREIGN KEY (RESTAURANT) REFERENCES RESTAURANT(RESTAURANT_ID) ON DELETE CASCADE ON UPDATE CASCADE,
    FOREIGN KEY (SHIFTS) REFERENCES SHIFT(SHIFT_ID) ON DELETE CASCADE ON UPDATE CASCADE
@@ -364,8 +389,11 @@ create table WAITER_SHIFTS
 );
 
 insert into isa2016.shift (SHIFT_ID,BEGIN_OF_SHIFT,END_OF_SHIFT, START_DATE, END_DATE) values (1,'8:00', '14:00', STR_TO_DATE('2017-3-10', '%Y-%m-%d'), STR_TO_DATE('2017-3-11', '%Y-%m-%d'));
-insert into isa2016.shift (SHIFT_ID,BEGIN_OF_SHIFT,END_OF_SHIFT, START_DATE, END_DATE) values (2,'14:00', '20:00', STR_TO_DATE('2017-1-10', '%Y-%m-%d'), STR_TO_DATE('2017-5-10', '%Y-%m-%d'));
-insert into isa2016.shift (SHIFT_ID,BEGIN_OF_SHIFT,END_OF_SHIFT, START_DATE, END_DATE) values (3,'10:00', '17:00', STR_TO_DATE('2017-2-10', '%Y-%m-%d'), STR_TO_DATE('2017-6-12', '%Y-%m-%d'));
+insert into isa2016.shift (SHIFT_ID,BEGIN_OF_SHIFT,END_OF_SHIFT, START_DATE, END_DATE) values (2,'14:00', '20:00', STR_TO_DATE('2017-1-10', '%Y-%m-%d'), STR_TO_DATE('2017-3-10', '%Y-%m-%d'));
+insert into isa2016.shift (SHIFT_ID,BEGIN_OF_SHIFT,END_OF_SHIFT, START_DATE, END_DATE) values (3,'10:00', '17:00', STR_TO_DATE('2017-2-10', '%Y-%m-%d'), STR_TO_DATE('2017-3-01', '%Y-%m-%d'));
+insert into isa2016.shift (SHIFT_ID,BEGIN_OF_SHIFT,END_OF_SHIFT, START_DATE, END_DATE) values (4,'8:00', '14:00', STR_TO_DATE('2017-3-10', '%Y-%m-%d'), STR_TO_DATE('2017-3-11', '%Y-%m-%d'));
+insert into isa2016.shift (SHIFT_ID,BEGIN_OF_SHIFT,END_OF_SHIFT, START_DATE, END_DATE) values (5,'14:00', '20:00', STR_TO_DATE('2017-1-10', '%Y-%m-%d'), STR_TO_DATE('2017-3-10', '%Y-%m-%d'));
+insert into isa2016.shift (SHIFT_ID,BEGIN_OF_SHIFT,END_OF_SHIFT, START_DATE, END_DATE) values (6,'10:00', '17:00', STR_TO_DATE('2017-2-10', '%Y-%m-%d'), STR_TO_DATE('2017-3-01', '%Y-%m-%d'));
 
 /*----------COOK---------------------*/
 
@@ -381,6 +409,7 @@ create table COOK
    RESTAURANT					bigint							not null,
    SHIFTS						bigint							,
    ROLE 						enum('COOK')          			not null,
+   ACTIVATED					boolean,
    primary key(EMAIL),
    FOREIGN KEY (RESTAURANT) REFERENCES RESTAURANT(RESTAURANT_ID) ON DELETE CASCADE ON UPDATE CASCADE,
    FOREIGN KEY (SHIFTS) REFERENCES SHIFT(SHIFT_ID) ON DELETE CASCADE ON UPDATE CASCADE
@@ -409,6 +438,7 @@ create table BARTENDER
    RESTAURANT					bigint							not null,
    SHIFTS						bigint							,
    ROLE 						enum('BARTENDER')          			not null,
+   ACTIVATED					boolean,
    primary key(EMAIL),
    FOREIGN KEY (RESTAURANT) REFERENCES RESTAURANT(RESTAURANT_ID) ON DELETE CASCADE ON UPDATE CASCADE,
    FOREIGN KEY (SHIFTS) REFERENCES SHIFT(SHIFT_ID) ON DELETE CASCADE ON UPDATE CASCADE
@@ -429,32 +459,183 @@ create table WORK_SCHEDULE
 	WORK_SCHEDULE_ID					bigint							not null,
 	primary key(WORK_SCHEDULE_ID)
 );
+/*----------FOOD STUFF---------------------*/
+create table FOOD_STUFF
+(
+   FOOD_STUFF_ID               	  	    bigint             				PRIMARY KEY AUTO_INCREMENT,
+   NAME                					varchar(50)	                   	not null,
+   DESCRIPTION                  		varchar(100)            		not null,
+   QUANTITY								int								not null,
+   RESTAURANT							bigint  						not null,
+   FOREIGN KEY (RESTAURANT) REFERENCES RESTAURANT(RESTAURANT_ID)
+);
+/*----------DRINK GROCERY---------------------*/
+create table DRINK_GROCERY
+(
+   DRINK_GROCERY_ID           	  	    bigint             				PRIMARY KEY AUTO_INCREMENT,
+   NAME                					varchar(50)	                   	not null,
+   DESCRIPTION                  		varchar(100)            		not null,
+   QUANTITY								int								not null,
+   RESTAURANT							bigint  						not null,
+   FOREIGN KEY (RESTAURANT) REFERENCES RESTAURANT(RESTAURANT_ID)
+);
+/*----------FOOD STUFF OFFER---------------------*/
+create table FOOD_STUFF_OFFER
+(
+   FOOD_STUFF_OFFER_ID         	  	    bigint             				PRIMARY KEY AUTO_INCREMENT,
+   NAME                					varchar(50)	                   	not null,
+   DESCRIPTION                  		varchar(100)            		not null,
+   QUANTITY								int								not null,
+   PRICE     							decimal,
+   FOOD_STUFF							bigint
+);
+/*----------DRINK OFFER---------------------*/
+create table DRINK_OFFER
+(
+   DRINK_OFFER_ID           	  	    bigint             				PRIMARY KEY AUTO_INCREMENT,
+   NAME                					varchar(50)	                   	not null,
+   DESCRIPTION                  		varchar(100)            		not null,
+   QUANTITY								int								not null,
+   PRICE								decimal,
+   DRINK_GROCERY						bigint
+);
+
+/*----------GROCERY LIST---------------------*/
+create table GROCERY_LIST
+(
+   GROCERY_LIST_ID            	  	    bigint             				PRIMARY KEY AUTO_INCREMENT,
+   START_DATE         					DATE               				not null,
+   END_DATE		                		DATE               				not null,
+   DRINKS								bigint							,
+   FOOD									bigint							,
+   ACCEPTED								boolean,
+   RESTAURANT							bigint							not null,
+   FOREIGN KEY (DRINKS) REFERENCES DRINK_OFFER(DRINK_OFFER_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   FOREIGN KEY (FOOD) REFERENCES FOOD_STUFF_OFFER(FOOD_STUFF_OFFER_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   FOREIGN KEY (RESTAURANT) REFERENCES RESTAURANT(RESTAURANT_ID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+create table GROCERY_LIST_DRINKS
+(
+    GROCERY_LIST_DRINKS_ID      	  	    bigint             				PRIMARY KEY AUTO_INCREMENT,
+    DRINKS_DRINK_OFFER_ID					bigint not null,
+    GROCERY_LIST_GROCERY_LIST_ID	    	bigint not null,
+   	FOREIGN KEY ( DRINKS_DRINK_OFFER_ID) REFERENCES DRINK_OFFER(DRINK_OFFER_ID),
+	FOREIGN KEY (GROCERY_LIST_GROCERY_LIST_ID) REFERENCES GROCERY_LIST(GROCERY_LIST_ID)
+);
+
+create table GROCERY_LIST_FOOD
+(
+    GROCERY_LIST_FOOD_ID      	  	    bigint             				PRIMARY KEY AUTO_INCREMENT,
+    GROCERY_LIST_GROCERY_LIST_ID						bigint not null,
+    FOOD_FOOD_STUFF_OFFER_ID					bigint not null,
+   	FOREIGN KEY (FOOD_FOOD_STUFF_OFFER_ID) REFERENCES FOOD_STUFF_OFFER(FOOD_STUFF_OFFER_ID),
+	FOREIGN KEY (GROCERY_LIST_GROCERY_LIST_ID) REFERENCES GROCERY_LIST(GROCERY_LIST_ID)
+);
+create table PRICES
+(
+   PRICES_ID                		bigint                  	    PRIMARY KEY AUTO_INCREMENT,
+   ITEM_ID                			bigint 							not null,
+   PRICE                  			bigint 							not null
+);
+create table BIDDER
+(
+   EMAIL                		varchar(50)                   	not null  PRIMARY KEY,
+   PASSWORD                		varchar(50)	                   	not null,
+   NAME                  		varchar(50)            			not null,
+   PASSWORD_STATUS				int								not null,
+   RESTAURANT 					bigint 							not null,
+   ROLE 						enum('BIDDER')      			not null,
+   FOREIGN KEY (RESTAURANT) REFERENCES RESTAURANT(RESTAURANT_ID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+create table OFFER
+(
+   OFFER_ID                		bigint                	        PRIMARY KEY AUTO_INCREMENT,
+   TOTAL_PRICE					bigint							not null,
+   DELIVERY_TIME				int								not null,
+   GUARANTEE					int								not null,
+   DRINKS						bigint							,
+   FOOD 						bigint							,
+   PRICES						bigint							,
+   ACCEPTED						enum('ACCEPTED', 'REJECTED', 'WAITING')  not null,
+   GROCERY_LIST					bigint							,
+   BIDDER						varchar(50)						not null,
+   FOREIGN KEY (DRINKS) REFERENCES  DRINK_OFFER(DRINK_OFFER_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   FOREIGN KEY (FOOD) REFERENCES FOOD_STUFF_OFFER(FOOD_STUFF_OFFER_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   FOREIGN KEY (PRICES) REFERENCES PRICES(PRICES_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   FOREIGN KEY (GROCERY_LIST) REFERENCES GROCERY_LIST(GROCERY_LIST_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   FOREIGN KEY (BIDDER) REFERENCES BIDDER(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE
+);
+create table OFFER_BIDDER
+(
+   OFFER_BIDDER_ID                		bigint                   	    PRIMARY KEY AUTO_INCREMENT,
+   BIDDER_EMAIL			    			varchar(50)                      	not null,
+   OFFER_OFFER_ID                  		bigint               			not null,
+   FOREIGN KEY ( BIDDER_EMAIL  ) REFERENCES BIDDER(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE,
+   FOREIGN KEY ( OFFER_OFFER_ID) REFERENCES OFFER(OFFER_ID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+create table OFFER_GROCERY_LIST
+(
+   OFFER_GROCERY_LIST_ID                		bigint                   	    PRIMARY KEY AUTO_INCREMENT,
+   GROCERY_LIST_GROCERY_LIST_ID    			bigint                      	not null,
+   OFFER_OFFER_ID                  		bigint               			not null,
+   FOREIGN KEY ( GROCERY_LIST_GROCERY_LIST_ID  ) REFERENCES GROCERY_LIST(GROCERY_LIST_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   FOREIGN KEY ( OFFER_OFFER_ID) REFERENCES OFFER(OFFER_ID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+create table OFFER_DRINKS
+(
+   OFFER_DRINKS_ID                		bigint                   	    PRIMARY KEY AUTO_INCREMENT,
+   DRINKS_DRINK_OFFER_ID    			bigint                      	not null,
+   OFFER_OFFER_ID                  		bigint               			not null,
+   FOREIGN KEY ( DRINKS_DRINK_OFFER_ID ) REFERENCES DRINK_OFFER(DRINK_OFFER_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   FOREIGN KEY ( OFFER_OFFER_ID) REFERENCES OFFER(OFFER_ID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+create table OFFER_FOOD
+(
+   OFFER_FOOD_ID                		bigint                   	    PRIMARY KEY AUTO_INCREMENT,
+   FOOD_FOOD_STUFF_OFFER_ID           		bigint                      	not null,
+   OFFER_OFFER_ID                  		bigint               			not null,
+   FOREIGN KEY (FOOD_FOOD_STUFF_OFFER_ID) REFERENCES FOOD_STUFF_OFFER(FOOD_STUFF_OFFER_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   FOREIGN KEY (OFFER_OFFER_ID) REFERENCES OFFER(OFFER_ID) ON DELETE CASCADE ON UPDATE CASCADE
+);
+create table OFFER_PRICES
+(
+   OFFER_PRICES_ID                		bigint                   	    PRIMARY KEY AUTO_INCREMENT,
+   PRICES_PRICES_ID  		            bigint                      	not null,
+   OFFER_OFFER_ID                  		bigint               			not null,
+   FOREIGN KEY ( PRICES_PRICES_ID ) REFERENCES PRICES(PRICES_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   FOREIGN KEY ( OFFER_OFFER_ID) REFERENCES OFFER(OFFER_ID) ON DELETE CASCADE ON UPDATE CASCADE
+);
 
 insert into isa2016.guest values ('email','pass','name','surname','GUEST',null,null);
 insert into isa2016.guest values ('email3','pass','name','surname','GUEST',null,null);
 insert into isa2016.guest values ('email4','pass','name','surname','GUEST',null,null);
 
-insert into restaurant (RESTAURANT_ID, NAME, DESCRIPTION) values (1,'name1','description');
-insert into restaurant  (RESTAURANT_ID, NAME, DESCRIPTION) values (2,'name2','description');
-insert into restaurant  (RESTAURANT_ID, NAME, DESCRIPTION) values (3,'name3','description');
+insert into restaurant (RESTAURANT_ID, NAME, DESCRIPTION, ADDRESS) values (1,'name1','description','neka adresa 3');
+insert into restaurant  (RESTAURANT_ID, NAME, DESCRIPTION, ADDRESS) values (2,'name2','description','neka adresa 1');
+insert into restaurant  (RESTAURANT_ID, NAME, DESCRIPTION, ADDRESS) values (3,'name3','description','neka adresa 2');
 
-insert into isa2016.waiter (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE) values('waiter@waiter.com','pass','name','surname','1975-03-10',42,44,1,'WAITER');
-insert into isa2016.waiter (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE)  values ('waiter1@waiter.com','pass1','name1','surname1','1961-10-11',40,42,1,'WAITER');
-insert into isa2016.waiter (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE)  values ('waiter2@waiter.com','pass2','name2','surname2','1984-05-06',46,43,2,'WAITER');
+insert into isa2016.waiter (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE, ACTIVATED) values('waiter@waiter.com','pass','name','surname','1975-03-10',42,44,1,'WAITER',true);
+insert into isa2016.waiter (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE, ACTIVATED)  values ('waiter1@waiter.com','pass1','name1','surname1','1961-10-11',40,42,1,'WAITER',true);
+insert into isa2016.waiter (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE, ACTIVATED)  values ('waiter2@waiter.com','pass2','name2','surname2','1984-05-06',46,43,2,'WAITER',true);
 
-insert into isa2016.bartender (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE) values('bartender@bartender.com','pass','name','surname','1975-03-10',42,44,1,'BARTENDER');
-insert into isa2016.bartender (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE)  values ('bartender1@bartender.com','pass1','name1','surname1','1961-10-11',40,42,1,'BARTENDER');
-insert into isa2016.bartender (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE)  values ('bartender2@bartender.com','pass2','name2','surname2','1984-05-06',46,43,2,'BARTENDER');
+insert into isa2016.bartender (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE, ACTIVATED) values('bartender@bartender.com','pass','name','surname','1975-03-10',42,44,1,'BARTENDER',true);
+insert into isa2016.bartender (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE, ACTIVATED)  values ('bartender1@bartender.com','pass1','name1','surname1','1961-10-11',40,42,1,'BARTENDER',true);
+insert into isa2016.bartender (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE, ACTIVATED)  values ('bartender2@bartender.com','pass2','name2','surname2','1984-05-06',46,43,2,'BARTENDER',true);
 
-insert into isa2016.cook (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE) values('cook@cook.com','pass','name','surname','1975-03-10',38,44,1,'COOK');
-insert into isa2016.cook (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE)  values ('cook1@cook.com','pass1','name1','surname1','1961-10-11',45,42,1,'COOK');
-insert into isa2016.cook (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE)  values ('cook2@cook.com','pass2','name2','surname2','1984-05-06',40,43,2,'COOK');
+insert into isa2016.cook (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE, ACTIVATED) values('cook@cook.com','pass','name','surname','1975-03-10',38,44,1,'COOK',true);
+insert into isa2016.cook (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE, ACTIVATED)  values ('cook1@cook.com','pass1','name1','surname1','1961-10-11',45,42,1,'COOK',true);
+insert into isa2016.cook (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE, ACTIVATED)  values ('cook2@cook.com','pass2','name2','surname2','1984-05-06',40,43,2,'COOK',true);
+
+insert into isa2016.bidder (EMAIL,PASSWORD,NAME,PASSWORD_STATUS, RESTAURANT, ROLE)  values ('bidder@bidder.com','pass2','name2',1,1,'BIDDER');
+insert into isa2016.bidder (EMAIL,PASSWORD,NAME,PASSWORD_STATUS, RESTAURANT, ROLE)  values ('b','b','name',1,2,'BIDDER');
 
 INSERT into  WAITER_SHIFTS values(1,'waiter@waiter.com',1);
-INSERT into  BARTENDER_SHIFTS values(2,'bartender@bartender.com',2);
-INSERT into  BARTENDER_SHIFTS values(3,'bartender@bartender.com',3);
-INSERT into  COOK_SHIFTS values(2,'cook@cook.com',2);
-INSERT into  COOK_SHIFTS values(3,'cook@cook.com',3);
+INSERT into  BARTENDER_SHIFTS values(1,'bartender@bartender.com',2);
+INSERT into  BARTENDER_SHIFTS values(2,'bartender@bartender.com',3);
+INSERT into  COOK_SHIFTS values(1,'cook@cook.com',4);
+INSERT into  COOK_SHIFTS values(2,'cook@cook.com',5);
 
 insert into restaurant_manager (EMAIL, PASSWORD, NAME, SURNAME, ROLE, RESTAURANT_ID) values ('a','a','name','surname','RESTAURANT_MANAGER',1);
 
@@ -464,6 +645,24 @@ insert into drink values(2,'drink2','description',34.2);
 insert into food values (2,'food2','description',43.2);
 insert into drink values(3,'drink3','description',34.2);
 insert into food values (3,'food3','description',43.2);
+
+
+insert into food_stuff(FOOD_STUFF_ID, NAME, DESCRIPTION, QUANTITY, RESTAURANT) values(1,'food_stuff_1','description',3,1);
+insert into food_stuff(FOOD_STUFF_ID, NAME, DESCRIPTION, QUANTITY, RESTAURANT) values (2,'food_stuff_2','description',4,1);
+insert into drink_grocery(DRINK_GROCERY_ID, NAME, DESCRIPTION, QUANTITY, RESTAURANT) values(1,'drink_grocery_1','description',3,1);
+insert into drink_grocery(DRINK_GROCERY_ID, NAME, DESCRIPTION, QUANTITY, RESTAURANT) values (2,'drink_grocery_2','description',15,1);
+
+insert into food_stuff_offer(FOOD_STUFF_OFFER_ID, NAME, DESCRIPTION, QUANTITY, FOOD_STUFF) values(1,'food_stuff_1','description',5,1);
+insert into food_stuff_offer(FOOD_STUFF_OFFER_ID, NAME, DESCRIPTION, QUANTITY, FOOD_STUFF) values (2,'food_stuff_2','description',3,2);
+insert into drink_offer(DRINK_OFFER_ID, NAME, DESCRIPTION, QUANTITY, DRINK_GROCERY) values(1,'drink_grocery_1','description',2,1);
+insert into drink_offer(DRINK_OFFER_ID, NAME, DESCRIPTION, QUANTITY, DRINK_GROCERY) values (2,'drink_grocery_2','description',4,2);
+
+insert into grocery_list( GROCERY_LIST_ID, START_DATE, END_DATE,ACCEPTED, RESTAURANT) values (1,'2017-02-10','2017-03-13',false,1);
+insert into grocery_list_food( GROCERY_LIST_FOOD_ID, GROCERY_LIST_GROCERY_LIST_ID, FOOD_FOOD_STUFF_OFFER_ID) values (1,1,1);
+insert into grocery_list_drinks( GROCERY_LIST_DRINKS_ID, GROCERY_LIST_GROCERY_LIST_ID, DRINKS_DRINK_OFFER_ID) values (1,1,1);
+
+insert into offer( OFFER_ID, TOTAL_PRICE, DELIVERY_TIME, GUARANTEE, ACCEPTED, GROCERY_LIST, BIDDER) 
+values (1,1000,2,1,'REJECTED',1, 'b');
 
 insert into RESTAURANT_DRINKS values(1,1,1);
 insert into RESTAURANT_MENU values(1,1,1);
@@ -476,14 +675,14 @@ insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (1,3,1,'email
 insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (2,4,1,'email3');
 insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (3,5,1,'email4');
 
-insert into restaurant_table values (1,1,'SMOKE', 'FREE');    
-insert into restaurant_table values (2,2,'SMOKE', 'FREE'); 
-insert into restaurant_table values (3,3,'SMOKE', 'FREE'); 
-insert into restaurant_table values (4,4,'SMOKE', 'FREE'); 
-insert into restaurant_table values (5,5,'SMOKE', 'FREE'); 
-insert into restaurant_table values (6,6,'SMOKE', 'FREE'); 
-insert into restaurant_table values (7,7,'SMOKE', 'FREE'); 
-insert into restaurant_table values (8,8,'SMOKE', 'RESERVED'); 
+insert into restaurant_table values (1,1,'SMOKE', 'FREE',2);    
+insert into restaurant_table values (2,2,'SMOKE', 'FREE',3); 
+insert into restaurant_table values (3,3,'SMOKE', 'FREE',4); 
+insert into restaurant_table values (4,4,'SMOKE', 'FREE',2); 
+insert into restaurant_table values (5,5,'SMOKE', 'FREE',2); 
+insert into restaurant_table values (6,6,'SMOKE', 'FREE',3); 
+insert into restaurant_table values (7,7,'SMOKE', 'FREE',5); 
+insert into restaurant_table values (8,8,'SMOKE', 'RESERVED',6); 
 insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(1,1);
 insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(1,2);
 insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(1,3);
@@ -492,5 +691,7 @@ insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_
 insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(1,6);
 insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(1,7);
 insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(1,8);
+
+insert into shift_reon(SHIFT_REON_ID,SHIFT_SHIFT_ID,REON_RESTAURANT_TABLE_ID)values(1,1,1);
 
 

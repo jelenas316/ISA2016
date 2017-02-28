@@ -30,13 +30,14 @@
             <th>Start date</th>
             <th>End date</th> 
             <th>Time</th>
-            <th colspan="2">Operation</th>
+            <th colspan="3">Operation</th>
         </tr>        
         <tr ng-repeat="shift in waiter.shifts">
             <td>{{shift.startDate}}</td>
             <td>{{shift.endDate}}</td>
             <td>{{shift.beginOfShift}} - {{shift.endOfShift}}</td>
             <td><button ng-click = 'expandTablesForShift(shift)' class = "btn btn-primary">Tables</button></td>
+            <td><button ng-click = 'editShift(shift)' class = "btn btn-primary">Edit</button></td>
             <td><button ng-disabled = "flag" ng-click = 'deleteShift(shift)' class = "btn btn-primary">Delete</button></td>
         </tr>
     </table>  

@@ -10,7 +10,10 @@ app.controller('systemManagerController', ['$scope', '$window', '$location', 'sy
         }              
         var result = JSON.parse(localStorage.getItem("user"));
         $scope.user = result[0];
-
+        if($scope.user.role != 'SYSTEM_MANAGER'){
+             $state.go('login'); 
+             return; 
+        }
         $scope.restaurant={};
         $scope.restaurantManager={};
         $scope.systemManager={};
@@ -129,10 +132,46 @@ app.controller('systemManagerController', ['$scope', '$window', '$location', 'sy
     $scope.list = function(){
         $scope.register = "undefined";
     } 
+    $scope.validateSize = function(text){
+        return /^[1-9][0-9]{0,1}(\.[1-9]){0,1}$/.test(text);        
+    }
+    $scope.validatePass = function (text) {
+        return /^[A-Za-z0-9\_\-]{4,30}$/.test(text);
+    }
+    $scope.validateText = function(text){
+        return /^[A-Za-z]{2,30}$/.test(text);
+    }
+    $scope.emailValidate = function (email) {
+        return /^[A-Za-z]+[A-Za-z0-9\.\-\_]*\@[A-Za-z0-9]+\.[A-Za-z]{2,4}$/.test(email);
+    }
     $scope.updateManager = function(){
+        if(!$scope.emailValidate($scope.user.email) || $scope.user.email == undefined){
+            alert("Enter valid email.");
+            $scope.flag = false;
+            return;
+        }
+        if(!$scope.validatePass($scope.user.password) || $scope.user.password == undefined){
+            alert("Enter valid password (Between 4 and 30 letters and numbers).");
+            $scope.flag = false;
+            return;
+        }
+         if(!$scope.validateText($scope.user.surname) || $scope.user.surname == undefined){
+            alert("Enter valid surname (Between 2 and 30 letters).");
+            $scope.flag = false;
+            return;
+        }
+        if(!$scope.validateText($scope.user.name) || $scope.user.name == undefined){
+            alert("Enter valid name (Between 2 and 30 letters).");
+            $scope.flag = false;
+            return;
+        }
         systemManagerService.update($scope.user).then(
             function(response){
-                alert("Updated.");                 
+                alert("Updated.");  
+                var user = [];
+                user.push(response.data);
+                $window.localStorage.setItem("user", JSON.stringify(user));
+                $scope.user = response.data;
             },
             function(response){
                 alert("Update failed.");

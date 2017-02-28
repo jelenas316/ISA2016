@@ -1,0 +1,201 @@
+<div ng-if = "state == 'activeOffer'" class = "col-sm-8 col-sm-offset-2">
+     <table class="table table-bordered">
+        <caption>Offer</caption>
+        <tr>
+            <th>Grocery list</th>
+            <th>Delivery time</th> 
+            <th>Guarantee</th>
+            <th>Total price</th>
+            <th>Accepted</th>
+            <th colspan="2">Operation</th>
+        </tr>
+        <tr>
+            <td>{{offer.groceryList.id}}</td>
+            <td>{{offer.deliveryTime}}</td>
+            <td>{{offer.guarantee}}</td>
+            <td>{{offer.totalPrice}}</td>
+            <td>{{offer.accepted}}</td>
+            <td><button ng-click = 'editOffer(offer)' class = "btn btn-primary ">Edit</button></td>
+            <td><button ng-click = 'deleteOffer(offer)' class = "btn btn-primary ">Delete</button></td>
+        </tr>  
+    </table>
+    <div class = "col-sm-8 col-sm-offset-2 center">
+        <table class="table table-bordered">
+            <caption>Food </caption>
+            <tr>
+                <th>Name</th>
+                <th>Description</th> 
+                <th>Quantity</th>
+                <th>Unit price</th>
+            </tr>
+            <tr ng-repeat="item in offer.food">
+                <td>{{item.name}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.price}}</td>
+            </tr>  
+        </table>
+        <table class="table table-bordered">
+            <caption>Drinks</caption>
+            <tr>
+                <th>Name</th>
+                <th>Description</th> 
+                <th>Quantity</th>
+                <th>Unit price</th>
+            </tr>
+            <tr ng-repeat="item in offer.drinks">
+                <td>{{item.name}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.price}}</td>
+            </tr>  
+        </table>
+    </div>
+</div>
+<div ng-if = "state == 'undefined' && purchaseList && purchaseList.id != undefined" class = "col-sm-8 col-sm-offset-2 center">
+    <h1><span>Active purchase list:</span></h1><br/>
+    <label>Start date</label>
+    <input readonly = "true" type = "text" ng-model = "purchaseList.startDate"/>
+    <label>End date</label>
+    <input readonly = "true" type = "text" ng-model = "purchaseList.endDate"/>
+    <br/>
+    <table class="table table-bordered">
+        <caption>Food</caption>
+        <tr>
+            <th>Name</th>
+            <th>Description</th> 
+            <th>Quantity</th>
+            <th>Unit price</th>
+        </tr>
+        <tr ng-repeat="item in purchaseList.food track by $index">
+            <td>{{item.name}}</td>
+            <td>{{item.description}}</td>
+            <td>{{item.quantity}}</td>
+            <td><input type="text" class = "form-control" size = "1" onkeydown="checkInputSize()" ng-model = "item.price"/></td>
+        </tr>  
+    </table>
+    <table class="table table-bordered">
+        <caption>Drinks</caption>
+        <tr>
+            <th>Name</th>
+            <th>Description</th> 
+            <th>Quantity</th>
+            <th>Unit price</th>
+        </tr>
+        <tr ng-repeat="item1 in purchaseList.drinks track by $index">
+            <td>{{item1.name}}</td>
+            <td>{{item1.description}}</td>
+            <td>{{item1.quantity}}</td>
+            <td><input type="text" class = "form-control" size = "1" onkeydown="checkInputSize()" ng-model = "item1.price"/></td>
+        </tr>  
+    </table>
+    <div class = "col-sm-4 col-sm-offset-4 center">
+        <label>Delivery time</label>
+        <input type="text" class = "form-control" ng-model = "$parent.offer.deliveryTime"/>
+        <label>Guarantee time (months)</label>
+        <select name = "select" class="form-control"  ng-model="$parent.offer.guarantee">
+                <option hidden disabled value=""></option>
+                <option ng-selected = "{{$parent.offer.guarantee == 1}}" value = "1">1</option>
+                <option ng-selected = "{{$parent.offer.guarantee == 3}}" value = "3">3</option>
+                <option ng-selected = "{{$parent.offer.guarantee == 6}}" value = "6">6</option>
+                <option ng-selected = "{{$parent.offer.guarantee == 12}}" value = "12">12</option>
+                <option ng-selected = "{{$parent.offer.guarantee == 24}}" value = "24">24</option>
+        </select>
+        <br/>
+        <button ng-click = 'purchase()' class = "btn btn-primary ">Create offer</button>
+    </div>
+</div>
+<div class = "col-sm-10 col-sm-offset-1 center" ng-if =  "state == 'undefined' && (!purchaseList || purchaseList.id ==undefined) ">
+    <h1><span>No active purchase list</span></h1>
+    <div ng-if = "futurePurchase && futurePurchase.id!=undefined" class = "col-sm-8 col-sm-offset-2 center">   
+        <table class="table table-bordered">
+            <caption>Purchase list</caption>
+            <tr>
+                <th>Start date</th>
+                <th>End date</th> 
+            </tr>
+            <tr>
+                <td>{{futurePurchase.startDate}}</td>
+                <td>{{futurePurchase.endDate}}</td>
+            </tr>  
+        </table>
+        <table class="table table-bordered">
+            <caption>Food </caption>
+            <tr>
+                <th>Name</th>
+                <th>Description</th> 
+                <th>Quantity</th>
+            </tr>
+            <tr ng-repeat="item in futurePurchase.food">
+                <td>{{item.name}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.quantity}}</td>
+            </tr>  
+        </table>
+        <table class="table table-bordered">
+            <caption>Drinks</caption>
+            <tr>
+                <th>Name</th>
+                <th>Description</th> 
+                <th>Quantity</th>
+            </tr>
+            <tr ng-repeat="item in futurePurchase.drinks">
+                <td>{{item.name}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.quantity}}</td>
+            </tr>  
+        </table>
+    </div>
+</div>
+<div ng-if = "state == 'offer'" class = "col-sm-10 col-sm-offset-1 center">
+       <table class="table table-bordered">
+        <caption>Offer</caption>
+        <tr>
+            <th>Grocery list</th>
+            <th>Delivery time</th> 
+            <th>Guarantee</th>
+            <th>Total price</th>
+            <th>Operation</th>
+        </tr>
+        <tr>
+            <td>{{offer.groceryList.id}}</td>
+            <td>{{offer.deliveryTime}}</td>
+            <td>{{offer.guarantee}}</td>
+            <td>{{offer.totalPrice}}</td>
+            <td><button ng-click = 'editOffer(offer)' class = "btn btn-primary ">Edit</button></td>
+        </tr>  
+    </table>
+    <div class = "col-sm-8 col-sm-offset-2 center">
+        <table class="table table-bordered">
+            <caption>Food </caption>
+            <tr>
+                <th>Name</th>
+                <th>Description</th> 
+                <th>Quantity</th>
+                <th>Unit price</th>
+            </tr>
+            <tr ng-repeat="item in offer.food">
+                <td>{{item.name}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.price}}</td>
+            </tr>  
+        </table>
+        <table class="table table-bordered">
+            <caption>Drinks</caption>
+            <tr>
+                <th>Name</th>
+                <th>Description</th> 
+                <th>Quantity</th>
+                <th>Unit price</th>
+            </tr>
+            <tr ng-repeat="item in offer.drinks">
+                <td>{{item.name}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.price}}</td>
+            </tr>  
+        </table>
+        <button ng-click = 'addOffer(offer)' class = "btn btn-primary ">Create</button>
+    </div>
+</div>

@@ -12,6 +12,8 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 		}else{
 			$state.go('login');
 		}
+		$scope.sortType     = ''; // set the default sort type
+		$scope.sortReverse  = false;  // set the default sort order
 	};
 	
 	init();
@@ -224,7 +226,11 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 			$scope.invitedFriends.push(friend);
 		}
 		$scope.stepCounter=1;
+		
+		setMap('Dunavska ulica');
 	}
+
+	
 	
 	$scope.addTable = function(table){
 		table.clicked = true;

@@ -9,6 +9,10 @@ app.controller('rmwaitersController', ['$scope', '$window', '$location', 'waiter
               
         var result = JSON.parse(localStorage.getItem("user"));
         $scope.user = result[0];
+        if($scope.user.role != 'RESTAURANT_MANAGER'){
+             $state.go('login'); 
+             return; 
+        }
         $scope.getAllWaiters();
         $scope.inputType = 'password';
         $scope.flag = false;
@@ -17,6 +21,7 @@ app.controller('rmwaitersController', ['$scope', '$window', '$location', 'waiter
         $scope.newWaiter = {};
         $scope.maxDate = new Date();
         $scope.tablesForShift = [];
+        $scope.shiftId = -1;
     }       
     $scope.getAllWaiters = function(){
         waiterService.findAll($scope.user.restaurant.id).then(
@@ -40,36 +45,16 @@ app.controller('rmwaitersController', ['$scope', '$window', '$location', 'waiter
         var date1 = new Date(year, month-1, day+1, hours, minutes);
         return date1;
     } 
-    
-   /* $scope.getSchedule = function(waiter) {
-        
-        var events = [];
-        $scope.email = waiter.email;
-        
-        for(var i = 0; i< waiter.shifts.length; i++){
-            var startTime;
-            var endTime;
-            startTime = $scope.getDate(waiter.shifts[i].startDate, waiter.shifts[i].beginOfShift);
-            endTime = $scope.getDate(waiter.shifts[i].endDate, waiter.shifts[i].endOfShift);
-            events.push({
-                title: 'Worker - ' + $scope.email,
-                startTime: startTime,
-                endTime: endTime,
-                allDay: false
-            });
-        }                
-        return events;
-    }   */ 
         
     $scope.workSchedule = function(waiter){
         $scope.state = "schedule";
         $scope.getWaiter(waiter.email);
-        //$scope.eventSource = $scope.getSchedule(waiter);
     }
     $scope.exitSchedule = function(){
         $scope.state = "undefined";
     }
     $scope.shift = function(){
+        $scope.shiftId = -1;
         $scope.state = "shift";
     }
     $scope.getWaiter = function(email){
@@ -90,6 +75,11 @@ app.controller('rmwaitersController', ['$scope', '$window', '$location', 'waiter
             return;
         }
         var shift = {};
+        if( $scope.shiftId !=undefined && $scope.shiftId != -1){
+            shift.id = $scope.shiftId;
+        }else{
+            shift.id = -1;
+        }
         shift.startDate = $scope.myDatetimeRange.date.from;
         shift.endDate = $scope.myDatetimeRange.date.to;
         shift.beginOfShift = $scope.myDatetimeRange.time.from;
@@ -101,11 +91,16 @@ app.controller('rmwaitersController', ['$scope', '$window', '$location', 'waiter
                 $scope.flag = false;
                 if(response.data == false){                    
                     alert("Waiter \""+ $scope.waiter.email +"\" alredy have schedule for that period.");
-                    $scope.state = "undefined";
+                    $scope.state = "schedule";
+                    $scope.tablesForShift = [];
+                    $scope.shiftId = -1;
                     return;
                 }
                 $scope.getWaiter($scope.waiter.email);
                 alert("Shift is created.");
+                $scope.tablesForShift = [];
+                $scope.shiftId = -1;
+                $scope.state = "schedule";
             },
             function(response){
                 $scope.flag = false;
@@ -210,6 +205,7 @@ app.controller('rmwaitersController', ['$scope', '$window', '$location', 'waiter
             $scope.flag = false;
             return;
         }
+        $scope.waiter.activated = false;
         $scope.waiter.restaurant = $scope.user.restaurant;
         $scope.waiter.role = "WAITER";
         var month = $scope.waiter.dateOfBirth.getMonth()+1;
@@ -235,6 +231,7 @@ app.controller('rmwaitersController', ['$scope', '$window', '$location', 'waiter
         );
     } 
      $scope.exitAddShift = function(){
+         $scope.tablesForShift = [];
          $scope.state = "schedule";
      }
      $scope.table = function(table){ 
@@ -248,6 +245,29 @@ app.controller('rmwaitersController', ['$scope', '$window', '$location', 'waiter
      $scope.expandTablesForShift = function(shift){
          $scope.state = "expandTablesForShift";
          $scope.expandTables = shift.reon;
+     }
+     $scope.getDateForShift = function(date){
+        var year   = parseInt(date.substring(0,4));
+        var month  = parseInt(date.substring(5,7));
+        var day   = parseInt(date.substring(8,10));
+        var date1 = new Date(year, month-1, day);
+        return date1;
+    } 
+    $scope.parseTime = function(time){
+        var hours   = parseInt(time.substring(0,2));
+        var minutes  = parseInt(time.substring(3,5));
+        return hours*60+minutes;
+    } 
+     $scope.editShift = function(shift){
+         $scope.shiftId = shift.id;
+         $scope.myDatetimeRange.date.from = $scope.getDateForShift(shift.startDate);
+         $scope.myDatetimeRange.date.to = $scope.getDateForShift(shift.endDate);
+         $scope.myDatetimeRange.date.min = new Date();
+         $scope.myDatetimeRange.time.from = $scope.parseTime(shift.beginOfShift);
+         $scope.myDatetimeRange.time.to = $scope.parseTime(shift.endOfShift);
+         $scope.myDatetimeRange.time.minRange = 60;
+         $scope.tablesForShift = shift.reon;
+         $scope.state = "shift";
      }
    
 }]);

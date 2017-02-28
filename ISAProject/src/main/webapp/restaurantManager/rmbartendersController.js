@@ -9,6 +9,10 @@ app.controller('rmbartendersController', ['$scope', '$window', '$location', 'bar
               
         var result = JSON.parse(localStorage.getItem("user"));
         $scope.user = result[0];
+        if($scope.user.role != 'RESTAURANT_MANAGER'){
+             $state.go('login'); 
+             return; 
+        }
         $scope.getAllBartenders();
         $scope.inputType = 'password';
         $scope.flag = false;
@@ -16,6 +20,7 @@ app.controller('rmbartendersController', ['$scope', '$window', '$location', 'bar
         $scope.state = 'undefined';
         $scope.newBartender = {};
         $scope.maxDate = new Date();
+        $scope.shiftId = -1;
     }       
     $scope.getAllBartenders = function(){
         bartenderService.findAll($scope.user.restaurant.id).then(
@@ -39,26 +44,6 @@ app.controller('rmbartendersController', ['$scope', '$window', '$location', 'bar
         var date1 = new Date(year, month-1, day+1, hours, minutes);
         return date1;
     } 
-    
-   /* $scope.getSchedule = function(waiter) {
-        
-        var events = [];
-        $scope.email = waiter.email;
-        
-        for(var i = 0; i< waiter.shifts.length; i++){
-            var startTime;
-            var endTime;
-            startTime = $scope.getDate(waiter.shifts[i].startDate, waiter.shifts[i].beginOfShift);
-            endTime = $scope.getDate(waiter.shifts[i].endDate, waiter.shifts[i].endOfShift);
-            events.push({
-                title: 'Worker - ' + $scope.email,
-                startTime: startTime,
-                endTime: endTime,
-                allDay: false
-            });
-        }                
-        return events;
-    }   */ 
         
     $scope.workSchedule = function(bartender){
         $scope.state = "schedule";
@@ -84,6 +69,11 @@ app.controller('rmbartendersController', ['$scope', '$window', '$location', 'bar
     $scope.addShift = function(){    
         $scope.flag = true;
         var shift = {};
+        if( $scope.shiftId !=undefined && $scope.shiftId != -1){
+            shift.id = $scope.shiftId;
+        }else{
+            shift.id = -1;
+        }
         shift.startDate = $scope.myDatetimeRange.date.from;
         shift.endDate = $scope.myDatetimeRange.date.to;
         shift.beginOfShift = $scope.myDatetimeRange.time.from;
@@ -95,11 +85,14 @@ app.controller('rmbartendersController', ['$scope', '$window', '$location', 'bar
                 $scope.flag = false;
                 if(response.data == false){
                     alert("Bartender \""+ $scope.bartender.email +"\" alredy have schedule for that period.");    
-                    $scope.state = "undefined";
+                    $scope.state = "schedule";
+                    $scope.shiftId = -1;
                     return;
                 }
                 $scope.getBartender($scope.bartender.email);
                 alert("Shift is created.");
+                $scope.shiftId = -1;
+                $scope.state = "schedule";
             },
             function(response){
                 alert("Error while adding shift.");
@@ -204,6 +197,7 @@ app.controller('rmbartendersController', ['$scope', '$window', '$location', 'bar
             $scope.flag = false;
             return;
         }
+        $scope.bartender.activated = false;
         $scope.bartender.restaurant = $scope.user.restaurant;
         $scope.bartender.role = "BARTENDER";
         var month = $scope.bartender.dateOfBirth.getMonth()+1;
@@ -231,5 +225,27 @@ app.controller('rmbartendersController', ['$scope', '$window', '$location', 'bar
     } 
      $scope.exitAddShift = function(){
          $scope.state = "schedule";
+     }
+      $scope.getDateForShift = function(date){
+        var year   = parseInt(date.substring(0,4));
+        var month  = parseInt(date.substring(5,7));
+        var day   = parseInt(date.substring(8,10));
+        var date1 = new Date(year, month-1, day);
+        return date1;
+    } 
+    $scope.parseTime = function(time){
+        var hours   = parseInt(time.substring(0,2));
+        var minutes  = parseInt(time.substring(3,5));
+        return hours*60+minutes;
+    } 
+     $scope.editShift = function(shift){
+         $scope.shiftId = shift.id;
+         $scope.myDatetimeRange.date.from = $scope.getDateForShift(shift.startDate);
+         $scope.myDatetimeRange.date.to = $scope.getDateForShift(shift.endDate);
+         $scope.myDatetimeRange.date.min = new Date();
+         $scope.myDatetimeRange.time.from = $scope.parseTime(shift.beginOfShift);
+         $scope.myDatetimeRange.time.to = $scope.parseTime(shift.endOfShift);
+         $scope.myDatetimeRange.time.minRange = 60;
+         $scope.state = "shift";
      }
 }]);

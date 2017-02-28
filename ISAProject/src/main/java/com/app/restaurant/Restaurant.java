@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -16,6 +17,7 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import com.app.drink.Drink;
 import com.app.food.Food;
+import com.app.grocerylist.GroceryList;
 import com.app.restauranttable.RestaurantTable;
 
 import lombok.Data;
@@ -36,6 +38,9 @@ public class Restaurant {
 	@NotBlank
 	private String description;
 	
+	@NotBlank
+	private String address;
+	
 	@OneToMany
 	private List<Drink> drinks ;
 	
@@ -46,5 +51,4 @@ public class Restaurant {
 	@NotFound(action=NotFoundAction.IGNORE)
 	private List<RestaurantTable> tables;
 
-	
 }

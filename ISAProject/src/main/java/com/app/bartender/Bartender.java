@@ -59,4 +59,5 @@ public class Bartender {
 	@Enumerated(EnumType.STRING)
 	private UserRole role;
 	
+	private boolean activated;	
 }

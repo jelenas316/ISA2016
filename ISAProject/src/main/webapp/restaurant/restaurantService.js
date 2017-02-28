@@ -15,4 +15,10 @@ app.service('restaurantService', ['$http', function($http){
 		return $http.post(url, resId);
 	}
 
+    this.getFoodStuff = function(id){
+		return $http.get(url+"/getFoodStuff/"+id);
+	}
+    this.getDrinkGroceries = function(id){
+		return $http.get(url+"/getDrinkGroceries/"+id);
+	}
 }]);

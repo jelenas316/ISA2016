@@ -1,0 +1,53 @@
+<div class = "col-sm-8 col-sm-offset-2">
+     <table class="table table-bordered">
+        <caption>Offers</caption>
+        <tr>
+            <th>Grocery list</th>
+            <th>Delivery time</th> 
+            <th>Guarantee</th>
+            <th>Total price</th>
+            <th>Accepted</th>
+            <th>Items</th>
+        </tr>
+        <tr ng-repeat="offer in pastOffers">
+            <td>{{offer.groceryList.id}}</td>
+            <td>{{offer.deliveryTime}}</td>
+            <td>{{offer.guarantee}}</td>
+            <td>{{offer.totalPrice}}</td>
+            <td>{{offer.accepted}}</td>
+            <td><button ng-click = 'expandItems(offer)' class = "btn btn-primary ">View</button></td>
+        </tr>  
+    </table>
+    <div class = "col-sm-8 col-sm-offset-2 center" ng-if = "expandPastOffer.food">
+        <table class="table table-bordered">
+            <caption>Food </caption>
+            <tr>
+                <th>Name</th>
+                <th>Description</th> 
+                <th>Quantity</th>
+                <th>Unit price</th>
+            </tr>
+            <tr ng-repeat="item in expandPastOffer.food">
+                <td>{{item.name}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.price}}</td>
+            </tr>  
+        </table>
+        <table class="table table-bordered">
+            <caption>Drinks</caption>
+            <tr>
+                <th>Name</th>
+                <th>Description</th> 
+                <th>Quantity</th>
+                <th>Unit price</th>
+            </tr>
+            <tr ng-repeat="item in expandPastOffer.drinks">
+                <td>{{item.name}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.price}}</td>
+            </tr>  
+        </table>
+    </div>
+</div>

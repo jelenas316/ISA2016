@@ -3,13 +3,38 @@
 		<h3>Ordered food:</h3>
 		<table class="table table-bordered sortable">
 		  <tr>
-		    <th>Name</th>
-		    <th>Description</th>
-		    <th>Quantity</th>
-		    <th>Price</th>
-		    <th>Food status</th>
+		    <th ng-click="$parent.sortType = 'food.name'; $parent.sortReverse = !$parent.sortReverse">Name
+		    	<span ng-show="$parent.sortType == 'food.name' && !$parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-down"></span>
+	            <span ng-show="$parent.sortType == 'food.name' && $parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-up"></span>		
+		    </th>
+		    <th ng-click="$parent.sortType = 'food.description'; $parent.sortReverse = !$parent.sortReverse">Description
+		    	<span ng-show="$parent.sortType == 'food.description' && !$parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-down"></span>
+	            <span ng-show="$parent.sortType == 'food.description' && $parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-up"></span>
+		    </th>
+		    <th ng-click="$parent.sortType = 'food.quantity'; $parent.sortReverse = !$parent.sortReverse">Quantity
+		    	<span ng-show="$parent.sortType == 'food.quantity' && !$parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-down"></span>
+	            <span ng-show="$parent.sortType == 'food.quantity' && $parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-up"></span>
+		    </th>
+		    <th ng-click="$parent.sortType = 'food.price'; $parent.sortReverse = !$parent.sortReverse">Price
+		    	<span ng-show="$parent.sortType == 'food.price' && !$parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-down"></span>
+	            <span ng-show="$parent.sortType == 'food.price' && $parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-up"></span>
+		    </th>
+		    <th ng-click="$parent.sortType = 'foodStatus'; $parent.sortReverse = !$parent.sortReverse">Food status
+		    	<span ng-show="$parent.sortType == 'foodStatus' && !$parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-down"></span>
+	            <span ng-show="$parent.sortType == 'foodStatus' && $parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-up"></span>
+		    </th>
 		  </tr>
-		  <tr ng-repeat="food in $parent.usersOrders.food">
+		  <tr ng-repeat="food in $parent.usersOrders.food | orderBy:sortType:sortReverse">
 		    <td>{{food.food.name}}</td>
 		    <td>{{food.food.description}}</td>
 		    <td>{{food.quantity}}</td>
@@ -41,13 +66,38 @@
 		<h3>Ordered drinks:</h3>
 		<table class="table table-bordered sortable">
 		  <tr>
-		    <th>Name</th>
-		    <th>Description</th>
-		    <th>Quantity</th>
-		    <th>Price</th>
-		    <th>Drink status</th>
+		    <th ng-click="$parent.sortType = 'drink.name'; $parent.sortReverse = !$parent.sortReverse">Name
+		    	<span ng-show="$parent.sortType == 'drink.name' && !$parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-down"></span>
+	            <span ng-show="$parent.sortType == 'drink.name' && $parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-up"></span>
+		    </th>
+		    <th ng-click="$parent.sortType = 'drink.description'; $parent.sortReverse = !$parent.sortReverse">Description
+		    	<span ng-show="$parent.sortType == 'drink.description' && !$parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-down"></span>
+	            <span ng-show="$parent.sortType == 'drink.description' && $parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-up"></span>
+		    </th>
+		    <th ng-click="$parent.sortType = 'drink.quantity'; $parent.sortReverse = !$parent.sortReverse">Quantity
+		    	<span ng-show="$parent.sortType == 'drink.quantity' && !$parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-down"></span>
+	            <span ng-show="$parent.sortType == 'drink.quantity' && $parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-up"></span>
+		    </th>
+		    <th ng-click="$parent.sortType = 'drink.price'; $parent.sortReverse = !$parent.sortReverse">Price
+		    	<span ng-show="$parent.sortType == 'drink.price' && !$parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-down"></span>
+	            <span ng-show="$parent.sortType == 'drink.price' && $parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-up"></span>
+		    </th>
+		    <th ng-click="$parent.sortType = 'foodStatus'; $parent.sortReverse = !$parent.sortReverse">Drink status
+		    	<span ng-show="$parent.sortType == 'foodStatus' && !$parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-down"></span>
+	            <span ng-show="$parent.sortType == 'foodStatus' && $parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-up"></span>
+		    </th>
 		  </tr>
-		  <tr ng-repeat="drink in $parent.usersOrders.drinks">
+		  <tr ng-repeat="drink in $parent.usersOrders.drinks | orderBy:sortType:sortReverse">
 		    <td>{{drink.drink.name}}</td>
 		    <td>{{drink.drink.description}}</td>
 		    <td>{{drink.quantity}}</td>

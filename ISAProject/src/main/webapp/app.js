@@ -127,9 +127,40 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
             controller: 'rmcooksController',
 		  	templateUrl : 'restaurantManager/cooks.html'
 		 })
-       .state('restaurantManager.purchaseGrocery', {
-			url : '/purchaseGrocery',
-		  	templateUrl : 'restaurantManager/purchaseGrocery.html'
+        .state('restaurantManager.bidders', {
+			url : '/bidders',
+            controller: 'bidderController',
+		  	templateUrl : 'restaurantManager/bidders.html'
+		 })
+        .state('restaurantManager.pastPurchases', {
+			url : '/pastPurchases',
+            controller: 'groceryController',
+		  	templateUrl : 'restaurantManager/groceryOffers.html'
+		 })
+        .state('restaurantManager.groceries', {
+			url : '/groceries',
+            controller: 'groceryController',
+		  	templateUrl : 'restaurantManager/groceries.html'
+		 })
+       .state('bidder', {
+			url : '/bidder',
+            controller: 'bidderProfileController',
+		  	templateUrl : 'bidder/bidderprofile.html'
+		 })
+        .state('bidder.userProfile', {
+			url : '/bidderProfile',
+            controller: 'bidderProfileController',
+		  	templateUrl : 'templates/userProfile.html'
+        })
+        .state('bidder.offers', {
+			url : '/offers',
+            controller: 'bidderProfileController',
+		  	templateUrl : 'bidder/offers.html'
+		 })
+        .state('bidder.activeList', {
+			url : '/activeOffer',
+            controller: 'bidderProfileController',
+		  	templateUrl : 'bidder/activeOffer.html'
 		 })
 		.state('waiter', {
 	    	url : '/waiter',

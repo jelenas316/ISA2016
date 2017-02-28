@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html ng-app="app">
 <head>
@@ -5,7 +6,7 @@
     <script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>      
     <!--jquery-->
     <script src="lib/jquery/jquery-2.1.4.min.js"></script>
-    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="jquery/jquery.js"></script>
     <!--bootstrap-->
     <link href="lib/bootstrap/css/bootstrap.min.css" type="text/css" rel="stylesheet"/>
     <script src="lib/bootstrap/js/bootstrap.min.js"></script>  
@@ -18,7 +19,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.13.3/ui-bootstrap-tpls.min.js"></script>   
     <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>   
     <!--shift datetime range picker-->  
-    <script src="bower_components/venturocket-angular-slider/build/angular-slider.js"></script>    
+    <script src="lib/angular/angular-slider.js"></script>   
     <link rel="stylesheet" href="bower_components/datetimeRangePicker/range-picker.css"/>
     <script src="bower_components/datetimeRangePicker/range-picker.js"></script>
     <!--working schedule-->    
@@ -49,7 +50,6 @@
 	<script src="food/foodService.js"></script>
     <script src="drink/drinkController.js"></script>
 	<script src="drink/drinkService.js"></script>
-    <script src="restaurantTable/restaurantTableController.js"></script>
 	<script src="restaurantTable/restaurantTableService.js"></script>
     <script src="restaurantManager/rmbartendersController.js"></script>
     <script src="restaurantManager/rmcooksController.js"></script>
@@ -57,6 +57,12 @@
     <script src="waiter/waiterService.js"></script>
     <script src="bartender/bartenderService.js"></script>
     <script src="cook/cookService.js"></script>
+    <script src="restaurantManager/bidderController.js"></script>
+    <script src="bidder/bidderService.js"></script>
+    <script src="bidder/bidderProfileController.js"></script>
+    <script src="restaurantManager/groceryController.js"></script>
+    <script src="grocery/groceryService.js"></script>
+    <script src="offer/offerService.js"></script>
     <script src="waiter/waiterController.js"></script>
     <script src="bartender/bartenderController.js"></script>
     <script src="cook/cookController.js"></script>
@@ -90,12 +96,75 @@
             }
         }
     </script>
+    
+    <!-- MAP -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+	    <script type="text/javascript" 
+	    	src="https://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+	<script>
+		var map;
+		var service;
+		var searchName
+		
+		function setMap(adress){
+			searchName = adress;
+    		navigator.geolocation.getCurrentPosition(initialise);
+	    	
+		}
+		
+    	function initialise(location){
+    		
+    		var currentLocation = new google.maps.LatLng(location.coords.latitude, location.coords.longitude);
+    		
+    		var mapOptions = {
+    			center: currentLocation,
+    			zoom: 12,
+    			mapTypeId: google.maps.MapTypeId.ROADMAP
+    		};
+    		
+    		map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+    		
+    		setMarker(currentLocation,null)
+    		
+    		service =  new google.maps.places.PlacesService(map);
+    		
+    		//ensures we wait until the map is initialised before we perform the search
+    		google.maps.event.addListenerOnce(map, 'bounds_changed', performSearch);
+
+    	}
+    	
+    	function performSearch(){
+    		var  request = {
+				bounds: map.getBounds(),    				
+				radius:'500',    				
+    			name: searchName
+    		}
+    		service.nearbySearch(request, handleSearchResults);
+    	}
+    	
+    	function handleSearchResults(results, status){
+
+    		if (status == google.maps.places.PlacesServiceStatus.OK) {
+	    		for(result in results){
+	    			setMarker(results[result].geometry.location,results[result].icon)
+	    		}
+    		}
+    	}
+    	
+    	function setMarker(position,icon){
+    		var marker = new google.maps.Marker({
+    			position: position,
+    			map: map,
+    			icon: icon
+    		});
+    	}
+    </script>	    
 
 <title>Restaurant</title>
 </head>
 <body class="bg">
     
- 	<div>    
+    <div>    
             <div ui-view></div>
     </div>
 </body>

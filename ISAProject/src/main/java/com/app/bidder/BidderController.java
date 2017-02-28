@@ -10,28 +10,42 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.app.offers.Offer;
+import com.app.restaurant.Restaurant;
+import com.app.restaurant.RestaurantService;
 
 @RestController
 @RequestMapping(path="/bidders")
 public class BidderController {
 	
 	private final BidderService bidderService;
+	private final RestaurantService restaurantService;
 	
 	@Autowired
-	public BidderController(final BidderService bidderService) {
+	public BidderController(final BidderService bidderService, final RestaurantService restaurantService) {
 		this.bidderService=bidderService;
+		this.restaurantService = restaurantService;
 	}
 	
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
 	public Iterable<Bidder> findAll(){
 		return bidderService.findAll();
+	}
+	@RequestMapping(value = "/findAll/{restaurant}", method = RequestMethod.GET)
+	@ResponseStatus(HttpStatus.OK)
+	public Iterable<Bidder> findAll(@PathVariable Long restaurant){
+		Restaurant res = restaurantService.findOne(restaurant);
+		return bidderService.findByRestaurant(res);
 	}
 	
 	@GetMapping(params="email")
@@ -43,7 +57,10 @@ public class BidderController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Bidder save(@Valid @RequestBody Bidder bidder){
-		return bidderService.save(bidder);
+		if(bidderService.findOne(bidder.getEmail()) == null){
+			return bidderService.save(bidder);
+		}
+		return null;
 	}
 	
 	@DeleteMapping(params="email")
@@ -59,5 +76,5 @@ public class BidderController {
 		Optional.ofNullable(bidderService.findOne(bidder.getEmail())).orElseThrow(() -> new ResourceNotFoundException());
 		return bidderService.save(bidder);
 	}
-
+	
 }

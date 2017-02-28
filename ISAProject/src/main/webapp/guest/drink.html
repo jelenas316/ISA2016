@@ -3,12 +3,27 @@
 		<br>
 		<table class="table table-bordered sortable">
 		  <tr>
-		    <th>Name</th>
-		    <th>Description</th>
-		    <th>Price</th>
+		    <th ng-click="$parent.sortType = 'name'; $parent.sortReverse = !$parent.sortReverse">Name
+		    	<span ng-show="$parent.sortType == 'name' && !$parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-down"></span>
+	            <span ng-show="$parent.sortType == 'name' && $parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-up"></span>
+		    </th>
+		    <th ng-click="$parent.sortType = 'description'; $parent.sortReverse = !$parent.sortReverse">Description
+		    	<span ng-show="$parent.sortType == 'description' && !$parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-down"></span>
+	            <span ng-show="$parent.sortType == 'description' && $parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-up"></span>
+		    </th>
+		    <th ng-click="$parent.sortType = 'price'; $parent.sortReverse = !$parent.sortReverse">Price
+		    	<span ng-show="$parent.sortType == 'price' && !$parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-down"></span>
+	            <span ng-show="$parent.sortType == 'price' && $parent.sortReverse" 
+	            	class="glyphicon glyphicon-chevron-up"></span>
+		    </th>
 		    <th>Order</th>
 		  </tr>
-		  <tr ng-repeat="drink in $parent.reservationOrder.restaurant.drinks">
+		  <tr ng-repeat="drink in $parent.reservationOrder.restaurant.drinks | orderBy:sortType:sortReverse">
 		    <td>{{drink.name}}</td>
 		    <td>{{drink.description}}</td>
 		    <td>{{drink.price}}</td>
