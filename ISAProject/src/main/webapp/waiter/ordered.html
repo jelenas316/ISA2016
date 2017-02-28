@@ -1,0 +1,45 @@
+<div class="centered2" ng-show="$parent.currentOrder!=undefined">
+	<div>
+		<h3>Ordered food:</h3>
+		<table class="table table-bordered sortable">
+			<tr>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Quantity</th>
+				<th>Price</th>
+				<th>Food status</th>
+			</tr>
+			<tr ng-repeat="food in $parent.currentOrder.food">
+				<td>{{food.food.name}}</td>
+				<td>{{food.food.description}}</td>
+				<td>{{food.quantity}}</td>
+				<td>{{food.food.price}}</td>
+				<td ng-show="food.foodStatus=='WAITING'">
+					<button type="button" class="btn btn-primary" ng-click="cancelF(food)">Cancel</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div>
+		<h3>Ordered drink:</h3>
+		<table class="table table-bordered sortable">
+			<tr>
+				<th>Name</th>
+				<th>Decription</th>
+				<th>Quantity</th>
+				<th>Price</th>
+				<th>Drink status</th>
+			</tr>
+			<tr ng-repeat="drink in $parent.currentOrder.drinks">
+				<td>{{drink.drink.name}}</td>
+				<td>{{drink.drink.description}}</td>
+				<td>{{drink.quantity}}</td>
+				<td>{{drink.drink.price}}</td>
+				<td ng-show="drink.foodStatus=='WAITING'">
+					<button type="button" class="btn btn-primary" ng-click="cancelD(drink)">Cancel</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+</div>

@@ -144,6 +144,18 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 			 url : '/order',
 			 templateUrl : 'waiter/order.html'
 		 })
+		 .state('waiter.order.ordered', {
+			 url : '/ordered',
+			 templateUrl : 'waiter/ordered.html'
+		 })
+		 .state('waiter.order.food', {
+			 url : '/food',
+			 templateUrl : 'waiter/food.html'
+		 })
+		 .state('waiter.order.drink', {
+			 url : '/drink',
+			 templateUrl : 'waiter/drink.html'
+		 })
 		.state('bartender', {
 			url : '/bartender',
 			templateUrl : 'bartender/bartender.html',

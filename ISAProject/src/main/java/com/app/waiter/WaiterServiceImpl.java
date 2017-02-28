@@ -6,12 +6,20 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Stream;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.app.drink.Drink;
+import com.app.order.Order;
+import com.app.order.OrderRepository;
+import com.app.order.OrderedDrink;
+import com.app.order.OrderedDrinkRepository;
+import com.app.order.OrderedFood;
+import com.app.order.OrderedFoodRepository;
 import com.app.restaurant.Restaurant;
 import com.app.restaurant.RestaurantRepository;
 import com.app.shift.Shift;
@@ -25,12 +33,19 @@ public class WaiterServiceImpl implements WaiterService {
 	private final WaiterRepository waiterRepo;
 	private final ShiftRepository shiftRepo;
 	private final RestaurantRepository restaurantRepo;
+	private final OrderedFoodRepository orderedFoodRepo;
+	private final OrderRepository orderRepo;
+	private final OrderedDrinkRepository orderedDrinkRepo;
 	
 	@Autowired
-	public WaiterServiceImpl(final WaiterRepository waiterRepo, final ShiftRepository shiftRepo, final RestaurantRepository restaurantRepo){
+	public WaiterServiceImpl(final WaiterRepository waiterRepo, final ShiftRepository shiftRepo, final RestaurantRepository restaurantRepo, 
+			final OrderedFoodRepository orderedFoodRepo, final OrderRepository orderRepo, final OrderedDrinkRepository orderedDrinkRepo){
 		this.waiterRepo = waiterRepo;
 		this.shiftRepo= shiftRepo;
 		this.restaurantRepo = restaurantRepo;
+		this.orderedFoodRepo = orderedFoodRepo;
+		this.orderRepo = orderRepo;
+		this.orderedDrinkRepo = orderedDrinkRepo;
 	}
 	
 	@Override
@@ -122,5 +137,27 @@ public class WaiterServiceImpl implements WaiterService {
 		s.setStartDate(shift.getStartDate());
 		s.setEndDate(shift.getEndDate());
 		return s;
+	}
+
+	@Override
+	public void cancelFood(Order order, Long orderedFoodId) {
+		// TODO Auto-generated method stub
+		Stream<OrderedFood> ordered = order.getFood().stream()
+				.filter(food ->  food.getId().equals(orderedFoodId));
+		order.getFood().remove(ordered);
+		orderRepo.save(order);
+		orderedFoodRepo.delete(orderedFoodId);
+		
+	}
+
+	@Override
+	public void cancelDrink(Order order, Long orderedDrinkId) {
+		// TODO Auto-generated method stub
+		
+		Stream<OrderedDrink> ordered = order.getDrinks().stream().filter(Drink -> Drink.getId().equals(orderedDrinkId));
+		order.getDrinks().remove(ordered);
+		orderRepo.save(order);
+		orderedDrinkRepo.delete(orderedDrinkId);
+		
 	}
 }

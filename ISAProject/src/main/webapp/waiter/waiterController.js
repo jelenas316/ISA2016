@@ -13,6 +13,7 @@ app.controller('waiterController', ['$scope', '$window', '$location', 'waiterSer
 	    $scope.copyOfUser=$scope.user;
 	    $scope.repeatedPassword=$scope.user.password;
 	    $scope.currentOrder=undefined;
+	    $scope.reservationOrder={};
 	    //console.log($scope.user);
 	    
 	    waiterService.findAllOrders().then (
@@ -62,6 +63,66 @@ app.controller('waiterController', ['$scope', '$window', '$location', 'waiterSer
 	$scope.change = function(order){
 		$scope.currentOrder=order;
 		console.log($scope.currentOrder);
+		console.log($scope.currentOrder.restaurantTable);
+	}
+	
+	$scope.back = function() {
+		init();
+		//console.log("Posle back: " + $scope.currentOrder);
+	}
+	
+	$scope.cancelF = function(food) {
+		waiterService.cancelFood($scope.currentOrder.id, food.id).then(
+				function(){
+					alert('Canceled ' + food.food.name + ".")
+					waiterService.findOneOrder($scope.currentOrder.id).then(
+						function(response){
+							$scope.currentOrder=response.data;
+						}
+					);
+				}
+		);
+	}
+	
+	$scope.cancelD = function(drink) {
+		waiterService.cancelDrink($scope.currentOrder.id, drink.id).then(
+				function(){
+					alert('Canceled ' + drink.drink.name + ".")
+					waiterService.findOneOrder($scope.currentOrder.id).then(
+						function(response){
+							$scope.currentOrder=response.data;
+						}
+					);
+				}
+		);
+	}
+	
+	$scope.addFood = function(food) {
+		var orderFood={};
+		orderFood.quantity=1;
+		orderFood.food=food;
+		orderFood.foodStatus='WAITING';
+		console.log(orderFood);
+		waiterService.saveFood(orderFood).then(
+				function(response){
+					$scope.currentOrder.food.push(response.data);
+					console.log($scope.currentOrder);
+				}
+		);
+	}
+	
+	$scope.addDrink = function(drink) {
+		var orderDrink={};
+		orderDrink.quantity=1;
+		orderDrink.drink=drink;
+		orderDrink.foodStatus='WAITING';
+		console.log(orderDrink);
+		waiterService.saveDrink(orderDrink).then(
+				function(response){
+					$scope.currentOrder.drinks.push(response.data);
+					console.log($scope.currentOrder);
+				}
+		);
 	}
 
 }]);
