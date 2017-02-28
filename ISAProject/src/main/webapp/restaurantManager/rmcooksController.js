@@ -197,6 +197,7 @@ app.controller('rmcooksController', ['$scope', '$window', '$location', 'cookServ
             $scope.flag = false;
             return;
         }
+        $scope.cook.activated = false;
         $scope.cook.restaurant = $scope.user.restaurant;
         $scope.cook.role = "COOK";
         var month = $scope.cook.dateOfBirth.getMonth()+1;

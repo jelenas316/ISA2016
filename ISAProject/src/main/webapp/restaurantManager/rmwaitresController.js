@@ -205,6 +205,7 @@ app.controller('rmwaitersController', ['$scope', '$window', '$location', 'waiter
             $scope.flag = false;
             return;
         }
+        $scope.waiter.activated = false;
         $scope.waiter.restaurant = $scope.user.restaurant;
         $scope.waiter.role = "WAITER";
         var month = $scope.waiter.dateOfBirth.getMonth()+1;

@@ -373,6 +373,7 @@ create table WAITER
    RESTAURANT					bigint							not null,
    SHIFTS						bigint							,
    ROLE 						enum('WAITER')          			not null,
+   ACTIVATED					boolean,
    primary key(EMAIL),
    FOREIGN KEY (RESTAURANT) REFERENCES RESTAURANT(RESTAURANT_ID) ON DELETE CASCADE ON UPDATE CASCADE,
    FOREIGN KEY (SHIFTS) REFERENCES SHIFT(SHIFT_ID) ON DELETE CASCADE ON UPDATE CASCADE
@@ -408,6 +409,7 @@ create table COOK
    RESTAURANT					bigint							not null,
    SHIFTS						bigint							,
    ROLE 						enum('COOK')          			not null,
+   ACTIVATED					boolean,
    primary key(EMAIL),
    FOREIGN KEY (RESTAURANT) REFERENCES RESTAURANT(RESTAURANT_ID) ON DELETE CASCADE ON UPDATE CASCADE,
    FOREIGN KEY (SHIFTS) REFERENCES SHIFT(SHIFT_ID) ON DELETE CASCADE ON UPDATE CASCADE
@@ -436,6 +438,7 @@ create table BARTENDER
    RESTAURANT					bigint							not null,
    SHIFTS						bigint							,
    ROLE 						enum('BARTENDER')          			not null,
+   ACTIVATED					boolean,
    primary key(EMAIL),
    FOREIGN KEY (RESTAURANT) REFERENCES RESTAURANT(RESTAURANT_ID) ON DELETE CASCADE ON UPDATE CASCADE,
    FOREIGN KEY (SHIFTS) REFERENCES SHIFT(SHIFT_ID) ON DELETE CASCADE ON UPDATE CASCADE
@@ -613,17 +616,17 @@ insert into restaurant (RESTAURANT_ID, NAME, DESCRIPTION, ADDRESS) values (1,'na
 insert into restaurant  (RESTAURANT_ID, NAME, DESCRIPTION, ADDRESS) values (2,'name2','description','neka adresa 1');
 insert into restaurant  (RESTAURANT_ID, NAME, DESCRIPTION, ADDRESS) values (3,'name3','description','neka adresa 2');
 
-insert into isa2016.waiter (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE) values('waiter@waiter.com','pass','name','surname','1975-03-10',42,44,1,'WAITER');
-insert into isa2016.waiter (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE)  values ('waiter1@waiter.com','pass1','name1','surname1','1961-10-11',40,42,1,'WAITER');
-insert into isa2016.waiter (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE)  values ('waiter2@waiter.com','pass2','name2','surname2','1984-05-06',46,43,2,'WAITER');
+insert into isa2016.waiter (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE, ACTIVATED) values('waiter@waiter.com','pass','name','surname','1975-03-10',42,44,1,'WAITER',true);
+insert into isa2016.waiter (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE, ACTIVATED)  values ('waiter1@waiter.com','pass1','name1','surname1','1961-10-11',40,42,1,'WAITER',true);
+insert into isa2016.waiter (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE, ACTIVATED)  values ('waiter2@waiter.com','pass2','name2','surname2','1984-05-06',46,43,2,'WAITER',true);
 
-insert into isa2016.bartender (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE) values('bartender@bartender.com','pass','name','surname','1975-03-10',42,44,1,'BARTENDER');
-insert into isa2016.bartender (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE)  values ('bartender1@bartender.com','pass1','name1','surname1','1961-10-11',40,42,1,'BARTENDER');
-insert into isa2016.bartender (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE)  values ('bartender2@bartender.com','pass2','name2','surname2','1984-05-06',46,43,2,'BARTENDER');
+insert into isa2016.bartender (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE, ACTIVATED) values('bartender@bartender.com','pass','name','surname','1975-03-10',42,44,1,'BARTENDER',true);
+insert into isa2016.bartender (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE, ACTIVATED)  values ('bartender1@bartender.com','pass1','name1','surname1','1961-10-11',40,42,1,'BARTENDER',true);
+insert into isa2016.bartender (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE, ACTIVATED)  values ('bartender2@bartender.com','pass2','name2','surname2','1984-05-06',46,43,2,'BARTENDER',true);
 
-insert into isa2016.cook (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE) values('cook@cook.com','pass','name','surname','1975-03-10',38,44,1,'COOK');
-insert into isa2016.cook (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE)  values ('cook1@cook.com','pass1','name1','surname1','1961-10-11',45,42,1,'COOK');
-insert into isa2016.cook (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE)  values ('cook2@cook.com','pass2','name2','surname2','1984-05-06',40,43,2,'COOK');
+insert into isa2016.cook (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE, ACTIVATED) values('cook@cook.com','pass','name','surname','1975-03-10',38,44,1,'COOK',true);
+insert into isa2016.cook (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE, ACTIVATED)  values ('cook1@cook.com','pass1','name1','surname1','1961-10-11',45,42,1,'COOK',true);
+insert into isa2016.cook (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE, ACTIVATED)  values ('cook2@cook.com','pass2','name2','surname2','1984-05-06',40,43,2,'COOK',true);
 
 insert into isa2016.bidder (EMAIL,PASSWORD,NAME,PASSWORD_STATUS, RESTAURANT, ROLE)  values ('bidder@bidder.com','pass2','name2',1,1,'BIDDER');
 insert into isa2016.bidder (EMAIL,PASSWORD,NAME,PASSWORD_STATUS, RESTAURANT, ROLE)  values ('b','b','name',1,2,'BIDDER');

@@ -197,6 +197,7 @@ app.controller('rmbartendersController', ['$scope', '$window', '$location', 'bar
             $scope.flag = false;
             return;
         }
+        $scope.bartender.activated = false;
         $scope.bartender.restaurant = $scope.user.restaurant;
         $scope.bartender.role = "BARTENDER";
         var month = $scope.bartender.dateOfBirth.getMonth()+1;
