@@ -7,16 +7,31 @@
 		    <th>Description</th>
 		    <th>Quantity</th>
 		    <th>Price</th>
-		    <th ng-show="$parent.notChangeable.indexOf($parent.reservationOrder.id)==-1">Cancel</th>
+		    <th>Food status</th>
 		  </tr>
 		  <tr ng-repeat="food in $parent.usersOrders.food">
 		    <td>{{food.food.name}}</td>
 		    <td>{{food.food.description}}</td>
 		    <td>{{food.quantity}}</td>
 		    <td>{{food.food.price}}</td>
-		    <td ng-show="$parent.notChangeable.indexOf($parent.reservationOrder.id)==-1">
+		    <td ng-show="$parent.notChangeable.indexOf($parent.reservationOrder.id)==-1
+		    	&& food.foodStatus=='WAITING'">
 		    	<button type="button" class="btn btn-primary" 
-			    	ng-click="cancelFood(food)">Cancel</button></td>
+			    	ng-click="cancelFood(food)">Cancel</button>
+			</td>
+			<td ng-show="$parent.notChangeable.indexOf($parent.reservationOrder.id)!=-1
+		    	&& food.foodStatus=='WAITING'">
+		    	in preparation
+		    </td>
+			<td ng-show="food.foodStatus=='ACCEPTED'">
+		    	in preparation
+			</td>
+			<td ng-show="food.foodStatus=='PREPARED'">
+		    	is prepared
+			</td>
+			<td ng-show="food.foodStatus=='REJECTED'">
+		    	rejected
+			</td>
 		  </tr>
 		</table>
 		<br>
@@ -30,16 +45,30 @@
 		    <th>Description</th>
 		    <th>Quantity</th>
 		    <th>Price</th>
-		    <th ng-show="$parent.notChangeable.indexOf($parent.reservationOrder.id)==-1">Cancel</th>
+		    <th>Drink status</th>
 		  </tr>
 		  <tr ng-repeat="drink in $parent.usersOrders.drinks">
 		    <td>{{drink.drink.name}}</td>
 		    <td>{{drink.drink.description}}</td>
 		    <td>{{drink.quantity}}</td>
 		    <td>{{drink.drink.price}}</td>
-		    <td ng-show="$parent.notChangeable.indexOf($parent.reservationOrder.id)==-1">
+		    <td ng-show="$parent.notChangeable.indexOf($parent.reservationOrder.id)==-1
+		    	&& drink.foodStatus=='WAITING'">
 		    	<button	type="button" class="btn btn-primary" 
 			    	ng-click="cancelDrink(drink)">Cancel</button></td>
+			<td ng-show="$parent.notChangeable.indexOf($parent.reservationOrder.id)!=-1
+		    	&& drink.foodStatus=='WAITING'">
+		    	in preparation
+		    </td>
+			<td ng-show="drink.foodStatus=='ACCEPTED'">
+		    	in preparation
+			</td>
+			<td ng-show="drink.foodStatus=='PREPARED'">
+		    	is prepared
+			</td>
+			<td ng-show="drink.foodStatus=='REJECTED'">
+		    	rejected
+			</td>
 		  </tr>
 		</table>
 		<br>
