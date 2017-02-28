@@ -1,7 +1,9 @@
 app.service('waiterService', ['$http', function($http){
 
     var url='/waiters';
-	
+    var urlOrders = '/orders';
+    
+    
 	this.findAll = function(id){
 		return $http.get(url+"/findAll/"+id);
 	}
@@ -19,6 +21,10 @@ app.service('waiterService', ['$http', function($http){
 	}
     this.addShift = function(shift){
 		return $http.post(url+"/addShift",shift);
-	}    
+	}
+    
+    this.findAllOrders = function() {
+    	return $http.get(urlOrders);
+    }
     
 }]);

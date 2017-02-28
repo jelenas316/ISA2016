@@ -4,7 +4,7 @@
 	 	<div class="centered" ng-show="showInvitation==false">
 	 		<br><br>
 	 		<label>Password: </label>
-			<input name="password" type="text" ng-model="password" class="form-control" required/>
+			<input name="password" type="password" ng-model="password" class="form-control" required/>
 			<br>
 			<button type="button" class="btn btn-primary" ng-click="checkPassword()">Next</button>
 			
@@ -13,12 +13,12 @@
 	 	<div ng-show="showInvitation==true">
 		 	<h1>Invitation to restaurant:</h1>
 		 	
-		 	<div class="centered">
+		 	<div class="centered2">
 				<br><br>
-				<label>You have been invited to restaurant: {{reservation.restaurant.name}}</label>
-				<label>from friend: {{reservation.guests[0].name}} {{reservation.guests[0].surname}}.</label>
-				<label>Date and time: {{reservation.arrival}}</label>
-				<label ng-show="reservation.duration!=null">Duration: {{reservation.duration}}</label>
+				<label>You have been invited to restaurant "{{reservation.restaurant.name}}"
+					from friend: {{reservation.guests[0].name}} {{reservation.guests[0].surname}}.<br>
+					Date and time: {{reservation.arrival}} {{reservation.arrivalTime}}.<br>
+					Duration: {{reservation.duration}} minutes.</label>
 				
 		 	</div>
 		 	

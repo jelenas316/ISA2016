@@ -1,5 +1,13 @@
  <div>
-	 <div ng-show="profile.id!=undefined">
+ 	<div class="centered" ng-show="profile.id!=undefined && showActivation==false">
+ 		<br><br>
+ 		<label>Password: </label>
+		<input name="password" type="password" ng-model="password" class="form-control" required/>
+		<br>
+		<button type="button" class="btn btn-primary" ng-click="checkPassword()">Next</button>
+		
+ 	</div>
+	 <div ng-show="profile.id!=undefined && showActivation==true">
 	 	<h1>Activate account</h1>
 	 	
 	 	<div class="centered">
@@ -8,7 +16,7 @@
 			<p>Name: {{profile.name}}</p>
 			<p>Surname: {{profile.surname}}</p>
 			<p>Repeat password: </p>
-			<input name="password" type="text" ng-model="password" class="form-control" required/>
+			<input name="password" type="password" ng-model="password" class="form-control" required/>
 		
 	 	</div>
 	 	

@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.app.restauranttable.RestaurantTable;
+import com.app.waiter.Waiter;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;

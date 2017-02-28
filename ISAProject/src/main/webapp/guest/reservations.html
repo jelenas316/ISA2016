@@ -6,16 +6,41 @@
 			<br>
 			<table class="table table-bordered sortable">
 			  <tr>
-			    <th>Restaurant name</th>
-			    <th>Restaurant description</th>
-			    <th>Arrival date</th>
-			    <th>Arrival time</th>
-			    <th>Duration</th>
+			    <th ng-click="$parent.sortType = 'restaurant.name'; $parent.sortReverse = !$parent.sortReverse">Restaurant name
+			    	<span ng-show="$parent.sortType == 'restaurant.name' && !$parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-down"></span>
+		            <span ng-show="$parent.sortType == 'restaurant.name' && $parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-up"></span>
+			    </th>
+			    <th ng-click="$parent.sortType = 'restaurant.description'; $parent.sortReverse = !$parent.sortReverse">Restaurant description
+			    	<span ng-show="$parent.sortType == 'restaurant.description' && !$parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-down"></span>
+		            <span ng-show="$parent.sortType == 'restaurant.description' && $parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-up"></span>
+			    </th>
+			    <th ng-click="$parent.sortType = 'arrival'; $parent.sortReverse = !$parent.sortReverse">Arrival date
+				    <span ng-show="$parent.sortType == 'arrival' && !$parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-down"></span>
+		            <span ng-show="$parent.sortType == 'arrival' && $parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-up"></span>
+			    </th>
+			    <th ng-click="$parent.sortType = 'arrivalTime'; $parent.sortReverse = !$parent.sortReverse">Arrival time
+			    	<span ng-show="$parent.sortType == 'arrivalTime' && !$parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-down"></span>
+		            <span ng-show="$parent.sortType == 'arrivalTime' && $parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-up"></span>
+			    </th>
+			    <th ng-click="$parent.sortType = 'duration'; $parent.sortReverse = !$parent.sortReverse">Duration
+			    	<span ng-show="$parent.sortType == 'duration' && !$parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-down"></span>
+		            <span ng-show="$parent.sortType == 'duration' && $parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-up"></span>
+			    </th>
 			    <th>Friends</th>
 			    <th>Order</th>
 			    <th>Cancel</th>
 			  </tr>
-			  <tr ng-repeat="reservation in $parent.futureReservations">
+			  <tr ng-repeat="reservation in $parent.futureReservations | orderBy:sortType:sortReverse">
 			    <td>{{reservation.restaurant.name}}</td>
 			    <td>{{reservation.restaurant.description}}</td>
 			    <td>{{reservation.arrival}}</td>
@@ -43,7 +68,7 @@
 			<h3>Order:</h3>
 			<br>
 			<p>Restaurant: {{$parent.reservationOrder.restaurant.name}}</p>
-			<p>Date and time: {{$parent.reservationOrder.arrival}}</p>
+			<p>Date and time: {{$parent.reservationOrder.arrival}} {{$parent.reservationOrder.arrivalTime}}</p>
 			
 			<br><br>
 			<div class="centered">

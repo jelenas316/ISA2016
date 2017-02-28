@@ -1,0 +1,22 @@
+<div>
+	<form>
+		<div class = "col-sm-8" 
+			ng-show="$parent.futureReservations.length>0 && $parent.reservationOrder.id==undefined">
+			<h3>Change order:</h3>
+			<br>
+			<table class="table table-bordered sortable">
+			  <tr>
+			    <th>Food</th>
+			    <th>Drink</th>
+			    <th>Cancel</th>
+			  </tr>
+			  <tr ng-repeat="order in $parent.orders track by $index">
+			    <td>{{order.food[$index].food.name}}</td>
+			    <td>{{order.drinks[$index].drink.name}}</td>
+			    <td></td>
+			  </tr>
+			</table>
+		</div>
+	
+	</form>
+</div>

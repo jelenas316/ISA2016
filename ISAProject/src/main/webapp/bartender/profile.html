@@ -1,0 +1,35 @@
+<div>
+	<form name="user">
+		<div class = "col-sm-8">
+			 <p>Email: </p>
+			 <input name="user.email" type="text" ng-model="$parent.user.email" class="form-control" required disabled/>
+			 
+			 <p>Password:</p>
+			 <input name="user.password" type="password" ng-model=$parent.user.password class="form-control" required/>
+			 
+			 <p>Repeat password:</p>
+			 <input name="user.repeatedPassword" type="password" ng-model=$parent.repeatedPassword class="form-control" required/>
+			 
+			 <p>Name:</p>
+			 <input name="user.name" type="text" ng-model=$parent.user.name class="form-control" required/>
+			 
+			 <p>Surname:</p>
+			 <input name="user.surname" type="text" ng-model=$parent.user.surname class="form-control" required/>
+			 
+			 <p>Date of birth:</p>
+             <dp ng-model="$parent.user.dateOfBirth"></dp>
+			 
+			 <p>Dress size:</p>
+			 <input name="user.dressSize" type="text" ng-model=$parent.user.dressSize class="form-control" required/>
+			 
+			 <p>Shoes size:</p>
+			 <input name="user.shoesSize" type="text" ng-model=$parent.user.shoesSize class="form-control" required/>
+			 
+			 <br><br>
+			 
+			 <div class="button">
+				<button type="submit" class="btn btn-primary" ng-click="user.$valid && changeProfile()">Update</button>
+			</div>
+		</div>
+	</form>
+</div>

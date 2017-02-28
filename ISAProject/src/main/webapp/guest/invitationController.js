@@ -52,7 +52,7 @@ app.controller('invitationController', ['$scope', '$window', '$location', '$stat
 		if($scope.password==$scope.user.password && $scope.password!=""){
 			$scope.showInvitation=true;
 		}else
-			alert('Error.');
+			alert('Wrong password.');
 	}
 	
 	

@@ -11,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 import com.app.guest.Guest;
 import com.app.restauranttable.RestaurantTable;
@@ -34,7 +33,7 @@ public class Order {
 	@JoinColumn(name = "RESTAURANT_TABLE")
 	private RestaurantTable table;
 	
-	@NotNull
+//	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "GUEST")
 	private Guest guest;

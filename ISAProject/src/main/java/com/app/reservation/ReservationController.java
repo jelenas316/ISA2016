@@ -1,9 +1,10 @@
 package com.app.reservation;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
@@ -28,11 +29,10 @@ import com.app.guest.Guest;
 import com.app.guest.GuestService;
 import com.app.order.Order;
 import com.app.order.OrderService;
-import com.app.order.OrderedDrink;
 import com.app.order.OrderedDrinkService;
-import com.app.order.OrderedFood;
 import com.app.order.OrderedFoodService;
 import com.app.restaurant.Restaurant;
+import com.app.restauranttable.RestaurantTable;
 
 @RestController
 @RequestMapping(path="/reservations")
@@ -227,6 +227,15 @@ public class ReservationController {
 	}
 
 
+	@GetMapping(params={"restaurant", "date", "time", "duration"})
+	@ResponseStatus(HttpStatus.OK)
+	public List<RestaurantTable> findFreeTables(@PathParam("restaurant") Long restaurant,
+			@PathParam("date") Date date, @PathParam("time") Time time,
+			@PathParam("duration") Integer duration){
+		
+		return reservationService.findFreeTables(restaurant, date, time, duration);
+	}
+	
 }
 
 

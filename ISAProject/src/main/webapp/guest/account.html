@@ -52,11 +52,26 @@
 			<h3>Sent requests:</h3><br>
 			<table class="table table-bordered">
 			  <tr>
-			    <th>Name</th>
-			    <th>Surname</th> 
-			    <th>Email</th>
+			    <th ng-click="$parent.sortType = 'name'; $parent.sortReverse = !$parent.sortReverse">Name
+			    	<span ng-show="$parent.sortType == 'name' && !$parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-down"></span>
+		            <span ng-show="$parent.sortType == 'name' && $parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-up"></span>
+			    </th>
+			    <th ng-click="$parent.sortType = 'surname'; $parent.sortReverse = !$parent.sortReverse">Surname
+			    	<span ng-show="$parent.sortType == 'surname' && !$parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-down"></span>
+		            <span ng-show="$parent.sortType == 'surname' && $parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-up"></span>
+			    </th> 
+			    <th ng-click="$parent.sortType = 'email'; $parent.sortReverse = !$parent.sortReverse">Email
+			    	<span ng-show="$parent.sortType == 'email' && !$parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-down"></span>
+		            <span ng-show="$parent.sortType == 'email' && $parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-up"></span>
+			    </th>
 			  </tr>
-			  <tr ng-repeat="friend in $parent.requestsForFriends">
+			  <tr ng-repeat="friend in $parent.requestsForFriends | orderBy:sortType:sortReverse">
 			    <td>{{friend.name}}</td>
 			    <td>{{friend.surname}}</td>
 			    <td>{{friend.email}}</td>

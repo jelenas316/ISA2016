@@ -1,8 +1,8 @@
 drop table if exists GRADE;
-drop table if exists RESERVATION_TABLE;
 drop table if exists RESERVATION_GUESTS;
 drop table if exists RESERVATION_ORDERS;
 drop table if exists RESERVATION_INVITED_FRIENDS;
+drop table if exists RESERVATION_TABLES;
 drop table if exists RESERVATION;
 drop table if exists ORDER_LIST_DRINKS;
 drop table if exists ORDER_LIST_FOOD;
@@ -66,6 +66,12 @@ create table GUEST
    primary key (EMAIL)
 );
 
+
+alter table GUEST add constraint FK_G_FRIENDS foreign key (FRIENDS)
+      references GUEST (EMAIL) on delete restrict on update restrict;
+alter table GUEST add constraint FK_G_FRIEND_REQUESTS foreign key (FRIEND_REQUESTS)
+      references GUEST (EMAIL) on delete restrict on update restrict;   
+    
 create table GUEST_FRIENDS
 (
    FRIENDS_ID					bigint							not null AUTO_INCREMENT,
@@ -85,12 +91,7 @@ create table GUEST_FRIEND_REQUESTS
 
 
 /*-------------------------------------------------------------*/
-
-alter table GUEST add constraint FK_G_FRIENDS foreign key (FRIENDS)
-      references GUEST (EMAIL) on delete restrict on update restrict;
-alter table GUEST add constraint FK_G_FRIEND_REQUESTS foreign key (FRIEND_REQUESTS)
-      references GUEST (EMAIL) on delete restrict on update restrict;   
-      
+  
 
 alter table GUEST_FRIENDS add constraint FK_GF_GUEST foreign key (GUEST_EMAIL)
       references GUEST (EMAIL) on delete restrict on update restrict;
@@ -235,7 +236,7 @@ create table ORDER_LIST
 (
 	ORDER_ID						bigint							not null AUTO_INCREMENT,
    	RESTAURANT_TABLE				bigint            				,
-   	GUEST							varchar(50)						not null,
+   	GUEST							varchar(50)						,
    	DRINKS							bigint							,
    	FOOD							bigint							,
     primary key (ORDER_ID),
@@ -273,14 +274,14 @@ create table RESERVATION
 	RESERVATION_ID					bigint							not null AUTO_INCREMENT,
    	ARRIVAL           				DATE 	              			not null,
    	ARRIVAL_TIME					TIME							not null,
-   	DURATION						int								,
-   	RESTAURANT_TABLE				bigint            				,
+   	DURATION						int								not null,
+   	TABLES							bigint            				,
    	RESTAURANT						bigint							not null,
    	GUESTS							varchar(50)						,
    	INVITED_FRIENDS					varchar(50)						,
    	ORDERS							bigint							,
     primary key (RESERVATION_ID),
-   	FOREIGN KEY (RESTAURANT_TABLE) REFERENCES RESTAURANT_TABLE(RESTAURANT_TABLE_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (TABLES) REFERENCES RESTAURANT_TABLE(RESTAURANT_TABLE_ID) ON DELETE CASCADE ON UPDATE CASCADE,
    	FOREIGN KEY (RESTAURANT) REFERENCES RESTAURANT(RESTAURANT_ID) ON DELETE CASCADE ON UPDATE CASCADE,
    	FOREIGN KEY (GUESTS) REFERENCES GUEST(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE,
    	FOREIGN KEY (INVITED_FRIENDS) REFERENCES GUEST(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -308,14 +309,14 @@ create table RESERVATION_INVITED_FRIENDS
    	FOREIGN KEY (INVITED_FRIENDS_EMAIL) REFERENCES GUEST(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-create table RESERVATION_TABLE
+create table RESERVATION_TABLES
 (
-	RESERVATION_RESTAURANT_TABLE_ID			bigint							not null AUTO_INCREMENT,
+	RESERVATION_TABLES_ID					bigint							not null AUTO_INCREMENT,
    	RESERVATION_RESERVATION_ID				bigint							not null,
-   	TABLE_RESTAURANT_TABLE_ID				bigint							not null,	
-    primary key (RESERVATION_RESTAURANT_TABLE_ID),
+   	TABLES_RESTAURANT_TABLE_ID				bigint							not null,	
+    primary key (RESERVATION_TABLES_ID),
    	FOREIGN KEY (RESERVATION_RESERVATION_ID) REFERENCES RESERVATION(RESERVATION_ID) ON DELETE CASCADE ON UPDATE CASCADE,
-   	FOREIGN KEY (TABLE_RESTAURANT_TABLE_ID) REFERENCES RESTAURANT_TABLE(RESTAURANT_TABLE_ID) ON DELETE CASCADE ON UPDATE CASCADE
+   	FOREIGN KEY (TABLES_RESTAURANT_TABLE_ID) REFERENCES RESTAURANT_TABLE(RESTAURANT_TABLE_ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 create table RESERVATION_ORDERS

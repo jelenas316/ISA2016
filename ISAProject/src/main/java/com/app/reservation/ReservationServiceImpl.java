@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.app.guest.Guest;
@@ -20,6 +21,10 @@ import com.app.order.OrderedDrink;
 import com.app.order.OrderedDrinkRepository;
 import com.app.order.OrderedFood;
 import com.app.order.OrderedFoodRepository;
+import com.app.restaurant.Restaurant;
+import com.app.restaurant.RestaurantRepository;
+import com.app.restauranttable.RestaurantTable;
+import com.app.restauranttable.Status;
 
 @Service
 @Transactional
@@ -29,15 +34,17 @@ public class ReservationServiceImpl implements ReservationService{
 	private final OrderRepository orderRepo;
 	private final OrderedDrinkRepository orderedDrinkRepo;
 	private final OrderedFoodRepository orderedFoodRepo;
+	private final RestaurantRepository restaurantRepo;
 	
 	@Autowired
 	public ReservationServiceImpl(final ReservationRepository reservationRepo,
 			final OrderRepository orderRepo, final OrderedDrinkRepository orderedDrinkRepo,
-			final OrderedFoodRepository orderedFoodRepo) {
+			final OrderedFoodRepository orderedFoodRepo, final RestaurantRepository restaurantRepo) {
 		this.reservationRepo=reservationRepo;
 		this.orderRepo = orderRepo;
 		this.orderedDrinkRepo = orderedDrinkRepo;
 		this.orderedFoodRepo = orderedFoodRepo;
+		this.restaurantRepo = restaurantRepo;
 	}
 	
 	@Override
@@ -179,5 +186,51 @@ public class ReservationServiceImpl implements ReservationService{
 		Integer index = time.indexOf(':');
 		String value = time.substring(0, index);
 		return Integer.parseInt(value);
+	}
+
+	@Override
+	public List<RestaurantTable> findFreeTables(Long restaurantId, Date date, Time time, Integer duration) {
+		Restaurant restaurant = Optional.ofNullable(restaurantRepo.findOne(restaurantId))
+				.orElseThrow(() -> new ResourceNotFoundException());
+		List<RestaurantTable> tables = restaurant.getTables();
+		List<RestaurantTable> reservedTables = new ArrayList<RestaurantTable>();
+		
+		List<Reservation> reservations = reservationRepo.findByRestaurant(restaurant);
+		for(Reservation reservation : reservations){
+			if(reservation.getArrival().equals(date) && isReserved(time, duration, reservation)){
+				reservation.getTables().forEach(table -> reservedTables.add(table));
+			}
+		}
+		
+		for(RestaurantTable table : tables){
+			if(reservedTables.contains(table)){
+				table.setStatus(Status.RESERVED);
+			}else
+				table.setStatus(Status.FREE);
+		}
+		return tables;
+	}
+	
+	/**
+	 * Method that returns true if the table is reserved.
+	 */
+	private boolean isReserved(Time time, Integer duration, Reservation reservation){
+		String timeString = time.toString();
+		Integer newArrivalHours  = Integer.parseInt(timeString.substring(0, 2));
+		Integer newArrivalMinutes  = Integer.parseInt(timeString.substring(3, 5));
+		Integer newArrival = newArrivalHours * 60 + newArrivalMinutes;
+		Integer newEnd = newArrival + duration;
+		
+		String reservationTime = reservation.getArrivalTime().toString();
+		Integer reservationArrivalHours = Integer.parseInt(reservationTime.substring(0, 2));
+		Integer reservationArrivalMinutes = Integer.parseInt(reservationTime.substring(3, 5));
+		Integer reservationArrival = reservationArrivalHours * 60 + reservationArrivalMinutes;
+		Integer reservationEnd = reservationArrival + reservation.getDuration();
+		
+		if((newArrival>=reservationArrival && newArrival<=reservationEnd)
+				|| (newEnd>=reservationArrival && newEnd<=reservationEnd)){
+			return true;
+		}
+		return false;
 	}
 }
