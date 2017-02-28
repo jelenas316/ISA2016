@@ -12,10 +12,12 @@ app.controller('waiterController', ['$scope', '$window', '$location', 'waiterSer
 	    $scope.user = result[0];
 	    $scope.copyOfUser=$scope.user;
 	    $scope.repeatedPassword=$scope.user.password;
-	    console.log($scope.user);
+	    $scope.currentOrder=undefined;
+	    //console.log($scope.user);
+	    
 	    waiterService.findAllOrders().then (
 	    		function(response) {
-	    			console.log(response.data);
+	    			//console.log(response.data);
 	    			$scope.orders=response.data;
 	    		}
 	    );
@@ -55,6 +57,11 @@ app.controller('waiterController', ['$scope', '$window', '$location', 'waiterSer
 					);
 				}
 		);
+	}
+	
+	$scope.change = function(order){
+		$scope.currentOrder=order;
+		console.log($scope.currentOrder);
 	}
 
 }]);
