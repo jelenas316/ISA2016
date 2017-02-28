@@ -7,13 +7,33 @@
 			<br>
 			<table class="table table-bordered sortable">
 			  <tr>
-			    <th>Name</th>
-			    <th>Description</th>
-			    <th>Reiting</th> 
-			    <th>Friends reiting</th>
+			    <th ng-click="$parent.sortType = 'name'; $parent.sortReverse = !$parent.sortReverse">Name
+			    	<span ng-show="$parent.sortType == 'name' && !$parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-down"></span>
+		            <span ng-show="$parent.sortType == 'name' && $parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-up"></span>
+			    </th>
+			    <th ng-click="$parent.sortType = 'description'; $parent.sortReverse = !$parent.sortReverse">Description
+			    	<span ng-show="$parent.sortType == 'description' && !$parent.sortReverse" 
+	            		class="glyphicon glyphicon-chevron-down"></span>
+		            <span ng-show="$parent.sortType == 'description' && $parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-up"></span>
+			    </th>
+			    <th ng-click="$parent.sortType = 'reitingStars'; $parent.sortReverse = !$parent.sortReverse">Reiting
+			    	<span ng-show="$parent.sortType == 'reitingStars' && !$parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-down"></span>
+		            <span ng-show="$parent.sortType == 'reitingStars' && $parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-up"></span>
+			    </th> 
+			    <th ng-click="$parent.sortType = 'friendsReitingStars'; $parent.sortReverse = !$parent.sortReverse">Friends reiting
+			    	<span ng-show="$parent.sortType == 'friendsReitingStars' && !$parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-down"></span>
+		            <span ng-show="$parent.sortType == 'friendsReitingStars' && $parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-up"></span>
+			    </th>
 			    <th>Reservation</th>
 			  </tr>
-			  <tr ng-repeat="restaurant in $parent.copyOfRestaurants">
+			  <tr ng-repeat="restaurant in $parent.copyOfRestaurants | orderBy:sortType:sortReverse">
 			    <td>{{restaurant.name}}</td>
 			    <td>{{restaurant.description}}</td>
 			    <td>{{restaurant.reitingStars}}</td>
@@ -123,10 +143,15 @@
 					<br>
 					<table class="table table-bordered sortable">
 					  <tr>
-					    <th>Name</th>
+					    <th ng-click="$parent.sortType = 'friend.name'; $parent.sortReverse = !$parent.sortReverse">Name
+					    	<span ng-show="$parent.sortType == 'friend.name' && !$parent.sortReverse" 
+				            	class="glyphicon glyphicon-chevron-down"></span>
+				            <span ng-show="$parent.sortType == 'friend.name' && $parent.sortReverse" 
+				            	class="glyphicon glyphicon-chevron-up"></span>
+					    </th>
 					    <th>Invite</th>
 					  </tr>
-					  <tr ng-repeat="friend in $parent.invitedFriends">
+					  <tr ng-repeat="friend in $parent.invitedFriends | orderBy:sortType:sortReverse">
 					    <td>{{friend.friend.name}}&nbsp;{{friend.friend.surname}}</td>
 					    <td><input type="checkbox" ng-model="friend.checked" value="{{friend.checked}}"></td>
 					  </tr>

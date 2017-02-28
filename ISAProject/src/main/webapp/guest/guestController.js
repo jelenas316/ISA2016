@@ -12,6 +12,8 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 		}else{
 			$state.go('login');
 		}
+		$scope.sortType     = ''; // set the default sort type
+		$scope.sortReverse  = false;  // set the default sort order
 	};
 	
 	init();

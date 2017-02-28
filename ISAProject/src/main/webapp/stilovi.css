@@ -64,9 +64,6 @@ td, th{
 td {
   word-wrap: break-word;
 }
-table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after { 
-    content: " \25B4\25BE" 
-}
 
 label {
     background-color: #333333; 
