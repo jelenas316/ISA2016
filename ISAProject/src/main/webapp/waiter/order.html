@@ -1,5 +1,5 @@
 <div>
-	<div class = "col-sm-8">
+	<div class = "col-sm-8" ng-show="$parent.currentOrder==undefined">
 	<table class="table table-bordered">
         <caption>Orders</caption>
         <tr>
@@ -8,15 +8,35 @@
             <th>Guest</th>
             <th>Drink</th>
             <th>Food</th>
+            <th>Change</th>
         </tr>
-        <tr ng-repeat="order in $parent.orders">
+        <tr ng-repeat="order in $parent.orders track by $index" >
             <td>{{order.id}}</td>
             <td>{{order.restaurantTable}}</td>
-            <td>{{order.guest}}</td>
-            <td>{{order.drinks.drink.name}}</td>
-            <td>{{order.food.food.name}}</td>
-            <td><button type="button" class="btn btn-primary">Change</button></td>
+            <td>{{order.guest[$index].guest.email}}</td>
+            <td>{{order.drinks[$index].drink.name}}</td>
+            <td>{{order.food[$index].food.name}}</td>
+            <td><button type="button" class="btn btn-primary" ng-click="change(order)">Change</button></td>
         </tr>
     </table>
+    </div>
+    <div class = "col-sm-8" ng-show="$parent.currentOrder!=undefined">
+		<p>Order id: {{$parent.currentOrder.id}}</p>
+		<p>Restaurant table: {{$parent.currentOrder.restaurantTable}}</p>
+		
+		<div class="centered">
+			<div class="navbar navbar-inverse">
+				<div class="container-fluid">
+					<ul class="nav navbar-nav">
+				            <li><a ui-sref=".ordered">Ordered</a></li>
+				            <li><a ui-sref=".food">Food</a></li>
+				            <li><a ui-sref=".drink">Drink</a></li>
+		        		</ul>
+				</div>
+			</div>
+		</div>
+		<div>
+			    <div ui-view></div>
+		</div>
     </div>
 </div>
