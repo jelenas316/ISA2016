@@ -1,15 +1,39 @@
-<div class="navbar navbar-inverse">
-	<div class="container-fluid">
-		<ul class="nav navbar-nav">
-			<li><a ui-sref=".profile">Profile</a></li>
-			<li><a ui-sref=".order">Order</a></li>
-		</ul>
-		
-		<ul class="nav navbar-nav pull-right">
-            <li><a ui-sref="login"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
-        </ul>
-	</div>	
-</div>
 <div>
-	<div ui-view></div>
+	<div ng-show="user.activated==true">
+		<div class="navbar navbar-inverse">
+			<div class="container-fluid">
+				<ul class="nav navbar-nav">
+					<li><a ui-sref=".profile">Profile</a></li>
+					<li><a ui-sref=".order">Order</a></li>
+				</ul>
+
+				<ul class="nav navbar-nav pull-right">
+					<li><a ui-sref="login"><span
+							class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+				</ul>
+			</div>
+		</div>
+		<div>
+			<div ui-view></div>
+		</div>
+	</div>
+	<div ng-show="user.activated==false">
+				<div class="navbar navbar-inverse">
+
+			<div class="container-fluid">
+				<ul class="nav navbar-nav">
+					<li><a ui-sref=".changePassword">Change Password</a></li>
+				</ul>
+
+				<ul class="nav navbar-nav pull-right">
+					<li><a ui-sref="login"><span
+							class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+				</ul>
+
+			</div>
+		</div>
+		<div>
+			<div ui-view></div>
+		</div>
+	</div>
 </div>

@@ -11,6 +11,7 @@ app.controller('bartenderController', ['$scope', '$window', '$location', 'barten
 		 var result = JSON.parse(localStorage.getItem("user"));
 		 $scope.user = result[0];
 		 //console.log($scope.user);
+		 $scope.copyOfUser={};
 		 $scope.repeatedPassword=$scope.user.password;
 		 //console.log($scope.repeatedPassword);
 		 console.log($scope.user.activated);
@@ -54,6 +55,23 @@ $scope.changeProfile = function(){
 					);
 				}
 		);
+	}
+	
+	$scope.changePassword = function() {
+
+		console.log($scope.user);
+		console.log($scope.copyOfUser);
+		if($scope.user.password != $scope.copyOfUser.password && $scope.copyOfUser.password == $scope.copyOfUser.repeatedPassword){
+			$scope.user.password=$scope.copyOfUser.password;
+			$scope.user.activated=true;
+			bartenderService.update($scope.user).then(
+					function(response){
+						alert("Password successfuly changed.");
+					}
+			);
+		}else{
+			alert("Wrong password:");
+		}
 	}
 
 }]);
