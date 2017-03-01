@@ -1,0 +1,53 @@
+<div class="col-sm-2">
+    <br/>
+    <form class="form-inline">
+        <div class="form-group">
+            <label>Restaurant:</label><br/>
+            <input type="text" readonly = "true" ng-model="user.restaurant.name" class="form-control"/>   
+        </div>
+        <div class="form-group">      
+            <br/>
+            <label>Choose waiter: </label><br/>
+            <select ng-change = "getGradeWaiter()" ng-model="$parent.selectedWaiter" class = "form-control select">
+                <option disabled hidden value=""></option>
+                <option ng-repeat = "waiter in waiters">{{waiter.email}}</option>
+            </select>    
+        </div>
+        <div class="form-group">
+            <br/>
+            <label>Choose food:</label><br/>
+            <select  ng-change = "getGradeFood()" class="form-control select" ng-model="$parent.selectedFood">
+                <option disabled hidden value=""></option>
+                <option ng-repeat = "food1 in user.restaurant.menu" value = "{{food1.id}}">{{food1.name}}</option>
+            </select>    
+        </div>
+    </form>
+</div>
+<div class="col-sm-2">
+    <br/>
+    <label>Restaurant grade:</label>
+    <input type="text" readonly = "true" ng-model="restaurantGrade.grade" class = "form-control"/>
+    <br/>
+    <label>Waiter grade:</label>
+    <input type="text" readonly = "true" ng-model="waiterGrade.grade" class = "form-control"/>
+    <br/>
+    <label>Food grade:</label>
+    <input type="text" readonly = "true" ng-model="foodGrade.grade" class="form-control"/>
+</div>
+<div class="col-sm-2">
+    <br/>
+    <label>Number of grades:</label>
+    <input type="text" readonly = "true" ng-model="restaurantGrade.numberOfGrades" class = "form-control"/>
+    <br/>
+    <label>Number of grades:</label>
+    <input type="text" readonly = "true" ng-model="waiterGrade.numberOfGrades" class = "form-control"/>
+    <br/>
+    <label>Number of grades:</label>
+    <input type="text" readonly = "true" ng-model="foodGrade.numberOfGrades" class="form-control"/>
+</div>
+<div class ="col-sm-6" >
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+</div>
+
+
+

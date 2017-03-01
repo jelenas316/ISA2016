@@ -142,6 +142,11 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
             controller: 'groceryController',
 		  	templateUrl : 'restaurantManager/groceries.html'
 		 })
+       .state('restaurantManager.reports', {
+			url : '/reports',
+            controller: 'reportController',
+		  	templateUrl : 'restaurantManager/reports.html'
+		 })
        .state('bidder', {
 			url : '/bidder',
             controller: 'bidderProfileController',
@@ -236,3 +241,4 @@ app.directive('dp', function() {
 
     return directive;
 });
+

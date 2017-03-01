@@ -233,4 +233,22 @@ public class ReservationServiceImpl implements ReservationService{
 		}
 		return false;
 	}
+
+	@Override
+	public List<Visit> reservationsByRestaurant(Long id) {
+		List<Reservation> byRestaurant =  reservationRepo.findByRestaurantId(id);
+		List<Visit> visits = new ArrayList<Visit>();
+		for (Reservation reservation : byRestaurant) {
+			Visit visit = new Visit();
+			int numberOfGuests = 0;
+			List<Reservation> byDate =  reservationRepo.findByArrival(reservation.getArrival());
+			visit.setDate(reservation.getArrival());
+			for (Reservation reservation2 : byDate) {
+				numberOfGuests+=reservation2.getGuests().size();
+			}
+			visit.setGuests(numberOfGuests);
+			visits.add(visit);
+		}
+		return visits;
+	}
 }

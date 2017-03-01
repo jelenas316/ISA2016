@@ -11,6 +11,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -70,9 +71,7 @@ public class GradeController {
 	public Grade put(@Valid @RequestBody Grade grade){
 		Optional.ofNullable(gradeService.findOne(grade.getId())).orElseThrow(() -> new ResourceNotFoundException());
 		return gradeService.save(grade);
-	}
-	
-	
+	}	
 	
 	@GetMapping(params="email")
 	@ResponseStatus(HttpStatus.OK)
@@ -83,8 +82,19 @@ public class GradeController {
 		
 		return gradeService.getRestaurantsDTO(allRestaurants,guest);
 	}
-	
-
-	
-	
+	@GetMapping(path="/findGradeForWaiter", params = "email")
+	@ResponseStatus(HttpStatus.OK)
+	public GradeDTO findByWaiter(@PathParam("email") String email){
+		return gradeService.findByWaiter(email);
+	}
+	@GetMapping(path="/findGradeForFood/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public GradeDTO findByFood(@PathVariable Long id){
+		return gradeService.findByFood(id);
+	}
+	@GetMapping(path="/findGradeForRestaurant/{id}")
+	@ResponseStatus(HttpStatus.OK)
+	public GradeDTO findByRestaurant(@PathVariable Long id){
+		return gradeService.findRestaurantGrade(id);
+	}
 }

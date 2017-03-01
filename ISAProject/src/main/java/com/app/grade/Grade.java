@@ -12,8 +12,10 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import com.app.food.Food;
 import com.app.guest.Guest;
 import com.app.restaurant.Restaurant;
+import com.app.waiter.Waiter;
 
 import lombok.Data;
 
@@ -37,9 +39,13 @@ public class Grade {
 	@JoinColumn(name = "RESTAURANT")
 	private Restaurant restaurant;
 	
-//	private Food food;
+	@ManyToOne
+	@JoinColumn(name = "FOOD")
+	private Food food;
 	
-//	private Worker worker;
+	@ManyToOne
+	@JoinColumn(name = "WAITER")
+	private Waiter waiter;
 
 	@NotNull
 	@ManyToOne

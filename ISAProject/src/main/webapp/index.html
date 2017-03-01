@@ -22,10 +22,12 @@
     <script src="lib/angular/angular-slider.js"></script>   
     <link rel="stylesheet" href="bower_components/datetimeRangePicker/range-picker.css"/>
     <script src="bower_components/datetimeRangePicker/range-picker.js"></script>
+    <!--chart-->
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
     <!--working schedule-->    
     <!-- <link rel="stylesheet" href="bower_components/ng-responsive-calendar/dist/css/calendar.min.css"/>
     <script src="bower_components/ng-responsive-calendar/dist/js/calendar-tpls.min.js"></script>  --> 
-    
     
     <script src="app.js"></script>   
 	<link rel="stylesheet" type="text/css" href="stilovi.css">
@@ -66,6 +68,8 @@
     <script src="waiter/waiterController.js"></script>
     <script src="bartender/bartenderController.js"></script>
     <script src="cook/cookController.js"></script>
+    <script src="restaurantManager/reportController.js"></script>
+    <script src="grade/gradeService.js"></script>
 
 	<link rel="stylesheet" href="http://www.w3schools.com/lib/w3.css">		
 	<script src="http://www.w3schools.com/lib/w3data.js"></script>
@@ -158,12 +162,11 @@
     			icon: icon
     		});
     	}
-    </script>	    
+    </script> 
 
 <title>Restaurant</title>
 </head>
-<body class="bg">
-    
+<body class="bg">    
     <div>    
             <div ui-view></div>
     </div>

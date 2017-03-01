@@ -13,5 +13,8 @@ app.service('invitationService', ['$http', function($http){
 	this.reject = function(id, email){
 		return $http.delete(url + '?id=' + id + "&email=" + email);
 	}
+    this.getVisitsForRestaurant = function(id){
+		return $http.get(url +"/findByRestaurantId/"+id);
+	}
 	
 }]);

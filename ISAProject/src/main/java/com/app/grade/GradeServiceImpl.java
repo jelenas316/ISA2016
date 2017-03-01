@@ -48,7 +48,7 @@ public class GradeServiceImpl implements GradeService{
 	}
 
 	@Override
-	public Iterable<Grade> findByRestaurant(Long id) {
+	public List<Grade> findByRestaurant(Long id) {
 		return gradeRepo.findByRestaurantId(id);
 	}
 	
@@ -134,6 +134,54 @@ public class GradeServiceImpl implements GradeService{
 			}
 		}
 		return value;
+	}
+
+	@Override
+	public GradeDTO findByWaiter(String email) {
+		int totalGrade = 0;
+		int numberOfGrades = 0;
+		List<Grade> grades = gradeRepo.findByWaiterEmail(email);
+		for (Grade grade : grades) {
+			totalGrade+=grade.getValue();
+			numberOfGrades++;
+		}
+		GradeDTO retVal = new GradeDTO();
+		double total = (double)totalGrade/(double)numberOfGrades;				
+		retVal.setGrade(Math.round(total*100)/100.00);
+		retVal.setNumberOfGrades(numberOfGrades);
+		return retVal;
+	}
+
+	@Override
+	public GradeDTO findByFood(Long id) {
+		int totalGrade = 0;
+		int numberOfGrades = 0;
+		List<Grade> grades = gradeRepo.findByFoodId(id);
+		for (Grade grade : grades) {
+			totalGrade+=grade.getValue();
+			numberOfGrades++;
+		}
+		GradeDTO retVal = new GradeDTO();
+		double total = (double)totalGrade/(double)numberOfGrades;					
+		retVal.setGrade(Math.round(total*100)/100.00);
+		retVal.setNumberOfGrades(numberOfGrades);
+		return retVal;
+	}
+
+	@Override
+	public GradeDTO findRestaurantGrade(Long id) {
+		int totalGrade = 0;
+		int numberOfGrades = 0;
+		List<Grade> grades = gradeRepo.findByRestaurantId(id);
+		for (Grade grade : grades) {
+			totalGrade+=grade.getValue();
+			numberOfGrades++;
+		}
+		GradeDTO retVal = new GradeDTO();
+		double total = (double)totalGrade/(double)numberOfGrades;					
+		retVal.setGrade(Math.round(total*100)/100.00);
+		retVal.setNumberOfGrades(numberOfGrades);
+		return retVal;
 	}
 	
 }
