@@ -296,8 +296,8 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
             },
             function(response){
                 alert("Error while removing tables.");
-                $scope.flagDelete = false;
                 $scope.tablesForDelete = [];
+                $scope.flagDelete = false;                
             }
         );
     }
