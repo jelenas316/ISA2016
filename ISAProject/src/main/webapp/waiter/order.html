@@ -1,41 +1,75 @@
 <div>
-	<div class = "col-sm-8" ng-show="$parent.currentOrder==undefined">
-	<table class="table table-bordered">
-        <caption>Orders</caption>
-        <tr>
-            <th>Id</th>
-            <th>Restaurant table</th> 
-            <th>Drink</th>
-            <th>Food</th>
-            <th>Change</th>
-        </tr>
-        <tr ng-repeat="order in $parent.orders track by $index" >
-            <td>{{order.id}}</td>
-            <td>{{order.table.number}}</td>
-            <td><p ng-repeat="drinks in order.drinks">{{drinks.drink.name}}</p></td>
-            <td> <p ng-repeat="food in order.food">{{food.food.name}}</p></td>
-            <td><button type="button" class="btn btn-primary" ng-click="change(order)">Change</button></td>
-        </tr>
-    </table>
-    </div>
-    <div class = "col-sm-8" ng-show="$parent.currentOrder!=undefined">
-    	<button type=button class="btn btn-primary" ng-click="back()">Back</button>
-		<p>Order id: {{$parent.currentOrder.id}}</p>
-		<p>Restaurant table: {{$parent.currentOrder.table.number}}</p>
-		
-		<div class="centered">
+	<div ng-show="$parent.check!=true">
+		<div class="col-sm-8" ng-show="$parent.currentOrder==undefined">
+			<table class="table table-bordered">
+				<caption>Orders</caption>
+				<tr>
+					<th>Id</th>
+					<th>Restaurant table</th>
+					<th>Drink</th>
+					<th>Food</th>
+					<th>Change</th>
+					<th>Check</th>
+				</tr>
+				<tr ng-repeat="order in $parent.orders track by $index">
+					<td>{{order.id}}</td>
+					<td>{{order.table.number}}</td>
+					<td><p ng-repeat="drinks in order.drinks">{{drinks.drink.name}}</p></td>
+					<td>
+						<p ng-repeat="food in order.food">{{food.food.name}}</p>
+					</td>
+					<td><button type="button" class="btn btn-primary"
+							ng-click="change(order)">Change</button></td>
+					<td><button type="button" class="btn btn-primary"
+							ng-click="check(order)">Check</button></td>
+				</tr>
+			</table>
+		</div>
+		<div ng-show="user.activated==false">
 			<div class="navbar navbar-inverse">
+
 				<div class="container-fluid">
 					<ul class="nav navbar-nav">
-				            <li><a ui-sref=".ordered">Ordered</a></li>
-				            <li><a ui-sref=".food">Food</a></li>
-				            <li><a ui-sref=".drink">Drink</a></li>
-		        		</ul>
+						<li><a ui-sref=".check">Check</a></li>
+					</ul>
+
 				</div>
 			</div>
+			<div>
+				<div ui-view></div>
+			</div>
 		</div>
-		<div>
-			    <div ui-view></div>
+		<div class="col-sm-8" ng-show="$parent.currentOrder!=undefined">
+			<button type=button class="btn btn-primary" ng-click="back()">Back</button>
+			<p>Order id: {{$parent.currentOrder.id}}</p>
+			<p>Restaurant table: {{$parent.currentOrder.table.number}}</p>
+
+			<div class="centered">
+				<div class="navbar navbar-inverse">
+					<div class="container-fluid">
+						<ul class="nav navbar-nav">
+							<li><a ui-sref=".ordered">Ordered</a></li>
+							<li><a ui-sref=".food">Food</a></li>
+							<li><a ui-sref=".drink">Drink</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div>
+				<div ui-view></div>
+			</div>
 		</div>
-    </div>
+	</div>
+	<div ng-show="$parent.check==true">
+		<button type="button" class="btn btn-primary" ng-click="backToOrder()">Back</button>
+		<p>Restaurant name: {{$parent.user.restaurant.name}}</p>
+		<p>Restaurant adress: {{$parent.user.restaurant.address}}</p>
+		<p>---------------------------------------------</p>
+		<p ng-repeat="drink in orderForCheck.drinks">{{drink.drink.name}}
+			* {{drink.quantity}}</p>
+		<p ng-repeat="food in orderForCheck.food">{{food.food.name}} *
+			{{food.quantity}}</p>
+		<p>---------------------------------------------</p>
+		<p>Total: {{$parent.totalCheck}}</p>
+	</div>
 </div>

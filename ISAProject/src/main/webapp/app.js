@@ -192,6 +192,10 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 			 url : '/schedule',
 			 templateUrl : 'waiter/schedule.html'
 		 })
+		 .state('waiter.order.check', {
+			 url : '/check',
+			 templateUrl : 'waiter/check.html'
+		 })
 		 .state('waiter.order.ordered', {
 			 url : '/ordered',
 			 templateUrl : 'waiter/ordered.html'
