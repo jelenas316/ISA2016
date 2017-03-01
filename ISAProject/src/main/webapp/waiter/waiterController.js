@@ -227,6 +227,12 @@ app.controller('waiterController', ['$scope', '$window', '$location', 'waiterSer
 			 waiterService.deleteOrder($scope.orderForCheck.id).then (
 					 function(response){
 						 alert("deleted");
+						 waiterService.findAllOrders().then (
+							       function(response) {
+							    	   console.log(response.data);
+							    	   $scope.orders=response.data;
+							       }
+						 );
 					 }
 			 );
 			  
@@ -234,7 +240,12 @@ app.controller('waiterController', ['$scope', '$window', '$location', 'waiterSer
 			 
 		 $scope.backToOrder=function(){
 			  $scope.check=false;
-			  init();
+			  waiterService.findAllOrders().then (
+				       function(response) {
+				    	   console.log(response.data);
+				    	   $scope.orders=response.data;
+				       }
+			  );
 		 }
 		 
 		 function calculate (order){
