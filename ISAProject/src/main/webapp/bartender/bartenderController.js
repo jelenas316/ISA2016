@@ -13,6 +13,7 @@ app.controller('bartenderController', ['$scope', '$window', '$location', 'barten
 		 //console.log($scope.user);
 		 $scope.copyOfUser={};
 		 $scope.repeatedPassword=$scope.user.password;
+		 $scope.currentOrderedDrink = undefined;
 		 //console.log($scope.repeatedPassword);
 		 console.log($scope.user.activated);
 		 
@@ -72,6 +73,21 @@ $scope.changeProfile = function(){
 		}else{
 			alert("Wrong password:");
 		}
+	}
+	
+	$scope.changeStatus = function(drink) {
+		$scope.currentOrderedDrink = drink;
+		bartenderService.findOneDrink($scope.currentOrderedDrink.id).then (
+			function(response){
+				$scope.currentOrderedDrink.foodStatus = 'PREPARED';
+				$scope.currentOrderedDrink.bartender = $scope.user;
+				bartenderService.saveDrink($scope.currentOrderedDrink).then (
+						function(response){
+							alert("Successfuly changed.");
+						}
+				);
+			}	
+		);
 	}
 
 }]);

@@ -2,7 +2,7 @@ app.service('cookService', ['$http', function($http){
 
     var url='/cooks';
     var urlOrders = '/orders';
-    var urlOrderedFood = '/orderedFood'
+    var urlOrderedFood = '/orderedFood';
 	
 	this.findAll = function(id){
 		return $http.get(url+"/findAll/"+id);
@@ -29,5 +29,9 @@ app.service('cookService', ['$http', function($http){
     
     this.findOneFood = function(id){
     	return $http.get(urlOrderedFood + "?id=" + id);
+    }
+    
+    this.saveFood = function(food) {
+    	return $http.post(urlOrderedFood, food);
     }
 }]);

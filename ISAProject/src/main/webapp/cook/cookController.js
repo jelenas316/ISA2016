@@ -59,21 +59,40 @@ app.controller('cookController', ['$scope', '$window', '$location', 'cookService
 	}
 	
 	$scope.changeStatus = function(food) {
-		$scope.currentOrderedFood = food;
-		console.log("CurrentOrderedFood: " + $scope.currentOrderedFood)
-		//$scope.currentOrderedFo.foodStatus = "ACCEPTED";
-		cookService.findOneFood(food.id).then (  // ili currentOrder.id
+		$scope.currentOrderedFood = food
+		console.log($scope.currentOrderedFood.id);
+		cookService.findOneFood($scope.currentOrderedFood.id).then (  // ili currentOrder.id
 				function(response){
-//					$scope.orderedFood = response.data;
-//					$scope.orderedFood.foodStatus = "ACTIVE";
-//					alert("Status changed to active");
-					console.log("Iz response: " + response.data);
+					$scope.currentOrderedFood.foodStatus = 'ACCEPTED';
+					$scope.currentOrderedFood.cook = $scope.user;
+					cookService.saveFood($scope.currentOrderedFood).then (
+							function(response){
+								alert("Successfuly changed.");
+							}
+					);
 				}
 		);
 		
 	}
 	
-	$scope.finishOrder = function() {
+	$scope.finishOrder = function(food) {
+		$scope.currentOrderedFood = food;
+		cookService.findOneFood($scope.currentOrderedFood.id).then (
+				function(response){
+					if($scope.currentOrderedFood.cook.email == $scope.user.email){
+						$scope.currentOrderedFood.foodStatus = 'PREPARED';
+						cookService.saveFood($scope.currentOrderedFood).then (
+								function(response){
+									alert("Successfuly changed.");
+								}
+						);
+						
+					}
+					else {
+						alert("This is not your order");
+					}
+				}
+		);
 		
 	}
 	
