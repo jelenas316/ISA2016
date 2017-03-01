@@ -13,6 +13,12 @@
 		            <span ng-show="$parent.sortType == 'name' && $parent.sortReverse" 
 		            	class="glyphicon glyphicon-chevron-up"></span>
 			    </th>
+			    <th ng-click="$parent.sortType = 'address'; $parent.sortReverse = !$parent.sortReverse">Address
+			    	<span ng-show="$parent.sortType == 'address' && !$parent.sortReverse" 
+	            		class="glyphicon glyphicon-chevron-down"></span>
+		            <span ng-show="$parent.sortType == 'address' && $parent.sortReverse" 
+		            	class="glyphicon glyphicon-chevron-up"></span>
+			    </th>
 			    <th ng-click="$parent.sortType = 'description'; $parent.sortReverse = !$parent.sortReverse">Description
 			    	<span ng-show="$parent.sortType == 'description' && !$parent.sortReverse" 
 	            		class="glyphicon glyphicon-chevron-down"></span>
@@ -35,6 +41,7 @@
 			  </tr>
 			  <tr ng-repeat="restaurant in $parent.copyOfRestaurants | orderBy:sortType:sortReverse">
 			    <td>{{restaurant.name}}</td>
+			    <td>{{restaurant.address}}</td>
 			    <td>{{restaurant.description}}</td>
 			    <td>{{restaurant.reitingStars}}</td>
 			    <td>{{restaurant.friendsReitingStars}}</td>
@@ -73,7 +80,11 @@
 					ng-model="$parent.reservation.restaurant.name" class="form-control" required disabled/>
 				
 				<br>
-	
+				<p>Address: </p>
+				<input name="reservation.restaurant.address" type="text" 
+					ng-model="$parent.reservation.restaurant.address" class="form-control" required disabled/>
+				
+				<br>
 				<button type="button" class="btn btn-primary" 
 						ng-show="$parent.stepCounter>1" 
 						ng-click="back()">Back</button>

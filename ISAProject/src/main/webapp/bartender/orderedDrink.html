@@ -1,0 +1,26 @@
+<div>
+	<div class = "col-sm-8">
+		<h3>Ordered drinks:</h3>
+		<table class="table table-bordered sortable">
+			<tr>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Quantity</th>
+				<th>Price</th>
+				<th>Drink status</th>
+			</tr>
+			<tr ng-repeat="drink in $parent.drink">
+				<td>{{drink.drink.name}}</td>
+				<td>{{drink.drink.description}}</td>
+				<td>{{drink.quantity}}</td>
+				<td>{{drink.drink.price}}</td>
+				<td ng-show="drink.foodStatus=='WAITING'">
+					<button type="button" class="btn btn-primary" ng-click="changeStatus(drink)">Take order</button>
+				</td>
+				<td ng-show="drink.foodStatus=='PREPARED'">
+					<p>Order is prepared</p>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>

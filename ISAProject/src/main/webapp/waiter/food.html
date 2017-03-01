@@ -1,0 +1,16 @@
+<div ng-show="$parent.user.restaurant.menu.length>0">
+	<table class="table table-bordered sortable">
+		<tr>
+			<th>Name</th>
+			<th>Description</th>
+			<th>Price</th>
+			<th>Order</th>
+		</tr>
+		<tr ng-repeat="food in $parent.user.restaurant.menu">
+			<td>{{food.name}}</td>
+			<td>{{food.description}}</td>
+			<td>{{food.price}}</td>
+			<td><button type="button" class="btn btn-primary" ng-click="addFood(food)">Order</td>
+		</tr>
+	</table>
+</div>

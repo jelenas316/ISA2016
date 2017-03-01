@@ -176,9 +176,33 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 			 url : '/profile',
 			 templateUrl : 'waiter/profile.html'
 		 })
+		 .state('waiter.changePassword', {
+			 url : '/changePassword',
+			 templateUrl : 'waiter/changePassword.html'
+		 })
 		 .state('waiter.order', {
 			 url : '/order',
 			 templateUrl : 'waiter/order.html'
+		 })
+		 .state('waiter.tables', {
+			 url : '/tables',
+			 templateUrl : 'waiter/tables.html'
+		 })
+		 .state('waiter.schedule', {
+			 url : '/schedule',
+			 templateUrl : 'waiter/schedule.html'
+		 })
+		 .state('waiter.order.ordered', {
+			 url : '/ordered',
+			 templateUrl : 'waiter/ordered.html'
+		 })
+		 .state('waiter.order.food', {
+			 url : '/food',
+			 templateUrl : 'waiter/food.html'
+		 })
+		 .state('waiter.order.drink', {
+			 url : '/drink',
+			 templateUrl : 'waiter/drink.html'
 		 })
 		.state('bartender', {
 			url : '/bartender',
@@ -189,6 +213,18 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 			 url : '/profile',
 			 templateUrl : 'bartender/profile.html'
 		 })
+		 .state('bartender.schedule', {
+			 url : '/schedule',
+			 templateUrl : 'bartender/schedule.html'
+		 })
+		 .state('bartender.order', {
+			 url : '/order',
+			 templateUrl : 'bartender/orderedDrink.html'
+		 })
+		 .state('bartender.changePassword', {
+			 url : '/changePassword',
+			 templateUrl : 'bartender/changePassword.html'
+		 })
 		.state('cook', {
 			url : '/cook',
 			templateUrl : 'cook/cook.html',
@@ -197,6 +233,18 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 		.state('cook.profile', {
 			 url : '/profile',
 			 templateUrl : 'cook/profile.html'
+		 })
+		 .state('cook.order', {
+			 url : '/order',
+			 templateUrl : 'cook/orderedFood.html'
+		 })
+		 .state('cook.schedule', {
+			 url : '/schedule',
+			 templateUrl : 'cook/schedule.html'
+		 })
+		 .state('cook.changePassword', {
+			 url : '/changePassword',
+			 templateUrl : 'cook/changePassword.html'
 		 })
 	    .state('other', {
 	    	url : '/other',

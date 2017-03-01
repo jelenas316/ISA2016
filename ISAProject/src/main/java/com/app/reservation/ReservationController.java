@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.MailException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -78,16 +79,16 @@ public class ReservationController {
 	public Reservation save(@Valid @RequestBody Reservation reservation){
 		Reservation saved = reservationService.save(reservation);
 		
-//		for(Guest guest : saved.getInvitedFriends()){
-//			String message = "You have been invited to an event. See in the link: " 
-//					+ "http://localhost:8080/#/invitation/"+saved.getId()+
-//					"?email="+ guest.getEmail();
-//			try{
-//				mailService.sendMail(guest.getEmail(), message, "Invitation");
-//			}catch(MailException e){
-//				e.printStackTrace();
-//			}
-//		}
+		for(Guest guest : saved.getInvitedFriends()){
+			String message = "You have been invited to an event. See in the link: " 
+					+ "http://localhost:8080/#/invitation/"+saved.getId()+
+					"?email="+ guest.getEmail();
+			try{
+				mailService.sendMail(guest.getEmail(), message, "Invitation");
+			}catch(MailException e){
+				e.printStackTrace();
+			}
+		}
 		
 		return saved;
 	}

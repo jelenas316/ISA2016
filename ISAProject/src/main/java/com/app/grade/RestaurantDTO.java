@@ -11,6 +11,8 @@ public class RestaurantDTO {
 	
 	private String description;
 	
+	private String address;
+	
 	private Integer reiting;
 	
 	private Integer friendsReiting;

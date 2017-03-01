@@ -66,6 +66,7 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 					$scope.arrivalHours=undefined;
 					$scope.durationMinutes=undefined;
 					$scope.durationHours=undefined;
+					$scope.minDate=new Date();
 				},
 				function(response){
 					$state.go('login');
@@ -226,8 +227,8 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 			$scope.invitedFriends.push(friend);
 		}
 		$scope.stepCounter=1;
-		
-		setMap('Dunavska ulica');
+
+		setMap($scope.reservation.restaurant.address);
 	}
 
 	
