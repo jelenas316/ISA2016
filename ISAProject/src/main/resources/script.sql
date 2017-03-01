@@ -613,13 +613,11 @@ create table RESERVATION_ORDERS
 
 
 
-insert into isa2016.guest values ('email','pass','name','surname','GUEST',null,null);
-insert into isa2016.guest values ('email3','pass','name','surname','GUEST',null,null);
-insert into isa2016.guest values ('email4','pass','name','surname','GUEST',null,null);
+insert into isa2016.guest values ('nevBon93@gmail.com','pass','Name 1','Surname 1','GUEST',null,null);
 
-insert into restaurant (RESTAURANT_ID, NAME, DESCRIPTION, ADDRESS) values (1,'name1','description','neka adresa 3');
-insert into restaurant  (RESTAURANT_ID, NAME, DESCRIPTION, ADDRESS) values (2,'name2','description','neka adresa 1');
-insert into restaurant  (RESTAURANT_ID, NAME, DESCRIPTION, ADDRESS) values (3,'name3','description','neka adresa 2');
+insert into restaurant (RESTAURANT_ID, NAME, DESCRIPTION, ADDRESS) values (1,'Restaurant 1','description1','Trg Slobode 4, Нови Сад');
+insert into restaurant  (RESTAURANT_ID, NAME, DESCRIPTION, ADDRESS) values (2,'Restaurant 2','description2','Лазе Телечког 16, Нови Сад');
+insert into restaurant  (RESTAURANT_ID, NAME, DESCRIPTION, ADDRESS) values (3,'Restaurant 3','description3','Змај Јовина 28, Нови Сад');
 
 insert into isa2016.waiter (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE, ACTIVATED) values('waiter@waiter.com','pass','name','surname','1975-03-10',42,44,1,'WAITER',false);
 insert into isa2016.waiter (EMAIL,PASSWORD,NAME,SURNAME,DATE_OF_BIRTH,DRESS_SIZE,SHOES_SIZE,RESTAURANT,ROLE, ACTIVATED)  values ('waiter1@waiter.com','pass1','name1','surname1','1961-10-11',40,42,1,'WAITER',false);
@@ -644,12 +642,12 @@ INSERT into  COOK_SHIFTS values(2,'cook@cook.com',5);
 
 insert into restaurant_manager (EMAIL, PASSWORD, NAME, SURNAME, ROLE, RESTAURANT_ID) values ('a','a','name','surname','RESTAURANT_MANAGER',1);
 
-insert into drink values(1,'drink1','description',34.2);
-insert into food values (1,'food1','description',43.2);
-insert into drink values(2,'drink2','description',34.2);
-insert into food values (2,'food2','description',43.2);
-insert into drink values(3,'drink3','description',34.2);
-insert into food values (3,'food3','description',43.2);
+insert into drink values(1,'drink1','description drink1',89.99);
+insert into food values (1,'food1','description food 1',300);
+insert into drink values(2,'drink2','description drink2',76);
+insert into food values (2,'food2','description food 2',43.2);
+insert into drink values(3,'drink3','description drink3',86);
+insert into food values (3,'food3','description food 3',165.2);
 
 
 insert into food_stuff(FOOD_STUFF_ID, NAME, DESCRIPTION, QUANTITY, RESTAURANT) values(1,'food_stuff_1','description',3,1);
@@ -676,26 +674,24 @@ insert into RESTAURANT_MENU values(1,1,2);
 insert into RESTAURANT_DRINKS values(1,1,3);
 insert into RESTAURANT_MENU values(1,1,3);
 
-insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (1,3,1,'email');
-insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (2,4,1,'email3');
-insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (3,5,1,'email4');
+insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (1,3,1,'nevBon93@gmail.com');
 
 insert into restaurant_table values (1,1,'SMOKE', 'FREE',2);    
 insert into restaurant_table values (2,2,'SMOKE', 'FREE',3); 
-insert into restaurant_table values (3,3,'SMOKE', 'FREE',4); 
-insert into restaurant_table values (4,4,'SMOKE', 'FREE',2); 
-insert into restaurant_table values (5,5,'SMOKE', 'FREE',2); 
-insert into restaurant_table values (6,6,'SMOKE', 'FREE',3); 
-insert into restaurant_table values (7,7,'SMOKE', 'FREE',5); 
-insert into restaurant_table values (8,8,'SMOKE', 'RESERVED',6); 
+insert into restaurant_table values (3,1,'SMOKE', 'FREE',4); 
+insert into restaurant_table values (4,2,'SMOKE', 'FREE',2); 
+insert into restaurant_table values (5,3,'SMOKE', 'FREE',2); 
+insert into restaurant_table values (6,1,'SMOKE', 'FREE',3); 
+insert into restaurant_table values (7,2,'SMOKE', 'FREE',5); 
+insert into restaurant_table values (8,3,'SMOKE', 'RESERVED',6); 
 insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(1,1);
 insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(1,2);
-insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(1,3);
-insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(1,4);
-insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(1,5);
-insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(1,6);
-insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(1,7);
-insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(1,8);
+insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(2,3);
+insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(2,4);
+insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(2,5);
+insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(3,6);
+insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(3,7);
+insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(3,8);
 
 insert into shift_reon(SHIFT_REON_ID,SHIFT_SHIFT_ID,REON_RESTAURANT_TABLE_ID)values(1,1,1);
 

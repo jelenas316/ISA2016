@@ -88,6 +88,7 @@ public class GradeServiceImpl implements GradeService{
 		dto.setDescription(restaurant.getDescription());
 		dto.setId(restaurant.getId());
 		dto.setName(restaurant.getName());
+		dto.setAddress(restaurant.getAddress());
 		dto.setFriendsReiting(0);
 		dto.setReiting(0);
 		return dto;

@@ -46,7 +46,10 @@
 			    <td>{{reservation.arrival}}</td>
 			    <td>{{reservation.arrivalTime}}</td>
 			    <td>{{reservation.duration}}</td>
-			    <td></td>
+			    <td>
+			    	<p ng-repeat="guest in reservation.guests"
+			    		ng-show="guest.email!=$parent.user.email">{{guest.name}} {{guest.surname}}</p>
+			    </td>
 			    <td><button type="button" class="btn btn-primary" ng-click="order(reservation)">Order</button></td>
 			    <td><button ng-show="$parent.notChangeable.indexOf(reservation.id)==-1"
 			    	type="button" class="btn btn-primary" 
