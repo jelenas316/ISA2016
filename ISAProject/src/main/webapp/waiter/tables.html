@@ -1,0 +1,11 @@
+<div>
+	<div class="centered">
+	<h3>Tables and reon:</h3>
+		<span ng-repeat = "table in $parent.restaurant.tables">
+			<button class="reserved" disabled>{{table.number}}
+				<smoke ng-if="table.position == 'SMOKE'">S</smoke>
+				<smoke ng-if="table.position == 'NOSMOKE'">NS</smoke>
+			</button> 
+		</span>
+	</div>
+</div>
