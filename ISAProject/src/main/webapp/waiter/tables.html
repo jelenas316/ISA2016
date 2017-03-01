@@ -3,8 +3,10 @@
 	<h3>Tables and reon:</h3>
 		<span ng-repeat = "table in $parent.restaurant.tables">
 			<button class="reserved" disabled>{{table.number}}
-				<smoke ng-if="table.position == 'SMOKE'">S</smoke>
-				<smoke ng-if="table.position == 'NOSMOKE'">NS</smoke>
+				<smoke ng-if="table.position == 'SMOKEINSIDE'">SI</smoke>
+				<smoke ng-if="table.position == 'NOSMOKEINSIDE'">NSI</smoke>
+				<smoke ng-if="table.position == 'SMOKEGARDEN'">SG</smoke>
+				<smoke ng-if="table.position == 'NOSMOKEGARDEN'">NSG</smoke>
 			</button> 
 		</span>
 	</div>
