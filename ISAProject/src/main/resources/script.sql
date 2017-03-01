@@ -697,7 +697,7 @@ insert into restaurant_table values (5,5,'SMOKEGARDEN', 'FREE',2);
 insert into restaurant_table values (6,6,'SMOKEGARDEN', 'FREE',3); 
 insert into restaurant_table values (7,7,'NOSMOKEGARDEN', 'FREE',5); 
 insert into restaurant_table values (8,8,'NOSMOKEGARDEN', 'RESERVED',6); 
-insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (1,3,1,'nevBon93@gmail.com');
+insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (11,3,1,'nevBon93@gmail.com');
 
 insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(1,1);
 insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(1,2);
