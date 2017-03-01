@@ -58,12 +58,12 @@ public class ProfilesController {
 		if(profileService.findByEmail(profile.getEmail()).iterator().hasNext())
 			return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 		Profile saved = profileService.save(profile);
-//		String message = "Link for activation: " + "http://localhost:8080/#/activation?id="+saved.getId();
-//		try{
-//			mailService.sendMail(saved.getEmail(), message,"Sign Up");
-//		}catch(MailException e){
-//			e.printStackTrace();
-//		}
+		String message = "Link for activation: " + "http://localhost:8080/#/activation?id="+saved.getId();
+		try{
+			mailService.sendMail(saved.getEmail(), message,"Sign Up");
+		}catch(MailException e){
+			e.printStackTrace();
+		}
 		return new ResponseEntity<>(saved, HttpStatus.OK);
 	}
 	
