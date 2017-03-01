@@ -43,8 +43,8 @@ public class OrderedFood {
 	private FoodAndDrinkStatus foodStatus;
 	
 	//koji kuvar je prihvatio
-//	@ManyToOne
-//	@JoinColumn(name = "COOK")
-//	private Cook cook;
+	@ManyToOne
+	@JoinColumn(name = "COOK")
+	private Cook cook;
 
 }
