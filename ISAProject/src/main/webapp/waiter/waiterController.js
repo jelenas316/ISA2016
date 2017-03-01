@@ -234,6 +234,7 @@ app.controller('waiterController', ['$scope', '$window', '$location', 'waiterSer
 			 
 		 $scope.backToOrder=function(){
 			  $scope.check=false;
+			  init();
 		 }
 		 
 		 function calculate (order){
