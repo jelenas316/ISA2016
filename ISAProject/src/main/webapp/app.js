@@ -175,6 +175,10 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 			 url : '/order',
 			 templateUrl : 'waiter/order.html'
 		 })
+		 .state('waiter.changePassword', {
+			 url : '/changePassword',
+			 templateUrl : 'waiter/changePassword.html'
+		 })
 		 .state('waiter.order.ordered', {
 			 url : '/ordered',
 			 templateUrl : 'waiter/ordered.html'
@@ -196,6 +200,10 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 			 url : '/profile',
 			 templateUrl : 'bartender/profile.html'
 		 })
+		 .state('bartender.order', {
+			 url : '/order',
+			 templateUrl : 'bartender/orderedDrink.html'
+		 })
 		.state('cook', {
 			url : '/cook',
 			templateUrl : 'cook/cook.html',
@@ -204,6 +212,10 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 		.state('cook.profile', {
 			 url : '/profile',
 			 templateUrl : 'cook/profile.html'
+		 })
+		 .state('cook.order', {
+			 url : '/order',
+			 templateUrl : 'cook/orderedFood.html'
 		 })
 	    .state('other', {
 	    	url : '/other',

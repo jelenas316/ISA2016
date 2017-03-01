@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.app.FoodAndDrinkStatus;
+import com.app.cook.Cook;
 import com.app.food.Food;
 
 import lombok.Data;
@@ -42,6 +43,8 @@ public class OrderedFood {
 	private FoodAndDrinkStatus foodStatus;
 	
 	//koji kuvar je prihvatio
-//	private Worker worker;
+//	@ManyToOne
+//	@JoinColumn(name = "COOK")
+//	private Cook cook;
 
 }

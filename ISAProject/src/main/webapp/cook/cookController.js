@@ -10,8 +10,18 @@ app.controller('cookController', ['$scope', '$window', '$location', 'cookService
 		 
 		 var result = JSON.parse(localStorage.getItem("user"));
 		 $scope.user = result[0];
-		 console.log($scope.user);
+		 //console.log($scope.user);
 		 $scope.repeatedPassword=$scope.user.password;
+		 $scope.currentOrder = undefined;
+		 $scope.currentOrderedFood=undefined;
+		 
+		 cookService.findAllFood().then (
+		    		function(response) {
+		    			console.log("Response data " + response.data);
+		    			$scope.food=response.data;
+		    		}
+		 );
+		 
 	};
 	
 	init();
@@ -45,6 +55,25 @@ app.controller('cookController', ['$scope', '$window', '$location', 'cookService
 					);
 				}
 		);
+	}
+	
+	$scope.changeStatus = function(food) {
+		$scope.currentOrderedFood = food;
+		console.log("CurrentOrderedFood: " + $scope.currentOrderedFood)
+		//$scope.currentOrderedFo.foodStatus = "ACCEPTED";
+		cookService.findOneFood($scope.food.id).then (
+				function(response){
+//					$scope.orderedFood = response.data;
+//					$scope.orderedFood.foodStatus = "ACTIVE";
+//					alert("Status changed to active");
+					console.log("Iz response: " + response.data);
+				}
+		);
+		
+	}
+	
+	$scope.finishOrder = function() {
+		
 	}
 
 }]);

@@ -15,19 +15,35 @@ app.controller('waiterController', ['$scope', '$window', '$location', 'waiterSer
 	    $scope.currentOrder=undefined;
 	    $scope.reservationOrder={};
 	    //console.log($scope.user);
+	    //$scope.user.activated=true;
+	    $scope.user.activated=true;
 	    
 	    waiterService.findAllOrders().then (
 	    		function(response) {
-	    			//console.log(response.data);
+	    			console.log(response.data);
 	    			$scope.orders=response.data;
 	    		}
 	    );
+	    
+	    if($scope.user.activated==false){
+	    	console.log(" korisnik je false");
+	    }
+	    else{
+	    	console.log("korisnik je true");
+	    }
 	    //console.log($scope.repeatedPassword);
 	   
 	   
 	};
 	
 	init();
+	
+	$scope.isFalse = function() {
+		var anyTrue = $scope.user.activated;
+		if(anyTrue=false){
+			return anyTrue;
+		}
+	}
 	
 	$scope.changeProfile = function(){
 		
@@ -107,6 +123,11 @@ app.controller('waiterController', ['$scope', '$window', '$location', 'waiterSer
 				function(response){
 					$scope.currentOrder.food.push(response.data);
 					console.log($scope.currentOrder);
+					waiterService.saveOrder($scope.currentOrder).then (
+						function(response){
+						alert("Food has been ordered");
+						}
+					);
 				}
 		);
 	}
@@ -121,6 +142,11 @@ app.controller('waiterController', ['$scope', '$window', '$location', 'waiterSer
 				function(response){
 					$scope.currentOrder.drinks.push(response.data);
 					console.log($scope.currentOrder);
+					waiterService.saveOrder($scope.currentOrder).then (
+							function(response){
+							alert("Drink has been ordered");
+							}
+					);
 				}
 		);
 	}

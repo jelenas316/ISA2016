@@ -4,8 +4,8 @@ app.service('waiterService', ['$http', function($http){
     var urlOrders = '/orders';
     var urlFood = '/waiters';
     var urlDrink = '/waiters'
-    var urlOrderedFood = 'orderedFood';
-    var urlOrderedDrink = 'orderedDrinks';
+    var urlOrderedFood = '/orderedFood';
+    var urlOrderedDrink = '/orderedDrinks';
     
     
 	this.findAll = function(id){
@@ -49,6 +49,10 @@ app.service('waiterService', ['$http', function($http){
     
     this.saveDrink = function(drink){
     	return $http.post(urlOrderedDrink, drink);
+    }
+    
+    this.saveOrder = function(order){
+    	return $http.post(urlOrders, order);
     }
     
 }]);

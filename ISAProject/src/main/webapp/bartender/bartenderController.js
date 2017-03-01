@@ -12,7 +12,15 @@ app.controller('bartenderController', ['$scope', '$window', '$location', 'barten
 		 $scope.user = result[0];
 		 //console.log($scope.user);
 		 $scope.repeatedPassword=$scope.user.password;
-		 console.log($scope.repeatedPassword);
+		 //console.log($scope.repeatedPassword);
+		 console.log($scope.user.activated);
+		 
+		 bartenderService.findAllDrink().then (
+		    		function(response) {
+		    			console.log(response.data);
+		    			$scope.drink=response.data;
+		    		}
+		 );
 	};
 	
 	init();
