@@ -11,6 +11,7 @@ app.controller('cookController', ['$scope', '$window', '$location', 'cookService
 		 var result = JSON.parse(localStorage.getItem("user"));
 		 $scope.user = result[0];
 		 //console.log($scope.user);
+		 $scope.copyOfUser={};
 		 $scope.repeatedPassword=$scope.user.password;
 		 $scope.currentOrder = undefined;
 		 $scope.currentOrderedFood=undefined;
@@ -61,7 +62,7 @@ app.controller('cookController', ['$scope', '$window', '$location', 'cookService
 		$scope.currentOrderedFood = food;
 		console.log("CurrentOrderedFood: " + $scope.currentOrderedFood)
 		//$scope.currentOrderedFo.foodStatus = "ACCEPTED";
-		cookService.findOneFood($scope.food.id).then (
+		cookService.findOneFood(food.id).then (  // ili currentOrder.id
 				function(response){
 //					$scope.orderedFood = response.data;
 //					$scope.orderedFood.foodStatus = "ACTIVE";
@@ -75,5 +76,23 @@ app.controller('cookController', ['$scope', '$window', '$location', 'cookService
 	$scope.finishOrder = function() {
 		
 	}
+	
+	$scope.changePassword = function() {
+
+		console.log($scope.user);
+		console.log($scope.copyOfUser);
+		if($scope.user.password != $scope.copyOfUser.password && $scope.copyOfUser.password == $scope.copyOfUser.repeatedPassword){
+			$scope.user.password=$scope.copyOfUser.password;
+			$scope.user.activated=true;
+			cookService.update($scope.user).then(
+					function(response){
+						alert("Password successfuly changed.");
+					}
+			);
+		}else{
+			alert("Wrong password:");
+		}
+	}
+
 
 }]);

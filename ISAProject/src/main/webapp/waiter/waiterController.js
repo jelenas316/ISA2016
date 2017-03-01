@@ -10,13 +10,11 @@ app.controller('waiterController', ['$scope', '$window', '$location', 'waiterSer
 		 
 		var result = JSON.parse(localStorage.getItem("user"));
 	    $scope.user = result[0];
-	    $scope.copyOfUser=$scope.user;
+	    $scope.copyOfUser={};
 	    $scope.repeatedPassword=$scope.user.password;
+	    $scope.repeatedPassword1=$scope.user.password;
 	    $scope.currentOrder=undefined;
 	    $scope.reservationOrder={};
-	    //console.log($scope.user);
-	    //$scope.user.activated=true;
-	    $scope.user.activated=true;
 	    
 	    waiterService.findAllOrders().then (
 	    		function(response) {
@@ -37,13 +35,6 @@ app.controller('waiterController', ['$scope', '$window', '$location', 'waiterSer
 	};
 	
 	init();
-	
-	$scope.isFalse = function() {
-		var anyTrue = $scope.user.activated;
-		if(anyTrue=false){
-			return anyTrue;
-		}
-	}
 	
 	$scope.changeProfile = function(){
 		
@@ -149,6 +140,23 @@ app.controller('waiterController', ['$scope', '$window', '$location', 'waiterSer
 					);
 				}
 		);
+	}
+	
+	$scope.changePassword = function() {
+
+		console.log($scope.user);
+		console.log($scope.copyOfUser);
+		if($scope.user.password != $scope.copyOfUser.password && $scope.copyOfUser.password == $scope.copyOfUser.repeatedPassword){
+			$scope.user.password=$scope.copyOfUser.password;
+			$scope.user.activated=true;
+			waiterService.update($scope.user).then(
+					function(response){
+						alert("Password successfuly changed.");
+					}
+			);
+		}else{
+			alert("Wrong password:");
+		}
 	}
 
 }]);
