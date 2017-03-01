@@ -4,11 +4,13 @@
         <tr>
         <th>Name</th>
         <th>Description</th> 
+        <th>Address</th> 
 
         </tr>
         <tr ng-repeat="restaurant in $parent.restaurants">
         <td>{{restaurant.name}}</td>
         <td>{{restaurant.description}}</td>
+        <td>{{restaurant.address}}</td>
         </tr>
     </table>
     <button type="button" class="btn btn-primary" ng-click="registration()">Register new</button>
@@ -23,6 +25,9 @@
 
             <label>Description: </label>
             <input name="restaurant.description" type="text" onkeydown="checkInputTextNumber()" ng-model="restaurant.description" class="form-control" required/>
+            
+            <label>Address: </label>
+            <input name="restaurant.address" type="text" onkeydown="checkInputTextNumber()" ng-model="restaurant.address" class="form-control" required/>
 
             <br><br>
 

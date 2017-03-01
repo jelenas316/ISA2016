@@ -13,14 +13,16 @@
     <button class="btn btn-primary" ng-disabled = "flagDelete" ng-click="deleteTables()"><span class="glyphicon glyphicon-ok"></span> OK</button>
 </div>
 <br/>
-<div class = "col-sm-2 col-sm-offset-5">
+<div class = "col-sm-4 col-sm-offset-4">
     <h1><span>Add tables:</span></h1>
     <form name="tables1">
         <label>Choose segment: </label>
         <select name = "tables1.select" class="form-control" ng-model="tables.segment" required>
         <option disabled hidden value=""></option>
-        <option>SMOKE</option>
-        <option ng-selected="selected">NOSMOKE</option>
+        <option value = "NOSMOKEGARDEN">NOSMOKE GARDEN</option>
+        <option value = "SMOKEGARDEN">SMOKE GARDEN</option>
+        <option value = "NOSMOKEINSIDE" ng-selected="selected">NOSMOKE INSIDE</option>
+        <option value = "SMOKEINSIDE"ng-selected="selected">SMOKE INSIDE</option>
         </select>
 
         <label>Number of tables: </label>

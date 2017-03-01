@@ -1,5 +1,6 @@
 package com.app.reservation;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
@@ -11,5 +12,6 @@ import com.app.restaurant.Restaurant;
 public interface ReservationRepository extends CrudRepository<Reservation, Long>{
 	
 	List<Reservation> findByRestaurant(Restaurant restaurant);
-	
+	List<Reservation> findByRestaurantId(Long id);
+	List<Reservation> findByArrival(Date date);
 }

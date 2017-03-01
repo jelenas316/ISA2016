@@ -21,4 +21,6 @@ public interface ReservationService {
 	void cancelReservation(Reservation reservation, String email);
 	
 	List<RestaurantTable> findFreeTables(Long restaurantId, Date date, Time time, Integer duration);
+	
+	List<Visit> reservationsByRestaurant(Long id);
 }

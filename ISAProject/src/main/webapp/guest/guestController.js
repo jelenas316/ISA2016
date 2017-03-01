@@ -426,7 +426,6 @@ app.controller('guestController', ['$scope', '$window', '$location', 'guestServi
 						guestService.findFutureReservations($scope.user.email).then(
 								function(response){
 									$scope.futureReservations=response.data;
-									console.log($scope.futureReservations);
 								}
 						);
 					}

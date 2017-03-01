@@ -43,9 +43,6 @@ public class Offer {
 	@OneToMany
 	private List<FoodStuffOffer> food;
 	
-	@OneToMany
-	private List<Prices> prices;
-	
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private OfferStatus accepted;

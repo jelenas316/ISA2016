@@ -137,7 +137,7 @@ create table RESTAURANT_TABLE
 (
    RESTAURANT_TABLE_ID         	  	    bigint             				PRIMARY KEY AUTO_INCREMENT,
    NUMBER              					INT	                         	not null,
-   POSITION                  			enum('SMOKE','NOSMOKE')      	not null,
+   POSITION                  			enum('SMOKEINSIDE', 'NOSMOKEINSIDE', 'SMOKEGARDEN', 'NOSMOKEGARDEN')      	not null,
    STATUS								enum('FREE', 'RESERVED')		not null,
    NUMBER_OF_SEATS						INT								not null
 );
@@ -196,18 +196,6 @@ create table RESTAURANT_MANAGER
 );
 insert into system_manager(EMAIL, PASSWORD, NAME, SURNAME, ROLE)
 VALUES('admin@admin.com','admin','pera','peric','SYSTEM_MANAGER');
-
-create table GRADE
-(
-	GRADE_ID					bigint							not null AUTO_INCREMENT,
-   	GRADE_VALUE           		INT	                   			not null,
-   	RESTAURANT					bigint							,
-   	GUEST						varchar(50)            			not null,
-    primary key (GRADE_ID),
-   	FOREIGN KEY (GUEST) REFERENCES GUEST(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE,
-   	FOREIGN KEY (RESTAURANT) REFERENCES RESTAURANT(RESTAURANT_ID) ON DELETE CASCADE ON UPDATE CASCADE
-
-);
 
 create table PROFILE
 (
@@ -436,13 +424,11 @@ create table OFFER
    GUARANTEE					int								not null,
    DRINKS						bigint							,
    FOOD 						bigint							,
-   PRICES						bigint							,
    ACCEPTED						enum('ACCEPTED', 'REJECTED', 'WAITING')  not null,
    GROCERY_LIST					bigint							,
    BIDDER						varchar(50)						not null,
    FOREIGN KEY (DRINKS) REFERENCES  DRINK_OFFER(DRINK_OFFER_ID) ON DELETE CASCADE ON UPDATE CASCADE,
    FOREIGN KEY (FOOD) REFERENCES FOOD_STUFF_OFFER(FOOD_STUFF_OFFER_ID) ON DELETE CASCADE ON UPDATE CASCADE,
-   FOREIGN KEY (PRICES) REFERENCES PRICES(PRICES_ID) ON DELETE CASCADE ON UPDATE CASCADE,
    FOREIGN KEY (GROCERY_LIST) REFERENCES GROCERY_LIST(GROCERY_LIST_ID) ON DELETE CASCADE ON UPDATE CASCADE,
    FOREIGN KEY (BIDDER) REFERENCES BIDDER(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -479,14 +465,27 @@ create table OFFER_FOOD
    FOREIGN KEY (FOOD_FOOD_STUFF_OFFER_ID) REFERENCES FOOD_STUFF_OFFER(FOOD_STUFF_OFFER_ID) ON DELETE CASCADE ON UPDATE CASCADE,
    FOREIGN KEY (OFFER_OFFER_ID) REFERENCES OFFER(OFFER_ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
-create table OFFER_PRICES
+create table GRADE
 (
-   OFFER_PRICES_ID                		bigint                   	    PRIMARY KEY AUTO_INCREMENT,
-   PRICES_PRICES_ID  		            bigint                      	not null,
-   OFFER_OFFER_ID                  		bigint               			not null,
-   FOREIGN KEY ( PRICES_PRICES_ID ) REFERENCES PRICES(PRICES_ID) ON DELETE CASCADE ON UPDATE CASCADE,
-   FOREIGN KEY ( OFFER_OFFER_ID) REFERENCES OFFER(OFFER_ID) ON DELETE CASCADE ON UPDATE CASCADE
+	GRADE_ID					bigint							not null AUTO_INCREMENT,
+   	GRADE_VALUE           		INT	                   			not null,
+   	RESTAURANT					bigint							,
+   	FOOD						bigint							,
+   	WAITER						varchar(50)						,
+   	GUEST						varchar(50)            			not null,
+    primary key (GRADE_ID),
+   	FOREIGN KEY (GUEST) REFERENCES GUEST(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (RESTAURANT) REFERENCES RESTAURANT(RESTAURANT_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (FOOD) REFERENCES FOOD(FOOD_ID) ON DELETE CASCADE ON UPDATE CASCADE,
+   	FOREIGN KEY (WAITER) REFERENCES WAITER(EMAIL) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+insert into isa2016.guest values ('email','pass','name','surname','GUEST',null,null);
+insert into isa2016.guest values ('email3','pass','name','surname','GUEST',null,null);
+insert into isa2016.guest values ('email4','pass','name','surname','GUEST',null,null);
+insert into isa2016.guest values ('emailTest','pass','name','surname','GUEST',null,null);
+insert into isa2016.guest values ('email3Test1','pass','name','surname','GUEST',null,null);
+insert into isa2016.guest values ('email4Test2','pass','name','surname','GUEST',null,null);
 
 
 create table ORDERED_DRINK
@@ -677,16 +676,29 @@ insert into RESTAURANT_MENU values(1,1,2);
 insert into RESTAURANT_DRINKS values(1,1,3);
 insert into RESTAURANT_MENU values(1,1,3);
 
-insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (1,3,1,'nevBon93@gmail.com');
+insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (1,3,1,'email');
+insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (2,4,1,'email3');
+insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (3,4,1,'email4');
 
-insert into restaurant_table values (1,1,'SMOKE', 'FREE',2);    
-insert into restaurant_table values (2,2,'SMOKE', 'FREE',3); 
-insert into restaurant_table values (3,1,'SMOKE', 'FREE',4); 
-insert into restaurant_table values (4,2,'SMOKE', 'FREE',2); 
-insert into restaurant_table values (5,3,'SMOKE', 'FREE',2); 
-insert into restaurant_table values (6,1,'SMOKE', 'FREE',3); 
-insert into restaurant_table values (7,2,'SMOKE', 'FREE',5); 
-insert into restaurant_table values (8,3,'SMOKE', 'RESERVED',6); 
+insert into grade(GRADE_ID, GRADE_VALUE, WAITER, GUEST) values (4,3,'waiter@waiter.com','email');
+insert into grade(GRADE_ID, GRADE_VALUE, WAITER, GUEST) values (5,4,'waiter@waiter.com','email3');
+insert into grade(GRADE_ID, GRADE_VALUE, WAITER, GUEST) values (10,4,'waiter1@waiter.com','email3');
+insert into grade(GRADE_ID, GRADE_VALUE, WAITER, GUEST) values (6,4,'waiter2@waiter.com','email4');
+
+insert into grade(GRADE_ID, GRADE_VALUE, FOOD, GUEST) values (7,3,1,'email');
+insert into grade(GRADE_ID, GRADE_VALUE, FOOD, GUEST) values (8,4,2,'email3');
+insert into grade(GRADE_ID, GRADE_VALUE, FOOD, GUEST) values (9,5,3,'email4');
+
+insert into restaurant_table values (1,1,'SMOKEINSIDE', 'FREE',2);    
+insert into restaurant_table values (2,2,'SMOKEINSIDE', 'FREE',3); 
+insert into restaurant_table values (3,3,'NOSMOKEINSIDE', 'FREE',4); 
+insert into restaurant_table values (4,4,'NOSMOKEINSIDE', 'FREE',2); 
+insert into restaurant_table values (5,5,'SMOKEGARDEN', 'FREE',2); 
+insert into restaurant_table values (6,6,'SMOKEGARDEN', 'FREE',3); 
+insert into restaurant_table values (7,7,'NOSMOKEGARDEN', 'FREE',5); 
+insert into restaurant_table values (8,8,'NOSMOKEGARDEN', 'RESERVED',6); 
+insert into grade(GRADE_ID, GRADE_VALUE, RESTAURANT, GUEST) values (11,3,1,'nevBon93@gmail.com');
+
 insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(1,1);
 insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(1,2);
 insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_ID) values(2,3);
@@ -699,3 +711,28 @@ insert into RESTAURANT_TABLES(RESTAURANT_RESTAURANT_ID, TABLES_RESTAURANT_TABLE_
 insert into shift_reon(SHIFT_REON_ID,SHIFT_SHIFT_ID,REON_RESTAURANT_TABLE_ID)values(1,1,1);
 
 
+insert into reservation(RESERVATION_ID,ARRIVAL,ARRIVAL_TIME,DURATION,RESTAURANT) values(1, STR_TO_DATE('2016-3-10', '%Y-%m-%d'),'8:00',5,1);
+insert into reservation(RESERVATION_ID,ARRIVAL,ARRIVAL_TIME,DURATION,RESTAURANT) values(2, STR_TO_DATE('2016-3-15', '%Y-%m-%d'),'8:00',5,1);
+insert into reservation(RESERVATION_ID,ARRIVAL,ARRIVAL_TIME,DURATION,RESTAURANT) values(3, STR_TO_DATE('2016-3-17', '%Y-%m-%d'),'8:00',5,1);
+insert into reservation(RESERVATION_ID,ARRIVAL,ARRIVAL_TIME,DURATION,RESTAURANT) values(4, STR_TO_DATE('2016-4-06', '%Y-%m-%d'),'8:00',5,1);
+insert into reservation(RESERVATION_ID,ARRIVAL,ARRIVAL_TIME,DURATION,RESTAURANT) values(5, STR_TO_DATE('2016-4-21', '%Y-%m-%d'),'8:00',5,1);
+
+
+insert into reservation_guests(RESERVATION_GUESTS_ID, RESERVATION_RESERVATION_ID,GUESTS_EMAIL)values(1,1,'email');
+insert into reservation_guests(RESERVATION_GUESTS_ID, RESERVATION_RESERVATION_ID,GUESTS_EMAIL)values(2,1,'email3');
+insert into reservation_guests(RESERVATION_GUESTS_ID, RESERVATION_RESERVATION_ID,GUESTS_EMAIL)values(3,1,'email4');
+
+insert into reservation_guests(RESERVATION_GUESTS_ID, RESERVATION_RESERVATION_ID,GUESTS_EMAIL)values(4,2,'email');
+insert into reservation_guests(RESERVATION_GUESTS_ID, RESERVATION_RESERVATION_ID,GUESTS_EMAIL)values(5,2,'email3');
+
+insert into reservation_guests(RESERVATION_GUESTS_ID, RESERVATION_RESERVATION_ID,GUESTS_EMAIL)values(6,3,'email');
+insert into reservation_guests(RESERVATION_GUESTS_ID, RESERVATION_RESERVATION_ID,GUESTS_EMAIL)values(7,3,'email3');
+insert into reservation_guests(RESERVATION_GUESTS_ID, RESERVATION_RESERVATION_ID,GUESTS_EMAIL)values(8,3,'email4');
+
+insert into reservation_guests(RESERVATION_GUESTS_ID, RESERVATION_RESERVATION_ID,GUESTS_EMAIL)values(9,4,'email');
+
+insert into reservation_guests(RESERVATION_GUESTS_ID, RESERVATION_RESERVATION_ID,GUESTS_EMAIL)values(10,5,'email');
+insert into reservation_guests(RESERVATION_GUESTS_ID, RESERVATION_RESERVATION_ID,GUESTS_EMAIL)values(11,5,'email3');
+insert into reservation_guests(RESERVATION_GUESTS_ID, RESERVATION_RESERVATION_ID,GUESTS_EMAIL)values(12,3,'emailTest');
+insert into reservation_guests(RESERVATION_GUESTS_ID, RESERVATION_RESERVATION_ID,GUESTS_EMAIL)values(13,3,'email3Test1');
+insert into reservation_guests(RESERVATION_GUESTS_ID, RESERVATION_RESERVATION_ID,GUESTS_EMAIL)values(14,1,'email4Test2');

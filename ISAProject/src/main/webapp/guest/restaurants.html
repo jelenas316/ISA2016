@@ -126,20 +126,28 @@
 				
 				<div ng-show="$parent.stepCounter==2">
 					<br>
-					<p>S -> Smoking allowed<br>NS -> Smoking not allowed</p>
+					<p>SI -> Smoking allowed, Inside<br>NSI -> Smoking not allowed, Inside<br>
+						SG -> Smoking allowed, Garden<br>NSG -> Smoking not allowed, Garden<br>
+					</p>
 					<br>
 					<span ng-repeat = "table in $parent.tables">
 						<button class="reserved" ng-if = "table.status == 'RESERVED'" disabled>{{table.number}} 
-							<smoke ng-if="table.position == 'SMOKE'">S</smoke>
-							<smoke ng-if="table.position == 'NOSMOKE'">NS</smoke></button>
+							<smoke ng-if="table.position == 'SMOKEINSIDE'">SI</smoke>
+							<smoke ng-if="table.position == 'NOSMOKEINSIDE'">NSI</smoke>
+							<smoke ng-if="table.position == 'SMOKEGARDEN'">SG</smoke>
+							<smoke ng-if="table.position == 'NOSMOKEGARDEN'">NSG</smoke></button>
 						<button class="free" ng-if = "table.status == 'FREE' && table.clicked==false"
 						 ng-click="addTable(table)">{{table.number}} 
-							<smoke ng-if="table.position == 'SMOKE'">S</smoke>
-							<smoke ng-if="table.position == 'NOSMOKE'">NS</smoke></button>
+							<smoke ng-if="table.position == 'SMOKEINSIDE'">SI</smoke>
+							<smoke ng-if="table.position == 'NOSMOKEINSIDE'">NSI</smoke>
+							<smoke ng-if="table.position == 'SMOKEGARDEN'">SG</smoke>
+							<smoke ng-if="table.position == 'NOSMOKEGARDEN'">NSG</smoke></button>
 						<button class="clicked" ng-if = "table.status == 'FREE' && table.clicked==true"
 						 ng-click="removeTable(table)">{{table.number}} 
-							<smoke ng-if="table.position == 'SMOKE'">S</smoke>
-							<smoke ng-if="table.position == 'NOSMOKE'">NS</smoke></button>
+							<smoke ng-if="table.position == 'SMOKEINSIDE'">SI</smoke>
+							<smoke ng-if="table.position == 'NOSMOKEINSIDE'">NSI</smoke>
+							<smoke ng-if="table.position == 'SMOKEGARDEN'">SG</smoke>
+							<smoke ng-if="table.position == 'NOSMOKEGARDEN'">NSG</smoke></button>
 					</span>
 				</div>
 				

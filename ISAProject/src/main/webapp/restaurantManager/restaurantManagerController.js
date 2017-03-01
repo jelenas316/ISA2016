@@ -23,6 +23,8 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
         $scope.inputType = 'password';
         $scope.flag = false;
         $scope.flagDelete = false;
+         $scope.limitedIdeas = [[Date.UTC(2014, 11, 31), 345.2], [Date.UTC(2014, 09, 01), 494.79999999999995],, [Date.UTC(2014, 0, 20), 137.2], [Date.UTC(2014, 0, 22), 210.0], 
+		[Date.UTC(2014, 0, 23), 220.4], [Date.UTC(2014, 0, 24), 871.0], [Date.UTC(2014, 0, 28), 420.0], [Date.UTC(2014, 0, 25), 420.0], [Date.UTC(2014, 11, 31), 2057.15]];
    
     }
              
@@ -249,10 +251,12 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
                 $scope.res = response.data;
                 alert("Added tables.");  
                 $scope.flag = false;
+                $scope.restaurantTables = [];
             },
             function(response){
                 alert("Error wile adding.");
                 $scope.flag = false;
+                $scope.restaurantTables = [];
             }
         );
     }

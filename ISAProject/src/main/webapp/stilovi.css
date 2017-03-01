@@ -187,3 +187,14 @@ input[ng-readonly].default-cursor {
 	height: 400px;
 	width: 400px;
 }
+.select{
+    color:black;
+    background-color: white;
+    width:200px !important;
+}
+.chart {
+    width: 100%;
+    height: 400px;
+    background-color:white;
+    color:black;
+}
