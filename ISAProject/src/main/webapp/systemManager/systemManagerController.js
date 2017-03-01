@@ -86,7 +86,7 @@ app.controller('systemManagerController', ['$scope', '$window', '$location', 'sy
                 alert("Password and repeated password not match.");
             }
         }else if(type == 'restaurantManager'){
-            if($scope.restaurantManager.password == $scope.restaurantManager.repeatedPassword && $scope.validateUser($scope.systemManager)){
+            if($scope.restaurantManager.password == $scope.restaurantManager.repeatedPassword && $scope.validateUser($scope.restaurantManager)){
                 restaurantManagerService.save($scope.restaurantManager).then(
                     function(response){
                         alert("Registration successful.");  
