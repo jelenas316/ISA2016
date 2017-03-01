@@ -11,4 +11,5 @@ public interface RestaurantService {
 	void delete(Long id);
 	Iterable<FoodStuff> getFoodStuff(Restaurant id);
 	Iterable<DrinkGrocery> getDrinkGroceries(Restaurant id);
+	Iterable<Restaurant> findRestaurantsWithoutManagers();
 }

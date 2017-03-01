@@ -40,6 +40,11 @@ public class RestaurantController {
 	 Iterable<Restaurant> res = restaurantService.findAll();
 		return res;
 	}
+	@GetMapping(path = "/findRestaurantsWithoutManagers")
+	@ResponseStatus(HttpStatus.OK)
+	public Iterable<Restaurant> findRestaurantsWithoutManagers(){		
+		return restaurantService.findRestaurantsWithoutManagers();
+	}
 	
 	@GetMapping(params="id")
 	@ResponseStatus(HttpStatus.OK)

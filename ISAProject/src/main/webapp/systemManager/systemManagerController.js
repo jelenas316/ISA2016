@@ -24,6 +24,7 @@ app.controller('systemManagerController', ['$scope', '$window', '$location', 'sy
         findAllSystemManagers();
         findAllRestaurantManagers();
         findAllRestaurants();
+        findAllRestaurantsWithoutManagers();
 
 	};
 
@@ -92,7 +93,8 @@ app.controller('systemManagerController', ['$scope', '$window', '$location', 'sy
                         alert("Registration successful.");  
                         $scope.register = "undefined";
                         $scope.restaurantManager = {};
-                        findAllRestaurantManagers();   
+                        findAllRestaurantManagers(); 
+                        findAllRestaurantsWithoutManagers();
                     },
                     function(response){
                         alert("Registration failed.");                   
@@ -181,7 +183,14 @@ app.controller('systemManagerController', ['$scope', '$window', '$location', 'sy
                     $scope.restaurants=response.data;                 
             }
         );
-    }    
+    }  
+    function findAllRestaurantsWithoutManagers(){
+        restaurantService.findRestaurantsWithoutManagers().then(
+            function(response){
+                    $scope.restaurantsWihoutManagers=response.data;                 
+            }
+        );
+    }
                    
     function findAllSystemManagers(){
         systemManagerService.findAll().then(

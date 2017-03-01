@@ -17,7 +17,7 @@
     </table>
     <button type="button" class="btn btn-primary" ng-click="registration()">Register new</button>
 </div>
-<div  class = "col-sm-4 col-sm-offset-4" ng-if = "$parent.register == 'register'">
+<div  class = "col-sm-4 col-sm-offset-4 center" ng-if = "$parent.register == 'register'">
     <form name="user1">
         <h1><span>Registration: </span></h1>
         <label>Name: </label>
@@ -38,7 +38,7 @@
         <label>Restaurant: </label>
         <select name = "select" class="form-control" ng-model="restaurantManager.restaurant" required>
            <option value = "">Select restaurant</option>
-           <option ng-repeat="restaurant in restaurants" value="{{restaurant.id}}">
+           <option ng-repeat="restaurant in restaurantsWihoutManagers" value="{{restaurant.id}}">
                {{restaurant.id}}
            </option>
         </select>

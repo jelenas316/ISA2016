@@ -21,4 +21,7 @@ app.service('restaurantService', ['$http', function($http){
     this.getDrinkGroceries = function(id){
 		return $http.get(url+"/getDrinkGroceries/"+id);
 	}
+    this.findRestaurantsWithoutManagers = function(){
+		return $http.get(url+"/findRestaurantsWithoutManagers");
+	}
 }]);
