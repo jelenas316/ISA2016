@@ -23,8 +23,6 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
         $scope.inputType = 'password';
         $scope.flag = false;
         $scope.flagDelete = false;
-         $scope.limitedIdeas = [[Date.UTC(2014, 11, 31), 345.2], [Date.UTC(2014, 09, 01), 494.79999999999995],, [Date.UTC(2014, 0, 20), 137.2], [Date.UTC(2014, 0, 22), 210.0], 
-		[Date.UTC(2014, 0, 23), 220.4], [Date.UTC(2014, 0, 24), 871.0], [Date.UTC(2014, 0, 28), 420.0], [Date.UTC(2014, 0, 25), 420.0], [Date.UTC(2014, 11, 31), 2057.15]];
    
     }
              
@@ -46,6 +44,19 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
         return events;
     }
 	init();
+    $scope.updateManagerData = function(){
+            restaurantManagerService.update($scope.user).then(
+            function(response){
+                $scope.user = response.data;
+                var user = [];
+                user.push(response.data);
+                $window.localStorage.setItem("user", JSON.stringify(user));
+            },
+            function(response){
+                alert("Error while updating user.");
+            }
+        );
+        }
     $scope.myDatetimeRange = {
 		date: {
 			from: new Date(),
@@ -252,6 +263,7 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
                 alert("Added tables.");  
                 $scope.flag = false;
                 $scope.restaurantTables = [];
+                $scope.updateManagerData();
             },
             function(response){
                 alert("Error wile adding.");
@@ -283,8 +295,9 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
                 $scope.flagDelete = false;
             },
             function(response){
-                alert("Error wile removing tables.");
+                alert("Error while removing tables.");
                 $scope.flagDelete = false;
+                $scope.tablesForDelete = [];
             }
         );
     }
@@ -310,18 +323,7 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
             $scope.flag = false;
             return;
         }
-        restaurantManagerService.update($scope.user).then(
-            function(response){
-                $scope.user = response.data;
-                var user = [];
-                user.push(response.data);
-                $window.localStorage.setItem("user", JSON.stringify(user));
-                alert("Successfuly updated.");
-            },
-            function(response){
-                alert("Error while updating user.");
-            }
-        );
+        $scope.updateManagerData();
     }
         
 }]);
