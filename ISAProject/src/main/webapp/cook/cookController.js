@@ -23,6 +23,13 @@ app.controller('cookController', ['$scope', '$window', '$location', 'cookService
 		    		}
 		 );
 		 
+		 cookService.findAll($scope.user.restaurant.id).then(
+			       function(response){
+			    	   $scope.allCooks=response.data;
+			    	   console.log($scope.allCooks);
+			       }
+		 );
+		 
 	};
 	
 	init();
@@ -112,6 +119,42 @@ app.controller('cookController', ['$scope', '$window', '$location', 'cookService
 			alert("Wrong password:");
 		}
 	}
+	
+	 $scope.showShedule = function(){
+
+		  if($scope.sheduleDate!=undefined){
+			  var date = dateToString($scope.sheduleDate)
+			  $scope.sheduleForDate=[];
+			  for(cook in $scope.allCooks){
+				  var oneCook={};
+				  oneCook.name=$scope.allCooks[cook].name;
+				  oneCook.surname=$scope.allCooks[cook].surname;
+				  oneCook.shifts=[];
+				  for(shift in $scope.allCooks[cook].shifts){
+					  if($scope.allCooks[cook].shifts[shift].startDate==date || 
+						$scope.allCooks[cook].shifts[shift].endDate==date)
+						  oneCook.shifts.push($scope.allCooks[cook].shifts[shift]);
+				  }
+				  if(oneCook.shifts.length>0)
+					  $scope.sheduleForDate.push(oneCook);
+			  }	
+		  }
+	}
+
+		 function dateToString(date){
+			 var convertedDate = date.getFullYear() + "-";
+			 if((date.getMonth()+1)<10){
+				 convertedDate += "0" + (date.getMonth()+1) + "-"; 
+			 }else{
+				 convertedDate += date.getMonth()+1 + "-"; 
+			 }
+			 if(date.getDate()<10){
+				 convertedDate += "0" + date.getDate();
+			 }else{
+				 convertedDate += date.getDate();
+			 }
+			 return convertedDate;
+		 }
 
 
 }]);

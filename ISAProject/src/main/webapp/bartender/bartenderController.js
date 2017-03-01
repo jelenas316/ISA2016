@@ -23,6 +23,12 @@ app.controller('bartenderController', ['$scope', '$window', '$location', 'barten
 		    			$scope.drink=response.data;
 		    		}
 		 );
+		 
+		 bartenderService.findAll($scope.user.restaurant.id).then(
+			       function(response){
+			    	   $scope.allBartenders=response.data;
+			       }
+		 );
 	};
 	
 	init();
@@ -89,5 +95,41 @@ $scope.changeProfile = function(){
 			}	
 		);
 	}
+	
+	 $scope.showShedule = function(){
+
+		  if($scope.sheduleDate!=undefined){
+			  var date = dateToString($scope.sheduleDate)
+			  $scope.sheduleForDate=[];
+			  for(bartender in $scope.allBartenders){
+				  	var oneBartender={};
+				  	oneBartender.name=$scope.allBartenders[bartender].name;
+				  	oneBartender.surname=$scope.allBartenders[bartender].surname;
+				  	oneBartender.shifts=[];
+				  	for(shift in $scope.allBartenders[bartender].shifts){
+				  			if($scope.allBartenders[bartender].shifts[shift].startDate==date || 
+				  				$scope.allBartenders[bartender].shifts[shift].endDate==date)
+				  					oneBartender.shifts.push($scope.allBartenders[bartender].shifts[shift]);
+				  	}
+				  	if(oneBartender.shifts.length>0)
+				  			$scope.sheduleForDate.push(oneBartender);
+			  }
+		  }
+	}
+
+		 function dateToString(date){
+			 var convertedDate = date.getFullYear() + "-";
+			 if((date.getMonth()+1)<10){
+				 convertedDate += "0" + (date.getMonth()+1) + "-"; 
+			 }else{
+				 convertedDate += date.getMonth()+1 + "-"; 
+			 }
+			 if(date.getDate()<10){
+				 convertedDate += "0" + date.getDate();
+			 }else{
+				 convertedDate += date.getDate();
+			 }
+			 return convertedDate;
+		 }
 
 }]);

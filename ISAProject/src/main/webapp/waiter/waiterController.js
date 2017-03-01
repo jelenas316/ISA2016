@@ -23,6 +23,19 @@ app.controller('waiterController', ['$scope', '$window', '$location', 'waiterSer
 	    		}
 	    );
 	    
+	    waiterService.findOneRestaurant($scope.user.restaurant.id).then (
+	    		function(response) {
+	    			$scope.restaurant=response.data;
+	    			console.log($scope.restaurant);
+	    		}
+	    );
+	    
+	    waiterService.findAll($scope.user.restaurant.id).then(
+	    	       function(response){
+	    	    	   $scope.allWaiters=response.data;
+	    	       }
+	    );
+	    
 	    if($scope.user.activated==false){
 	    	console.log(" korisnik je false");
 	    }
@@ -158,5 +171,40 @@ app.controller('waiterController', ['$scope', '$window', '$location', 'waiterSer
 			alert("Wrong password:");
 		}
 	}
+	
+	 $scope.showShedule = function(){
+		  if($scope.sheduleDate!=undefined){
+			  var date = dateToString($scope.sheduleDate)
+			  $scope.sheduleForDate=[];
+			  for(waiter in $scope.allWaiters){
+				  	var oneWaiter={};
+				  	oneWaiter.name=$scope.allWaiters[waiter].name;
+				  	oneWaiter.surname=$scope.allWaiters[waiter].surname;
+				  	oneWaiter.shifts=[];
+				  	for(shift in $scope.allWaiters[waiter].shifts){
+				  			if($scope.allWaiters[waiter].shifts[shift].startDate==date || 
+				  			$scope.allWaiters[waiter].shifts[shift].endDate==date)
+				  					oneWaiter.shifts.push($scope.allWaiters[waiter].shifts[shift]);
+				  	}	
+				  	if(oneWaiter.shifts.length>0)
+				  			$scope.sheduleForDate.push(oneWaiter);
+			  }
+		  }
+	 }
+
+		 function dateToString(date){
+			 var convertedDate = date.getFullYear() + "-";
+			 if((date.getMonth()+1)<10){
+				 	convertedDate += "0" + (date.getMonth()+1) + "-"; 
+			 }else{
+				 	convertedDate += date.getMonth()+1 + "-"; 
+			 }
+			 if(date.getDate()<10){
+				 	convertedDate += "0" + date.getDate();
+			 }else{
+				 	convertedDate += date.getDate();
+			 }
+			 return convertedDate;
+		 }
 
 }]);

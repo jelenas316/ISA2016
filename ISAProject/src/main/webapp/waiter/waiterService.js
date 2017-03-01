@@ -6,6 +6,8 @@ app.service('waiterService', ['$http', function($http){
     var urlDrink = '/waiters'
     var urlOrderedFood = '/orderedFood';
     var urlOrderedDrink = '/orderedDrinks';
+    var urlRestaurant = '/restaurants';
+    var urlShift = '/shifts';
     
     
 	this.findAll = function(id){
@@ -53,6 +55,18 @@ app.service('waiterService', ['$http', function($http){
     
     this.saveOrder = function(order){
     	return $http.post(urlOrders, order);
+    }
+    
+    this.findAllRestaurants = function() {
+    	return $http.get(urlRestaurant);
+    }
+    
+    this.findOneRestaurant = function(id) {
+    	return $http.get(urlRestaurant + "?id=" + id);
+    }
+    
+    this.findAllShifts = function() {
+    	return $http.get(urlShift);
     }
     
 }]);

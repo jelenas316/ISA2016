@@ -1,0 +1,26 @@
+<div class="col-sm-8"">
+	<p>Choose date:</p>
+	<dp ng-model="$parent.sheduleDate"></dp>
+	<button type="button" class="btn btn-primary" ng-click="showShedule()">Show</button>
+
+	<table class="table table-bordered"
+		ng-show="$parent.sheduleForDate.length>0">
+		<caption>Schedules</caption>
+		<tr>
+			<th>Name and surname</th>
+			<th>Begin of Shift</th>
+			<th>End of shift</th>
+		</tr>
+		<tr ng-repeat="waiter in $parent.sheduleForDate">
+			<td>{{waiter.name}} {{waiter.surname}}</td>
+			<td><label ng-repeat="shift in waiter.shifts">
+					{{shift.beginOfShift}} {{shift.startDate}} </label></td>
+			<td><label ng-repeat="shift in waiter.shifts">
+					{{shift.endOfShift}} {{shift.endDate}} </label></td>
+		</tr>
+	</table>
+	<div
+		ng-show="$parent.sheduleForDate.length==0 && $parent.sheduleDate!=undefined">
+		<h2>No shedule for given date.</h2>
+	</div>
+</div>
