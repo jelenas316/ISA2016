@@ -69,4 +69,8 @@ app.service('waiterService', ['$http', function($http){
     	return $http.get(urlShift);
     }
     
+    this.deleteOrder = function(id) {
+    	return $http.delete(urlOrders + "?id=" + id);
+    }
+    
 }]);

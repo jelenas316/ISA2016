@@ -36,6 +36,10 @@ app.controller('waiterController', ['$scope', '$window', '$location', 'waiterSer
 	    	       }
 	    );
 	    
+	    $scope.check=false;
+	    $scope.totalCheck=0;
+	    $scope.orderForCheck={};
+	    
 	    if($scope.user.activated==false){
 	    	console.log(" korisnik je false");
 	    }
@@ -205,6 +209,43 @@ app.controller('waiterController', ['$scope', '$window', '$location', 'waiterSer
 				 	convertedDate += date.getDate();
 			 }
 			 return convertedDate;
+		 }
+		 
+		 $scope.check = function(order){
+			 $scope.currentOrder = order;
+			 waiterService.findOneOrder($scope.currentOrder.id)(
+					 function(response){
+						
+					 }
+			 );
+		 }
+		 
+		 $scope.check = function(order){
+			 $scope.totalCheck=calculate(order);
+			 $scope.orderForCheck=order;
+			 $scope.check=true;
+			 waiterService.deleteOrder($scope.orderForCheck.id).then (
+					 function(response){
+						 alert("deleted");
+					 }
+			 );
+			  
+		 } 
+			 
+		 $scope.backToOrder=function(){
+			  $scope.check=false;
+		 }
+		 
+		 function calculate (order){
+			  var calculated = 0;
+			  for(drink in order.drinks){
+				  calculated+=order.drinks[drink].quantity * order.drinks[drink].drink.price;
+			  }
+			  for(f in order.food){
+				  calculated+=order.food[f].quantity * order.food[f].food.price;
+			  }
+			  
+			  return calculated;
 		 }
 
 }]);
