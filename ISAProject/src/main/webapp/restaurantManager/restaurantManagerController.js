@@ -23,7 +23,7 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
         $scope.inputType = 'password';
         $scope.flag = false;
         $scope.flagDelete = false;
-   
+        $scope.restaurantOpen();   
     }
              
     $scope.createRandomEvents = function() {
@@ -42,6 +42,16 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
                 allDay: false
             });
         return events;
+    }
+     $scope.restaurantOpen = function(){
+        restaurantManagerService.findOne($scope.user.email).then(
+            function(response){                
+                $scope.res = response.data.restaurant;
+            },
+            function(response){
+                alert("Error wile adding.");
+            }
+        );
     }
 	init();
     $scope.updateManagerData = function(){
@@ -121,16 +131,7 @@ app.controller('restaurantManagerController', ['$scope', '$window', '$location',
     }
     $scope.mixRangeDate = 1; //days
         
-    $scope.restaurantOpen = function(){
-        restaurantManagerService.findOne($scope.user.id).then(
-            function(response){                
-                $scope.res = response.data[0].restaurant;
-            },
-            function(response){
-                alert("Error wile adding.");
-            }
-        );
-    }
+   
     $scope.deleteFood = function(food){
         $scope.flagDelete = true;
         var index = $scope.res.menu.indexOf(food);

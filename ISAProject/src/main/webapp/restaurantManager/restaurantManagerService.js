@@ -6,8 +6,8 @@ app.service('restaurantManagerService', ['$http', function($http){
 	this.findAll = function(){
 		return $http.get(url);
 	}
-    this.findOne = function(id){
-		return $http.get(url,id);
+    this.findOne = function(email){
+		return $http.get(url+"/?email="+email);
 	}  
     this.update = function(user){
 		return $http.put(url, user);

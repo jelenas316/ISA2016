@@ -125,6 +125,7 @@ app.controller('systemManagerController', ['$scope', '$window', '$location', 'sy
                     $scope.register = "undefined";
                     $scope.restaurant = {};
                     findAllRestaurants();
+                    findAllRestaurantsWithoutManagers();
                 },
                 function(response){
                     alert("Registration failed.");                   
