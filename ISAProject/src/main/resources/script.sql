@@ -614,9 +614,6 @@ create table RESERVATION_ORDERS
 );
 
 
-
-insert into isa2016.guest values ('nevBon93@gmail.com','pass','Name 1','Surname 1','GUEST',null,null);
-
 insert into restaurant (RESTAURANT_ID, NAME, DESCRIPTION, ADDRESS) values (1,'Restaurant 1','description1','Trg Slobode 4, Нови Сад');
 insert into restaurant  (RESTAURANT_ID, NAME, DESCRIPTION, ADDRESS) values (2,'Restaurant 2','description2','Лазе Телечког 16, Нови Сад');
 insert into restaurant  (RESTAURANT_ID, NAME, DESCRIPTION, ADDRESS) values (3,'Restaurant 3','description3','Змај Јовина 28, Нови Сад');
